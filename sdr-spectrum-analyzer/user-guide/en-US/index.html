@@ -18,6 +18,7 @@ p,li { max-width:88ch; } ul,ol { padding-left:1.5rem; } li+li { margin-top:.3rem
 a { color:#69e8f5; } a:focus,a:hover { color:#fff; }
 code { background:var(--code); border:1px solid var(--line); border-radius:4px; padding:.08rem .32rem; color:#d1f8ff; overflow-wrap:anywhere; }
 .screenshot-placeholder { border:1px dashed var(--accent); background:rgba(53,216,232,.08); color:#baf8ff; border-radius:6px; padding:1rem; margin:1.25rem 0; }
+figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figure img { display:block; width:100%; max-width:100%; height:auto; border:1px solid var(--line); border-radius:5px; background:#07111a; } figcaption { color:var(--muted); font-size:.94rem; margin-top:.55rem; text-align:center; }
 @page { size:Letter; margin:.65in; }
 @media print {
   body { background:#fff; color:#111; font-size:10.5pt; line-height:1.48; }
@@ -26,6 +27,7 @@ code { background:var(--code); border:1px solid var(--line); border-radius:4px; 
   h1 { font-size:22pt; } h2 { font-size:15pt; margin-top:1.55rem; } h3 { font-size:12pt; }
   a { color:#075a78; text-decoration:underline; } code { color:#111; background:#eee; border-color:#bbb; }
   ul,ol,.screenshot-placeholder { break-inside:avoid; }
+  figure { break-inside:avoid; margin:1rem auto; } figure img { border-color:#aaa; } figcaption { color:#222; font-size:9.5pt; }
   p { orphans:3; widows:3; }
   .screenshot-placeholder { background:#f2fbfc; color:#111; }
 }
@@ -65,7 +67,7 @@ code { background:var(--code); border:1px solid var(--line); border-radius:4px; 
 <li>Select <strong>Stop</strong> when you need to end a running acquisition.</li>
 </ol>
 <h2 id="section-6">6. Main window overview</h2>
-<aside class="screenshot-placeholder" role="note">[Screenshot: Main application window]</aside>
+<figure><a href="assets/screenshots/Figure_1.png"><img src="assets/screenshots/Figure_1.png" alt="SDR Spectrum Analyzer main application window"></a><figcaption>Figure 1. SDR Spectrum Analyzer main application window</figcaption></figure>
 <p>The main window contains these areas:</p>
 <ul>
 <li><strong>Device &amp; Acquisition</strong>: hardware selection and capture settings.</li>
@@ -115,7 +117,7 @@ code { background:var(--code); border:1px solid var(--line); border-radius:4px; 
 </ul>
 <p>When device data is active, acquisition requires a connected and usable SDR. The output area reports connection, capture, stop, and error status.</p>
 <h2 id="section-10">10. Spectrum display and traces</h2>
-<aside class="screenshot-placeholder" role="note">[Screenshot: Spectrum display and traces]</aside>
+<figure><a href="assets/screenshots/Figure_2.png"><img src="assets/screenshots/Figure_2.png" alt="SDR Spectrum Analyzer spectrum display with Current, Max Hold, and Frozen Reference traces"></a><figcaption>Figure 2. Spectrum display showing Current / Average, Max Hold, and Frozen Reference traces</figcaption></figure>
 <p>The plot shows frequency horizontally and dBFS by default vertically. If a matching saved channel calibration is active for the current device and setup, eligible channel and trace readouts can use dBm; otherwise they remain dBFS.</p>
 <ul>
 <li><strong>Current / Average Trace</strong> shows the current processed result or the selected sweep average.</li>
@@ -128,7 +130,7 @@ code { background:var(--code); border:1px solid var(--line); border-radius:4px; 
 </ul>
 <p>Stable production colours are green for Current / Average, yellow for Max Hold, and blue for Frozen Reference.</p>
 <h2 id="section-11">11. Markers and measurements</h2>
-<aside class="screenshot-placeholder" role="note">[Screenshot: Markers and channel analysis]</aside>
+<figure><a href="assets/screenshots/Figure_3.png"><img src="assets/screenshots/Figure_3.png" alt="SDR Spectrum Analyzer M1 and M2 markers with channel analysis"></a><figcaption>Figure 3. M1 and M2 markers with channel analysis</figcaption></figure>
 <p>The plot has two markers, <strong>M1</strong> and <strong>M2</strong>.</p>
 <ul>
 <li>Left-click a valid plotted point to place M1.</li>

@@ -3,24 +3,292 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mattino 507 Software</title>
+
+  <title>Mattino 507 Software | SDR Spectrum Analyzer</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at 50% 0%, #172b3a 0%, #0d1821 42%, #081018 100%);
+      color: #e7edf2;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    header {
+      border-bottom: 1px solid #263947;
+      background: rgba(7, 15, 22, 0.88);
+    }
+
+    .header-inner {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .publisher {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      color: #f4f7f9;
+    }
+
+    .product-small {
+      color: #55d8ff;
+      font-size: 14px;
+    }
+
+    main {
+      padding: 82px 0 70px;
+    }
+
+    .eyebrow {
+      color: #55d8ff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 6vw, 66px);
+      line-height: 1.05;
+      font-weight: 650;
+      letter-spacing: -1.5px;
+      color: #ffffff;
+    }
+
+    .subtitle {
+      margin-top: 24px;
+      max-width: 760px;
+      color: #aebfca;
+      font-size: 19px;
+      line-height: 1.7;
+    }
+
+    .spectrum {
+      margin: 52px 0 48px;
+      height: 150px;
+      position: relative;
+      border-bottom: 1px solid #284150;
+      overflow: hidden;
+    }
+
+    .grid {
+      position: absolute;
+      inset: 0;
+      opacity: 0.32;
+      background-image:
+        linear-gradient(#294250 1px, transparent 1px),
+        linear-gradient(90deg, #294250 1px, transparent 1px);
+      background-size: 70px 38px;
+    }
+
+    .trace {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 20px;
+      height: 95px;
+    }
+
+    .trace svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .marker {
+      position: absolute;
+      left: 63%;
+      top: 18px;
+      color: #ffd34e;
+      font-size: 18px;
+      transform: translateX(-50%);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .card {
+      display: block;
+      min-height: 155px;
+      padding: 25px;
+      border: 1px solid #29414f;
+      border-radius: 9px;
+      background: rgba(16, 31, 41, 0.78);
+      color: inherit;
+      text-decoration: none;
+      transition: transform 0.15s ease, border-color 0.15s ease,
+                  background 0.15s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: #42cbed;
+      background: rgba(19, 40, 52, 0.95);
+    }
+
+    .card h2 {
+      margin: 0 0 11px;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .card p {
+      margin: 0;
+      color: #9fb1bc;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .arrow {
+      display: inline-block;
+      margin-top: 16px;
+      color: #4fdcff;
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 75px;
+      padding: 25px 0 35px;
+      border-top: 1px solid #263947;
+      color: #738995;
+      font-size: 13px;
+    }
+
+    @media (max-width: 720px) {
+      main {
+        padding-top: 55px;
+      }
+
+      .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .spectrum {
+        height: 115px;
+      }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Mattino 507 Software</h1>
 
-  <h2>SDR Spectrum Analyzer</h2>
+<header>
+  <div class="header-inner">
+    <div class="publisher">Mattino 507 Software</div>
+    <div class="product-small">RF Measurement Software</div>
+  </div>
+</header>
 
-  <p>
-    SDR Spectrum Analyzer is a Windows desktop application for
-    RF spectrum analysis using compatible USB software-defined radio hardware.
-  </p>
+<div class="page">
 
-  <ul>
-    <li><a href="sdr-spectrum-analyzer/support.html">Support</a></li>
-    <li><a href="sdr-spectrum-analyzer/privacy.html">Privacy Policy</a></li>
-    <li><a href="sdr-spectrum-analyzer/eula.html">End User License Agreement</a></li>
-  </ul>
+  <main>
 
-  <p>&copy; 2026 Mattino 507 Software</p>
+    <div class="eyebrow">Windows RF Spectrum Analysis</div>
+
+    <h1>SDR Spectrum Analyzer</h1>
+
+    <p class="subtitle">
+      A Windows desktop application for RF spectrum analysis using
+      compatible USB software-defined radio hardware.
+      Explore, measure, and understand the RF spectrum from your PC.
+    </p>
+
+    <div class="spectrum" aria-hidden="true">
+      <div class="grid"></div>
+
+      <div class="marker">&#9660;</div>
+
+      <div class="trace">
+        <svg viewBox="0 0 1000 100" preserveAspectRatio="none">
+          <polyline
+            fill="none"
+            stroke="#35e0c1"
+            stroke-width="2"
+            points="
+              0,84 30,82 60,85 90,80 120,83
+              150,78 180,81 210,79 240,83
+              270,76 300,80 330,73 360,77
+              390,70 420,72 450,63 475,67
+              500,55 520,59 540,45 555,50
+              570,38 585,48 600,32 615,42
+              625,15 635,44 645,36 655,51
+              670,42 685,57 700,51 720,62
+              745,60 770,69 800,67 830,75
+              860,71 890,79 920,76 950,82
+              980,79 1000,83" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="cards">
+
+      <a class="card" href="sdr-spectrum-analyzer/support.html">
+        <h2>Support</h2>
+        <p>
+          Troubleshooting information, hardware guidance,
+          and support requests for SDR Spectrum Analyzer.
+        </p>
+        <span class="arrow">Open Support &rarr;</span>
+      </a>
+
+      <a class="card" href="sdr-spectrum-analyzer/privacy.html">
+        <h2>Privacy Policy</h2>
+        <p>
+          Learn how SDR Spectrum Analyzer handles application,
+          measurement, hardware, and user data.
+        </p>
+        <span class="arrow">Read Privacy Policy &rarr;</span>
+      </a>
+
+      <a class="card" href="sdr-spectrum-analyzer/eula.html">
+        <h2>End User License Agreement</h2>
+        <p>
+          License terms, permitted use, measurement limitations,
+          warranties, and other applicable conditions.
+        </p>
+        <span class="arrow">Read EULA &rarr;</span>
+      </a>
+
+    </div>
+
+  </main>
+
+  <footer>
+    &copy; 2026 Mattino 507 Software &nbsp;&middot;&nbsp;
+    SDR Spectrum Analyzer
+  </footer>
+
+</div>
+
 </body>
 </html>

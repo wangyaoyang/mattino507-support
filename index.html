@@ -123,6 +123,59 @@
       transform: translateX(-50%);
     }
 
+    .demo-section {
+      margin: 10px 0 52px;
+    }
+  
+    .demo-section h2 {
+      margin: 0 0 10px;
+      color: #ffffff;
+      font-size: 28px;
+      font-weight: 600;
+    }
+  
+    .demo-intro {
+      margin: 0 0 24px;
+      color: #9fb1bc;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+  
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+  
+    .demo-card {
+      padding: 16px;
+      border: 1px solid #29414f;
+      border-radius: 9px;
+      background: rgba(16, 31, 41, 0.78);
+    }
+  
+    .demo-card video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+      background: #05090d;
+    }
+  
+    .demo-card h3 {
+      margin: 16px 0 6px;
+      color: #ffffff;
+      font-size: 17px;
+      font-weight: 600;
+    }
+  
+    .demo-card p {
+      margin: 0;
+      color: #8fa5b2;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    
     .cards {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -192,7 +245,11 @@
       .cards {
         grid-template-columns: 1fr;
       }
-
+    
+      .demo-grid {
+        grid-template-columns: 1fr;
+      }
+      
       .spectrum {
         height: 115px;
       }
@@ -250,6 +307,47 @@
       </div>
     </div>
 
+    <section class="demo-section">
+      <h2>See SDR Spectrum Analyzer in Action</h2>
+  
+      <p class="demo-intro">
+        Real-time spectrum analysis using compatible USB SDR hardware.
+        Watch SDR Spectrum Analyzer perform wideband and detailed RF measurements.
+      </p>
+  
+      <div class="demo-grid">
+  
+        <div class="demo-card">
+          <video controls preload="metadata">
+            <source
+              src="sdr-spectrum-analyzer/media/SPAN30_BW20MHz_web.mp4"
+              type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+  
+          <h3>30 MHz Wideband Sweep</h3>
+          <p>
+            30 MHz span &middot; 20 MHz channel bandwidth
+          </p>
+        </div>
+  
+        <div class="demo-card">
+          <video controls preload="metadata">
+            <source
+              src="sdr-spectrum-analyzer/media/SPAN2M_BW500KHz_web.mp4"
+              type="video/mp4">
+            Your browser does not support HTML5 video.
+          </video>
+  
+          <h3>2 MHz Detailed Spectrum View</h3>
+          <p>
+            2 MHz span &middot; 500 kHz channel bandwidth
+          </p>
+        </div>
+  
+      </div>
+    </section>
+    
     <div class="cards">
       <a class="card" href="sdr-spectrum-analyzer/user-guide/">
         <h2>User Guide</h2>

@@ -4,14 +4,163 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Support - SDR Spectrum Analyzer</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #081018;
+      color: #d9e3e9;
+      line-height: 1.7;
+    }
+
+    header {
+      border-bottom: 1px solid #263947;
+      background: #071016;
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .publisher {
+      color: #ffffff;
+      font-size: 19px;
+      font-weight: 600;
+    }
+
+    .product {
+      color: #55d8ff;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 55px 28px 70px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 30px;
+      color: #55d8ff;
+      text-decoration: none;
+    }
+
+    .back:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: #ffffff;
+      font-size: 38px;
+      line-height: 1.2;
+    }
+
+    .meta {
+      margin-bottom: 38px;
+      color: #9eb0ba;
+    }
+
+    h2 {
+      margin-top: 40px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #263947;
+      color: #ffffff;
+      font-size: 22px;
+    }
+
+    p, li {
+      color: #b9c7cf;
+    }
+
+    ul {
+      padding-left: 25px;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    a {
+      color: #55d8ff;
+    }
+
+    .support-box {
+      margin: 22px 0;
+      padding: 22px 25px;
+      border: 1px solid #29414f;
+      border-radius: 8px;
+      background: #0e1c25;
+    }
+
+    .support-button {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 11px 18px;
+      border: 1px solid #3dc9e9;
+      border-radius: 6px;
+      color: #55d8ff;
+      text-decoration: none;
+    }
+
+    .support-button:hover {
+      background: #102d39;
+    }
+
+    footer {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 25px 28px 35px;
+      border-top: 1px solid #263947;
+      color: #738995;
+      font-size: 13px;
+    }
+
+    @media (max-width: 650px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      main {
+        padding-top: 38px;
+      }
+
+      h1 {
+        font-size: 31px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-  <p><a href="../index.html">&larr; Mattino 507 Software</a></p>
+<header>
+  <div class="header-inner">
+    <div class="publisher">Mattino 507 Software</div>
+    <div class="product">SDR Spectrum Analyzer</div>
+  </div>
+</header>
+
+<main>
+
+  <a class="back" href="../index.html">&larr; Back to product home</a>
 
   <h1>SDR Spectrum Analyzer — Support</h1>
 
-  <p>
+  <p class="meta">
     <strong>Application:</strong> SDR Spectrum Analyzer<br>
     <strong>Publisher:</strong> Mattino 507 Software
   </p>
@@ -84,20 +233,23 @@
 
   <h2>Support Contact</h2>
 
-  <p>
-    Support for SDR Spectrum Analyzer is provided through the project's
-    public GitHub support repository.
-  </p>
+  <div class="support-box">
+    <p>
+      Support for SDR Spectrum Analyzer is provided through the project's
+      public GitHub support repository.
+    </p>
 
-  <p>
-    <a href="https://github.com/wangyaoyang/mattino507-support/issues">
-      Open or view a support request on GitHub
-    </a>
-  </p>
+    <p>
+      <a class="support-button"
+         href="https://github.com/wangyaoyang/mattino507-support/issues">
+        Open or view a support request on GitHub &rarr;
+      </a>
+    </p>
 
-  <p>
-    A GitHub account may be required to create a new support request.
-  </p>
+    <p>
+      A GitHub account may be required to create a new support request.
+    </p>
+  </div>
 
   <h2>Privacy and License</h2>
 
@@ -106,9 +258,12 @@
     <li><a href="eula.html">End User License Agreement</a></li>
   </ul>
 
-  <hr>
+</main>
 
-  <p>&copy; 2026 Mattino 507 Software</p>
+<footer>
+  &copy; 2026 Mattino 507 Software &nbsp;&middot;&nbsp;
+  SDR Spectrum Analyzer
+</footer>
 
 </body>
 </html>

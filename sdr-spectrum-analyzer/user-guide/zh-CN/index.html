@@ -18,6 +18,7 @@ p,li { max-width:88ch; } ul,ol { padding-left:1.5rem; } li+li { margin-top:.3rem
 a { color:#69e8f5; } a:focus,a:hover { color:#fff; }
 code { background:var(--code); border:1px solid var(--line); border-radius:4px; padding:.08rem .32rem; color:#d1f8ff; overflow-wrap:anywhere; }
 .screenshot-placeholder { border:1px dashed var(--accent); background:rgba(53,216,232,.08); color:#baf8ff; border-radius:6px; padding:1rem; margin:1.25rem 0; }
+figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figure img { display:block; width:100%; max-width:100%; height:auto; border:1px solid var(--line); border-radius:5px; background:#07111a; } figcaption { color:var(--muted); font-size:.94rem; margin-top:.55rem; text-align:center; }
 @page { size:Letter; margin:.65in; }
 @media print {
   body { background:#fff; color:#111; font-size:10.5pt; line-height:1.48; }
@@ -26,6 +27,7 @@ code { background:var(--code); border:1px solid var(--line); border-radius:4px; 
   h1 { font-size:22pt; } h2 { font-size:15pt; margin-top:1.55rem; } h3 { font-size:12pt; }
   a { color:#075a78; text-decoration:underline; } code { color:#111; background:#eee; border-color:#bbb; }
   ul,ol,.screenshot-placeholder { break-inside:avoid; }
+  figure { break-inside:avoid; margin:1rem auto; } figure img { border-color:#aaa; } figcaption { color:#222; font-size:9.5pt; }
   p { orphans:3; widows:3; }
   .screenshot-placeholder { background:#f2fbfc; color:#111; }
 }
@@ -65,7 +67,7 @@ code { background:var(--code); border:1px solid var(--line); border-radius:4px; 
 <li>需要结束正在运行的采集时，选择<strong>停止</strong>。</li>
 </ol>
 <h2 id="section-6">6. 主窗口概览</h2>
-<aside class="screenshot-placeholder" role="note">[截图：主应用窗口]</aside>
+<figure><a href="assets/screenshots/Figure_1.png"><img src="assets/screenshots/Figure_1.png" alt="SDR Spectrum Analyzer 主应用窗口"></a><figcaption>图 1. SDR Spectrum Analyzer 主应用窗口</figcaption></figure>
 <p>主窗口包含以下区域：</p>
 <ul>
 <li><strong>设备与采集</strong>：硬件选择和采集设置。</li>
@@ -115,7 +117,7 @@ code { background:var(--code); border:1px solid var(--line); border-radius:4px; 
 </ul>
 <p>使用设备数据时，采集需要已连接且可用的 SDR。输出区域会报告连接、采集、停止和错误状态。</p>
 <h2 id="section-10">10. 频谱显示和轨迹</h2>
-<aside class="screenshot-placeholder" role="note">[截图：频谱显示和轨迹]</aside>
+<figure><a href="assets/screenshots/Figure_2.png"><img src="assets/screenshots/Figure_2.png" alt="SDR Spectrum Analyzer 当前、最大保持和冻结参考频谱轨迹"></a><figcaption>图 2. 当前/平均、最大保持和冻结参考频谱轨迹</figcaption></figure>
 <p>图形默认以频率为横轴、dBFS 为纵轴。如果当前设备和设置存在匹配的已保存信道校准，符合条件的信道和轨迹读数可使用 dBm；否则仍为 dBFS。</p>
 <ul>
 <li><strong>当前/平均轨迹</strong>显示当前处理结果或所选扫描平均结果。</li>
@@ -128,7 +130,7 @@ code { background:var(--code); border:1px solid var(--line); border-radius:4px; 
 </ul>
 <p>稳定的生产 UI 颜色为：绿色表示当前/平均，黄色表示最大保持，蓝色表示冻结参考。</p>
 <h2 id="section-11">11. 标记和测量</h2>
-<aside class="screenshot-placeholder" role="note">[截图：标记和信道分析]</aside>
+<figure><a href="assets/screenshots/Figure_3.png"><img src="assets/screenshots/Figure_3.png" alt="SDR Spectrum Analyzer M1、M2 标记和信道分析"></a><figcaption>图 3. M1、M2 标记和信道分析</figcaption></figure>
 <p>图中有两个标记：<strong>M1</strong> 和 <strong>M2</strong>。</p>
 <ul>
 <li>在有效的绘图点上单击左键放置 M1。</li>

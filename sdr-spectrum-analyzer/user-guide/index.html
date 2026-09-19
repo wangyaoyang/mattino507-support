@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SDR Spectrum Analyzer User Guide | Mattino 507 Software</title>
+
+  <style>
+    :root {
+      --bg: #0d141b;
+      --panel: #121d27;
+      --panel2: #172430;
+      --text: #e8f0f5;
+      --muted: #9fb0bd;
+      --cyan: #33d6d1;
+      --blue: #55aaff;
+      --yellow: #f4c542;
+      --border: #2a3b48;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+      line-height: 1.65;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--border);
+      background: #0a1117;
+    }
+
+    .topbar-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .brand span {
+      color: var(--cyan);
+    }
+
+    .back-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .back-link:hover {
+      color: var(--cyan);
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 1.08;
+    }
+
+    .subtitle {
+      margin-top: 18px;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 52px;
+    }
+
+    .guide-card {
+      background: linear-gradient(180deg, var(--panel2), var(--panel));
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    .language {
+      color: var(--cyan);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .guide-card h2 {
+      margin: 8px 0 8px;
+      font-size: 1.65rem;
+    }
+
+    .guide-card p {
+      color: var(--muted);
+      margin: 0 0 26px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 17px;
+      border-radius: 6px;
+      border: 1px solid var(--cyan);
+      color: #071316;
+      background: var(--cyan);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .button:hover {
+      filter: brightness(1.08);
+    }
+
+    .button.secondary {
+      color: var(--cyan);
+      background: transparent;
+    }
+
+    .button.secondary:hover {
+      background: rgba(51, 214, 209, 0.08);
+    }
+
+    .note {
+      margin-top: 40px;
+      padding: 18px 20px;
+      border-left: 3px solid var(--yellow);
+      background: rgba(244, 197, 66, 0.06);
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 720px) {
+      main {
+        padding-top: 42px;
+      }
+
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      Mattino <span>507</span> Software
+    </div>
+
+    <a class="back-link" href="../index.html">
+      ← SDR Spectrum Analyzer
+    </a>
+  </div>
+</header>
+
+<main>
+
+  <div class="eyebrow">Documentation</div>
+
+  <h1>SDR Spectrum Analyzer<br>User Guide</h1>
+
+  <p class="subtitle">
+    Read the SDR Spectrum Analyzer V1.0 User Guide online or download
+    the PDF edition for offline reference.
+  </p>
+
+  <div class="guide-grid">
+
+    <section class="guide-card">
+      <div class="language">English</div>
+
+      <h2>User Guide</h2>
+
+      <p>
+        Complete operating instructions, measurement concepts,
+        hardware requirements, markers, traces, segmented sweep,
+        calibration guidance and troubleshooting.
+      </p>
+
+      <div class="actions">
+        <a class="button" href="en-US/index.html">
+          Read Online
+        </a>
+
+        <a class="button secondary"
+           href="../downloads/SDR-Spectrum-Analyzer-User-Guide-en-US.pdf">
+          Download PDF
+        </a>
+      </div>
+    </section>
+
+
+    <section class="guide-card" lang="zh-CN">
+      <div class="language">简体中文</div>
+
+      <h2>用户指南</h2>
+
+      <p>
+        包含软件操作、测量概念、硬件要求、频谱轨迹、标记、
+        分段扫描、校准说明以及故障排查等完整使用说明。
+      </p>
+
+      <div class="actions">
+        <a class="button" href="zh-CN/index.html">
+          在线阅读
+        </a>
+
+        <a class="button secondary"
+           href="../downloads/SDR-Spectrum-Analyzer-User-Guide-zh-CN.pdf">
+          下载 PDF
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="note">
+    The online and PDF editions are generated from the same bilingual
+    documentation source to keep their technical content synchronized.
+  </div>
+
+</main>
+
+<footer>
+  © 2026 Mattino 507 Software · SDR Spectrum Analyzer
+</footer>
+
+</body>
+</html>

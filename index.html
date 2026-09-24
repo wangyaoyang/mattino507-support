@@ -82,6 +82,37 @@
       line-height: 1.7;
     }
 
+    .store-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .store-button {
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #111820;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .store-button:hover {
+      transform: translateY(-2px);
+      background: #e8f7fc;
+    }
+
+    .store-note {
+      color: #8fa5b2;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
     .spectrum {
       margin: 52px 0 48px;
       height: 150px;
@@ -123,37 +154,106 @@
       transform: translateX(-50%);
     }
 
+    .edition-section {
+      margin: 10px 0 52px;
+    }
+
+    .edition-section h2 {
+      margin: 0 0 10px;
+      color: #ffffff;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .edition-intro {
+      margin: 0 0 24px;
+      color: #9fb1bc;
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 820px;
+    }
+
+    .edition-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .edition-card {
+      padding: 25px;
+      border: 1px solid #29414f;
+      border-radius: 9px;
+      background: rgba(16, 31, 41, 0.78);
+    }
+
+    .edition-card.full {
+      border-color: #376879;
+    }
+
+    .edition-label {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 4px 9px;
+      border: 1px solid #355260;
+      border-radius: 4px;
+      color: #55d8ff;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .edition-card h3 {
+      margin: 0 0 10px;
+      color: #ffffff;
+      font-size: 21px;
+      font-weight: 600;
+    }
+
+    .edition-card p {
+      margin: 0;
+      color: #9fb1bc;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .edition-note {
+      margin-top: 14px !important;
+      color: #6fd9f4 !important;
+      font-size: 13px !important;
+    }
+
     .demo-section {
       margin: 10px 0 52px;
     }
-  
+
     .demo-section h2 {
       margin: 0 0 10px;
       color: #ffffff;
       font-size: 28px;
       font-weight: 600;
     }
-  
+
     .demo-intro {
       margin: 0 0 24px;
       color: #9fb1bc;
       font-size: 15px;
       line-height: 1.6;
     }
-  
+
     .demo-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 18px;
     }
-  
+
     .demo-card {
       padding: 16px;
       border: 1px solid #29414f;
       border-radius: 9px;
       background: rgba(16, 31, 41, 0.78);
     }
-  
+
     .demo-card video {
       display: block;
       width: 100%;
@@ -161,21 +261,34 @@
       border-radius: 5px;
       background: #05090d;
     }
-  
+
+    .demo-badge {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 4px 8px;
+      border: 1px solid #49616c;
+      border-radius: 4px;
+      color: #c2d3dc;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
     .demo-card h3 {
-      margin: 16px 0 6px;
+      margin: 10px 0 6px;
       color: #ffffff;
       font-size: 17px;
       font-weight: 600;
     }
-  
+
     .demo-card p {
       margin: 0;
       color: #8fa5b2;
       font-size: 13px;
       line-height: 1.5;
     }
-    
+
     .cards {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -242,14 +355,12 @@
         gap: 5px;
       }
 
-      .cards {
-        grid-template-columns: 1fr;
-      }
-    
+      .edition-grid,
+      .cards,
       .demo-grid {
         grid-template-columns: 1fr;
       }
-      
+
       .spectrum {
         height: 115px;
       }
@@ -280,6 +391,20 @@
       Explore, measure, and understand the RF spectrum from your PC.
     </p>
 
+    <div class="store-actions">
+      <a class="store-button"
+         href="https://apps.microsoft.com/detail/9N2WSXJ518CL"
+         target="_blank"
+         rel="noopener">
+        Get it from Microsoft Store
+      </a>
+
+      <span class="store-note">
+        Free to download &middot; Optional Full Version available as a
+        one-time purchase &middot; No subscription
+      </span>
+    </div>
+
     <div class="spectrum" aria-hidden="true">
       <div class="grid"></div>
 
@@ -307,16 +432,59 @@
       </div>
     </div>
 
+    <section class="edition-section">
+      <h2>Choose the Version That Fits Your Needs</h2>
+
+      <p class="edition-intro">
+        SDR Spectrum Analyzer is free to download and use for
+        fixed-frequency spectrum viewing. The optional Full Version
+        unlocks advanced measurement and wideband analysis capabilities.
+      </p>
+
+      <div class="edition-grid">
+
+        <div class="edition-card">
+          <span class="edition-label">Free</span>
+          <h3>Free Version</h3>
+          <p>
+            Tune the center frequency across 24&ndash;1766 MHz and perform
+            continuous fixed-frequency spectrum analysis with a 1.600 MHz span.
+            The Free Version provides a practical way to view live RF spectrum
+            data using compatible USB SDR hardware.
+          </p>
+          <p class="edition-note">
+            Free to download and use.
+          </p>
+        </div>
+
+        <div class="edition-card full">
+          <span class="edition-label">Full</span>
+          <h3>Full Version</h3>
+          <p>
+            Unlock adjustable span and measurement settings, wideband and
+            segmented sweep, markers, channel power, calibration, Max Hold,
+            frozen reference traces, Auto Scale, and CSV export.
+          </p>
+          <p class="edition-note">
+            Optional one-time purchase through Microsoft Store.
+            No subscription.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
     <section class="demo-section">
       <h2>See SDR Spectrum Analyzer in Action</h2>
-  
+
       <p class="demo-intro">
         Real-time spectrum analysis using compatible USB SDR hardware.
-        Watch SDR Spectrum Analyzer perform wideband and detailed RF measurements.
+        The demonstrations below show advanced capabilities available
+        with the Full Version.
       </p>
-  
+
       <div class="demo-grid">
-  
+
         <div class="demo-card">
           <video controls preload="metadata">
             <source
@@ -324,13 +492,15 @@
               type="video/mp4">
             Your browser does not support HTML5 video.
           </video>
-  
+
+          <span class="demo-badge">Full Version Demonstration</span>
+
           <h3>30 MHz Wideband Sweep</h3>
           <p>
             30 MHz span &middot; 20 MHz channel bandwidth
           </p>
         </div>
-  
+
         <div class="demo-card">
           <video controls preload="metadata">
             <source
@@ -338,26 +508,30 @@
               type="video/mp4">
             Your browser does not support HTML5 video.
           </video>
-  
+
+          <span class="demo-badge">Full Version Demonstration</span>
+
           <h3>2 MHz Detailed Spectrum Analysis</h3>
           <p>
             2 MHz span &middot; 500 kHz channel bandwidth
           </p>
         </div>
-  
+
       </div>
     </section>
-    
+
     <div class="cards">
+
       <a class="card" href="sdr-spectrum-analyzer/user-guide/">
         <h2>User Guide</h2>
         <p>
-          Complete operating instructions, measurement concepts,
-          spectrum traces, markers, segmented sweep, calibration,
-          and troubleshooting.
+          Complete operating instructions for Free and Full Version features,
+          spectrum measurements, traces, markers, wideband sweep,
+          calibration, configuration, and troubleshooting.
         </p>
         <span class="arrow">Open User Guide &rarr;</span>
       </a>
+
       <a class="card" href="sdr-spectrum-analyzer/support.html">
         <h2>Support</h2>
         <p>

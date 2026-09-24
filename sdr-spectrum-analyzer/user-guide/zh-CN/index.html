@@ -17,6 +17,9 @@ h3 { margin-top:1.7rem; font-size:1.13rem; }
 p,li { max-width:88ch; } ul,ol { padding-left:1.5rem; } li+li { margin-top:.3rem; }
 a { color:#69e8f5; } a:focus,a:hover { color:#fff; }
 code { background:var(--code); border:1px solid var(--line); border-radius:4px; padding:.08rem .32rem; color:#d1f8ff; overflow-wrap:anywhere; }
+table { border-collapse:collapse; width:100%; max-width:88ch; margin:1.35rem 0; }
+th,td { border:1px solid var(--line); padding:.42rem .6rem; text-align:left; vertical-align:top; }
+th { background:var(--code); color:var(--accent); font-weight:600; }
 .screenshot-placeholder { border:1px dashed var(--accent); background:rgba(53,216,232,.08); color:#baf8ff; border-radius:6px; padding:1rem; margin:1.25rem 0; }
 figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figure img { display:block; width:100%; max-width:100%; height:auto; border:1px solid var(--line); border-radius:5px; background:#07111a; } figcaption { color:var(--muted); font-size:.94rem; margin-top:.55rem; text-align:center; }
 @page { size:Letter; margin:.65in; }
@@ -27,6 +30,8 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
   h1 { font-size:22pt; } h2 { font-size:15pt; margin-top:1.55rem; } h3 { font-size:12pt; }
   a { color:#075a78; text-decoration:underline; } code { color:#111; background:#eee; border-color:#bbb; }
   ul,ol,.screenshot-placeholder { break-inside:avoid; }
+  table { font-size:9.8pt; margin:.9rem 0; } tr { break-inside:avoid; } thead { display:table-header-group; }
+  th,td { border-color:#aaa; padding:.3rem .45rem; } th { background:#eee; color:#111; }
   figure { break-inside:avoid; margin:1rem auto; } figure img { border-color:#aaa; } figcaption { color:#222; font-size:9.5pt; }
   p { orphans:3; widows:3; }
   .screenshot-placeholder { background:#f2fbfc; color:#111; }
@@ -44,93 +49,154 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <p>V1.0 通常以 <strong>dBFS</strong> 显示相对信号电平：即相对于 SDR 数字满量程的分贝。dBFS 不等同于 RF 输入功率 dBm。</p>
 <p>显示数值取决于 SDR 调谐器和 ADC 响应、所选增益、频率、采样率、连接的电缆和衰减器以及 RF 环境。越接近 0 dBFS 的数值表示越强的信号，但过于接近 0 dBFS 可能导致 ADC 削波并使频谱失真。</p>
 <p>应用包含针对匹配测量设置和参考仪器的信道功率校准流程。这种校准受其保存的设置条件约束，并非通用设备校准。请勿将 V1.0 视为已校准的实验室级频谱分析仪、精密功率计，或具有绝对 dBm 准确度保证的产品。</p>
-<h2 id="section-3">3. 系统和硬件要求</h2>
+<h2 id="section-3">3. 免费版与完整版</h2>
+<p>SDR Spectrum Analyzer 是一款免费应用。免费版没有时间限制、没有试用期、也没有使用次数限制，不会到期，也不会停止工作。完整版是一次性升级，解锁其余的控件和测量功能。没有订阅。</p>
+<p>免费版以固定的仪表配置从受支持硬件采集实时频谱。中心频率由您设置，其余采集和显示设置保持为下表中的数值。</p>
+<table>
+<thead>
+<tr><th>设置项</th><th>免费版</th><th>完整版</th></tr>
+</thead>
+<tbody>
+<tr><td>中心频率</td><td>可调，24–1766 MHz</td><td>可调，24–1766 MHz</td></tr>
+<tr><td>跨度</td><td>固定 1.600 MHz</td><td>可调</td></tr>
+<tr><td>信道带宽</td><td>固定 1.000 MHz</td><td>可调</td></tr>
+<tr><td>采集模式</td><td>定频连续</td><td>固定跨度或分段扫描</td></tr>
+<tr><td>采样率</td><td>2.048 MS/s</td><td>1.024、2.048 或 2.4 MS/s</td></tr>
+<tr><td>FFT 点数</td><td>1024</td><td>1024 至 16384</td></tr>
+<tr><td>窗函数</td><td>Hann</td><td>Hann 或 Blackman-Harris</td></tr>
+<tr><td>增益</td><td>0 dB</td><td>可调</td></tr>
+<tr><td>频率校正（PPM）</td><td>0</td><td>-200 至 +200</td></tr>
+<tr><td>平均轮数</td><td>1</td><td>1、4、8、16 或 32</td></tr>
+<tr><td>参考电平</td><td>0 dBFS</td><td>可调</td></tr>
+<tr><td>每格 dB</td><td>10</td><td>可调</td></tr>
+<tr><td>线路 Offset</td><td>0 dB</td><td>可调</td></tr>
+</tbody>
+</table>
+<p>两个版本共有的功能：设备刷新、选择、<strong>连接</strong>与<strong>断开</strong>；在 24–1766 MHz 全范围内调节中心频率；当前/平均轨迹；观察频率单位选择；演示数据作为数据源；以及<strong>保存配置</strong>和<strong>加载配置</strong>。</p>
+<p>以下功能需要完整版：</p>
+<table>
+<thead>
+<tr><th>功能</th><th>免费版</th><th>完整版</th></tr>
+</thead>
+<tbody>
+<tr><td>标记 M1 和 M2</td><td>—</td><td>可用</td></tr>
+<tr><td>差分标记读数</td><td>—</td><td>可用</td></tr>
+<tr><td>信道功率</td><td>—</td><td>可用</td></tr>
+<tr><td>分段（宽跨度）扫描</td><td>—</td><td>可用</td></tr>
+<tr><td>信道功率校准</td><td>—</td><td>可用</td></tr>
+<tr><td>最大保持</td><td>—</td><td>可用</td></tr>
+<tr><td>冻结参考</td><td>—</td><td>可用</td></tr>
+<tr><td>自动适配量程</td><td>—</td><td>可用</td></tr>
+<tr><td>导出 CSV</td><td>—</td><td>可用</td></tr>
+</tbody>
+</table>
+<p><strong>在免费版中加载配置文件。</strong>由完整版写出的 <code>.cfg</code> 文件可以在免费版中加载。免费版不提供调节的设置会被恢复为上表中的免费版数值。这是正常行为，既不是错误，也不表示文件损坏；升级后再次加载同一文件即可恢复其中保存的数值。</p>
+<p><strong>演示数据是一种数据源，不是升级。</strong>选择演示数据只改变所显示数据的来源，不会解锁任何功能：选择演示数据时，上表中标记为完整版的功能仍然属于完整版。</p>
+<p><strong>升级。</strong>当 Microsoft Store 产品可用时，<strong>帮助 &gt; 升级到完整版...</strong>会打开完整版升级流程。参见<a href="#section-19">菜单和工具栏参考</a>。</p>
+<h2 id="section-4">4. 系统和硬件要求</h2>
 <ul>
-<li>支持的 Windows 桌面环境。当前 MSIX 候选包面向 Windows Desktop，最低版本为 Windows 10 2004。</li>
+<li>支持的 Windows 桌面环境。应用面向 Windows Desktop，最低版本为 Windows 10 2004。</li>
 <li>已测试的 RTL2838 USB SDR 硬件（VID:PID <code>0BDA:2838</code>）和 R820T 系列调谐器。</li>
 <li>设备 Interface 0（<code>MI_00</code>）上可用的 Microsoft WinUSB 绑定。</li>
 </ul>
 <p>仅声明已测试的 RTL2838/R820T 系列路径。不声明兼容所有 RTL-SDR 设备、RTL2832U 设备、克隆设备或其他调谐器系列。</p>
-<h2 id="section-4">4. 安装</h2>
+<h2 id="section-5">5. 安装</h2>
 <p>请使用为所选发布渠道提供的发行安装包安装 SDR Spectrum Analyzer。</p>
 <p>应用安装与 SDR 硬件驱动准备是相互独立的。应用不会安装、下载、更新、替换或以其他方式修改驱动。兼容硬件必须先具备所需的 Windows 驱动配置，应用才能访问它。</p>
 <p>生产 WinUSB 签名和分发架构仍受 Microsoft 指导约束。本指南特意不提供驱动下载、证书、测试模式、Zadig 或恢复流程。详细的驱动故障排查属于未来受支持的故障排查资料。</p>
-<h2 id="section-5">5. 快速入门</h2>
+<h2 id="section-6">6. 快速入门</h2>
 <ol>
 <li>启动 SDR Spectrum Analyzer。</li>
 <li>连接已测试的兼容 SDR 硬件，并确保其 Interface 0 已可供 WinUSB 使用。</li>
-<li>在<strong>设备与采集</strong>中选择<strong>刷新</strong>，然后选择列出的设备。</li>
-<li>选择<strong>连接</strong>。诊断区域会报告检测到的设备和就绪状态。</li>
-<li>根据需要设置频率、跨度、采集模式、采样率、FFT 点数、窗函数、增益、频率校正和平均轮数。</li>
+<li>在<strong>设备与采集</strong>中选择设备列表旁的刷新按钮，然后选择列出的设备。</li>
+<li>选择<strong>连接</strong>。设备打开后，状态文字变为绿色并显示 <strong>USB 已连接</strong>，按钮变为<strong>断开</strong>。</li>
+<li>设置中心频率。在完整版中，还可根据需要设置跨度、采集模式、采样率、FFT 点数、窗函数、增益、频率校正和平均轮数。</li>
 <li>选择<strong>单次扫描</strong>完成一轮采集，或选择<strong>连续运行</strong>重复采集。</li>
-<li>查看频谱、标记、信道范围和状态信息。</li>
+<li>查看频谱、信道范围和状态信息。</li>
 <li>需要结束正在运行的采集时，选择<strong>停止</strong>。</li>
+<li>使用完毕后选择<strong>断开</strong>释放设备。</li>
 </ol>
-<h2 id="section-6">6. 主窗口概览</h2>
+<p>若要在没有硬件的情况下体验本应用，请选择<strong>运行与频率 &gt; 数据源 &gt; 演示数据（非实测）</strong>，然后选择<strong>单次扫描</strong>或<strong>连续运行</strong>。这条路径不需要 USB 连接。演示数据是生成的，并非实测；选择演示数据时，完整版功能仍属完整版。</p>
+<h2 id="section-7">7. 主窗口概览</h2>
 <figure><a href="assets/screenshots/Figure_1.png"><img src="assets/screenshots/Figure_1.png" alt="SDR Spectrum Analyzer 主应用窗口"></a><figcaption>图 1. SDR Spectrum Analyzer 主应用窗口</figcaption></figure>
 <p>主窗口包含以下区域：</p>
 <ul>
 <li><strong>设备与采集</strong>：硬件选择和采集设置。</li>
 <li><strong>显示与标记</strong>：量程、轨迹、标记、线路 Offset 和信道功率控件。</li>
 <li><strong>频谱显示</strong>：轨迹、坐标轴、信道边界和标记读数。</li>
-<li><strong>输出与诊断</strong>：带时间戳的面向用户的状态和诊断消息。</li>
+<li><strong>输出与诊断</strong>：带时间戳的面向用户的状态和诊断消息。应用启动时该面板处于隐藏状态；可从<strong>视图 &gt; 输出与诊断</strong>显示它。</li>
 <li><strong>状态栏</strong>：设备/采集状态及频谱或信道上下文。</li>
 <li><strong>菜单和工具栏</strong>：下文所述命令的快捷入口。</li>
 </ul>
-<p>左侧设置面板可停靠；可用高度有限时可以滚动。<strong>恢复默认布局</strong>会恢复应用工具栏和停靠面板布局。</p>
-<h2 id="section-7">7. 设备与采集</h2>
+<p>左侧设置面板可停靠；可用高度有限时可以滚动。<strong>恢复默认布局</strong>会恢复应用工具栏和停靠面板布局，并再次隐藏输出与诊断。</p>
+<h2 id="section-8">8. 设备与采集</h2>
 <h3>设备控件</h3>
+<p>第一行是设备列表和一个紧凑的刷新按钮，第二行是连接状态以及改变该状态的唯一动作。</p>
 <ul>
 <li><strong>设备列表</strong>：列出已枚举的 SDR 设备。</li>
-<li><strong>刷新</strong>：枚举支持的设备并报告就绪状态。</li>
-<li><strong>连接</strong>：打开所选的列表设备。</li>
-<li><strong>断开</strong>：关闭当前设备连接。</li>
-<li><strong>检查</strong>：验证现有连接。</li>
+<li><strong>刷新</strong>（设备列表旁的按钮）：枚举支持的设备并报告就绪状态。</li>
+<li><strong>连接状态</strong>：只读文字。未打开设备时显示红色的 <strong>USB 未连接</strong>，已打开时显示绿色的 <strong>USB 已连接</strong>。它是指示，不是按钮。</li>
+<li><strong>连接</strong> / <strong>断开</strong>：动作按钮。未连接时显示<strong>连接</strong>，用于打开所选的列表设备；设备打开后显示<strong>断开</strong>，用于关闭连接。采集运行期间<strong>断开</strong>依然可用，此时会先停止采集，再关闭设备。</li>
 </ul>
+<p>这些命令在<strong>设备</strong>菜单中同样提供，菜单中的断开命令名为<strong>断开设备</strong>。该菜单另外提供<strong>检查连接</strong>，这是一项诊断操作，说明见<a href="#section-22">故障排查</a>；它不是正常连接流程中的必需步骤。</p>
 <p>就绪消息会区分未发现设备、Interface 0 的 WinUSB 不可用、接口已就绪和后端访问失败。接口就绪仍是连接和采集成功的必要条件。</p>
 <h3>频率和采集控件</h3>
 <ul>
 <li><strong>观察频率单位</strong>：用于频率输入的 Hz、kHz、MHz 或 GHz。</li>
-<li><strong>中心 / 跨度</strong>或<strong>起始 / 停止</strong>：两种频率输入模式。使用<strong>Center+SPAN</strong>切换。</li>
-<li><strong>信道带宽 MHz</strong>：信道积分宽度。应用后以当前显示中心作为信道中心。</li>
-<li><strong>采集模式</strong>：固定跨度采集或分段扫描。</li>
-<li><strong>采样率</strong>：1.024、2.048 或 2.4 MS/s。</li>
-<li><strong>FFT 点数</strong>：1024、2048、4096、8192 或 16384。</li>
-<li><strong>窗函数</strong>：Hann 或 Blackman-Harris。</li>
-<li><strong>增益</strong>：从应用列表中请求调谐器增益。设备会选择最接近的受支持调谐器档位。</li>
-<li><strong>频率校正 / PPM</strong>：-200 至 +200 PPM 的整数频率校正。0 表示关闭校正。</li>
-<li><strong>平均轮数</strong>：1、4、8、16 或 32 个完整扫描。</li>
+<li><strong>中心 / 跨度</strong>或<strong>起始 / 停止</strong>：两种频率输入模式。使用<strong>Center+SPAN</strong>切换。中心频率在两个版本中均可调节；跨度为完整版功能。</li>
+<li><strong>信道带宽 MHz</strong>（完整版）：信道积分宽度。应用后以当前显示中心作为信道中心。</li>
+<li><strong>采集模式</strong>（完整版）：固定跨度采集或分段扫描。</li>
+<li><strong>采样率</strong>（完整版）：1.024、2.048 或 2.4 MS/s。</li>
+<li><strong>FFT 点数</strong>（完整版）：1024、2048、4096、8192 或 16384。</li>
+<li><strong>窗函数</strong>（完整版）：Hann 或 Blackman-Harris。</li>
+<li><strong>增益</strong>（完整版）：从应用列表中请求调谐器增益。设备会选择最接近的受支持调谐器档位。</li>
+<li><strong>频率校正 / PPM</strong>（完整版）：-200 至 +200 PPM 的整数频率校正。0 表示关闭校正。</li>
+<li><strong>平均轮数</strong>（完整版）：1、4、8、16 或 32 个完整扫描。</li>
 </ul>
+<p>在免费版中，上述设置保持为<a href="#section-3">免费版与完整版</a>中列出的固定数值。</p>
 <p>采集运行时，影响采集的设置、数据源变更以及加载/保存配置均不可用。请先停止采集，再应用变更。</p>
-<h2 id="section-8">8. 采集模式</h2>
+<h2 id="section-9">9. 采集模式</h2>
 <h3>固定跨度</h3>
 <p>固定跨度受所选采样率和 FFT 配置的可用瞬时带宽限制。应用会从可用拼接数据区域中排除边缘和受 DC 影响的频点。</p>
-<h3>分段扫描</h3>
+<h3>分段扫描（完整版）</h3>
 <p>对于更宽的跨度，SDR Spectrum Analyzer 会依次调谐多个频率分段，并将其可用 FFT 频点拼接到显示范围中。它<strong>不会</strong>同时采集整个显示跨度。</p>
 <p>每个分段在内部使用四个 FFT 帧，并在线性功率域中平均。<strong>平均轮数</strong>随后会对完整扫描之间的对应频点进行平均。更高的平均数可降低波动，但会增加稳定时间，并降低对变化信号的响应速度。</p>
-<h2 id="section-9">9. 运行测量</h2>
+<h2 id="section-10">10. 运行测量</h2>
 <ul>
 <li><strong>连续运行</strong>会启动重复的设备采集或重复的演示数据更新。</li>
 <li><strong>单次扫描</strong>会完成一轮采集后停止。</li>
 <li><strong>停止</strong>会请求停止当前采集或演示运行。最后一次已发布的结果仍会显示。</li>
-<li><strong>清除保持</strong>会清除目前收集的最大保持数据。</li>
+<li><strong>清除保持</strong>（完整版）会清除目前收集的最大保持数据。</li>
 </ul>
-<p>使用设备数据时，采集需要已连接且可用的 SDR。输出区域会报告连接、采集、停止和错误状态。</p>
-<h2 id="section-10">10. 频谱显示和轨迹</h2>
+<p>只有在所选数据源就绪时，<strong>连续运行</strong>和<strong>单次扫描</strong>才可用：</p>
+<table>
+<thead>
+<tr><th>数据源</th><th>USB 状态</th><th>连续运行 / 单次扫描</th></tr>
+</thead>
+<tbody>
+<tr><td>设备数据</td><td>未连接</td><td>不可用</td></tr>
+<tr><td>设备数据</td><td>已连接且空闲</td><td>可用</td></tr>
+<tr><td>演示数据</td><td>无需连接</td><td>可用</td></tr>
+</tbody>
+</table>
+<p>采集已在运行时，这两个命令都不能用于开始新的采集；请先停止当前采集。连接、采集、停止和错误状态会写入状态栏和输出与诊断，输出与诊断无需可见即可接收这些消息。</p>
+<h2 id="section-11">11. 频谱显示和轨迹</h2>
 <figure><a href="assets/screenshots/Figure_2.png"><img src="assets/screenshots/Figure_2.png" alt="SDR Spectrum Analyzer 当前、最大保持和冻结参考频谱轨迹"></a><figcaption>图 2. 当前/平均、最大保持和冻结参考频谱轨迹</figcaption></figure>
 <p>图形默认以频率为横轴、dBFS 为纵轴。如果当前设备和设置存在匹配的已保存信道校准，符合条件的信道和轨迹读数可使用 dBm；否则仍为 dBFS。</p>
 <ul>
 <li><strong>当前/平均轨迹</strong>显示当前处理结果或所选扫描平均结果。</li>
-<li><strong>最大保持</strong>保留每个频点观察到的最高数值，直到被清除。</li>
-<li><strong>显示参考轨迹</strong>显示单独冻结的轨迹以供视觉比较。<strong>冻结当前为参考</strong>会捕获当前轨迹及其原始频率范围。</li>
-<li><strong>参考电平 dBFS</strong>设置显示量程的顶部值，不会改变硬件增益或已采集样本。</li>
-<li><strong>每格 dB</strong>选择垂直分度；<strong>应用量程</strong>应用输入的量程。</li>
-<li><strong>自动适配量程</strong>会根据当前轨迹设置合适的量程。</li>
-<li><strong>线路 Offset</strong>是非负的显示和校准路径补偿值。输入已知的路径损耗或衰减后应用。</li>
+<li><strong>最大保持</strong>（完整版）保留每个频点观察到的最高数值，直到被清除。</li>
+<li><strong>显示参考轨迹</strong>（完整版）显示单独冻结的轨迹以供视觉比较。<strong>冻结当前为参考</strong>会捕获当前轨迹及其原始频率范围。</li>
+<li><strong>参考电平 dBFS</strong>（完整版）设置显示量程的顶部值，不会改变硬件增益或已采集样本。</li>
+<li><strong>每格 dB</strong>（完整版）选择垂直分度；<strong>应用量程</strong>应用输入的量程。</li>
+<li><strong>自动适配量程</strong>（完整版）会根据当前轨迹设置合适的量程。</li>
+<li><strong>线路 Offset</strong>（完整版）是非负的显示和校准路径补偿值。输入已知的路径损耗或衰减后应用。</li>
 </ul>
+<p>免费版以 0 dBFS 参考电平、每格 10 dB、线路 Offset 为 0 的设置显示当前/平均轨迹。</p>
 <p>稳定的生产 UI 颜色为：绿色表示当前/平均，黄色表示最大保持，蓝色表示冻结参考。</p>
-<h2 id="section-11">11. 标记和测量</h2>
+<h2 id="section-12">12. 标记和测量</h2>
 <figure><a href="assets/screenshots/Figure_3.png"><img src="assets/screenshots/Figure_3.png" alt="SDR Spectrum Analyzer M1、M2 标记和信道分析"></a><figcaption>图 3. M1、M2 标记和信道分析</figcaption></figure>
+<p>本节所述的标记、差分读数、信道功率和校准流程均需要完整版。</p>
 <p>图中有两个标记：<strong>M1</strong> 和 <strong>M2</strong>。</p>
 <ul>
 <li>在有效的绘图点上单击左键放置 M1。</li>
@@ -144,70 +210,81 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <h3>信道功率和积分范围</h3>
 <p>信道范围以当前显示中心为中心，并使用<strong>信道带宽 MHz</strong>。图中会绘制其范围边界。只有在完整、有效且覆盖该范围的扫描以及所选平均轮数完成后，信道结果才可用。</p>
 <p><strong>参考信道功率 dBm</strong>字段和<strong>校准</strong>按钮用于参考仪器校准流程。校准要求使用设备数据、实时连接的设备、有效完成的信道结果、无削波、匹配的当前采集设置、有效的线路 Offset，以及 -160 至 +30 dBm 的参考输入。<strong>清除校准</strong>会删除已保存的信道校准记录。</p>
-<h2 id="section-12">12. 频率和跨度控件</h2>
+<h2 id="section-13">13. 频率和跨度控件</h2>
 <p>输入数值时请使用所选的频率单位。<strong>Center+SPAN</strong>会在两个输入字段中切换：</p>
 <ul>
 <li>中心频率和跨度；以及</li>
 <li>起始频率和停止频率。</li>
 </ul>
-<p>有效显示范围为 24 MHz 至 1766 MHz，最小跨度为 10 kHz。变更范围会清除活动设备快照；在演示数据模式下会生成新的演示视图。更宽的跨度使用<a href="#section-8">采集模式</a>中所述的分段采集。</p>
+<p>有效显示范围为 24 MHz 至 1766 MHz。在免费版中，跨度固定为 1.600 MHz，只能在该范围内移动中心频率；在完整版中跨度可调，最小为 10 kHz。变更范围会清除活动设备快照；在演示数据模式下会生成新的演示视图。更宽的跨度使用<a href="#section-9">采集模式</a>中所述的分段采集。</p>
 <p>将鼠标置于图形上方滚动滚轮可围绕指针缩放频率范围。用左键拖动空白绘图区可平移频率范围。硬件采集忙碌时，这些操作不可用。</p>
-<h2 id="section-13">13. 数据源</h2>
+<h2 id="section-14">14. 数据源</h2>
 <p><strong>数据源</strong>子菜单提供：</p>
 <ul>
 <li><strong>设备数据</strong>：从已连接的受支持 SDR 获取的频谱数据。</li>
 <li><strong>演示数据（非实测）</strong>：生成的演示数据。</li>
 </ul>
 <p>演示数据不访问 USB，不能用于 RF 测量或校准。它适用于学习用户界面和显示行为。</p>
-<h2 id="section-14">14. 配置文件</h2>
+<p>演示数据仅是一种可选的数据源，不是完整版试用，也不会解锁完整版功能；参见<a href="#section-3">免费版与完整版</a>。</p>
+<h2 id="section-15">15. 配置文件</h2>
 <p><strong>文件 &gt; 保存配置</strong>会将 <code>.cfg</code> 文本文件写入用户选择的位置。<strong>文件 &gt; 加载配置</strong>会在采集停止后读取兼容的 <code>.cfg</code> 文件。</p>
 <p>当前格式的版本标记为 <code>SDR_SA_CONFIG=1</code>，保存采集设置、显示量程、轨迹可见性、信道带宽、线路 Offset、数据源、频率输入模式/单位和可选参考信道功率。它是应用配置文件；请勿将其视为通用交换格式，也不要手动编辑，除非能够在应用中验证结果。</p>
-<h2 id="section-15">15. 导出数据</h2>
-<p>存在频谱轨迹时可使用<strong>导出 CSV</strong>。应用会要求选择 <code>.csv</code> 保存位置。</p>
+<p>在免费版中加载文件时，免费版不提供调节的设置会被恢复为其免费版数值。参见<a href="#section-3">免费版与完整版</a>。</p>
+<h2 id="section-16">16. 导出数据</h2>
+<p><strong>导出 CSV</strong>需要完整版。存在频谱轨迹时可使用该命令，应用会要求选择 <code>.csv</code> 保存位置。</p>
 <p>CSV 包含数据源、dBFS 单位、存在设备快照时的采集设置、信道结果状态和线路 Offset 的注释元数据。表格列为：</p>
 <p><code>frequency_hz,power_dbfs,valid</code></p>
 <p><code>valid</code> 标识包含可用绘图数据的频点。对于设备数据，仅当当前保存的校准与快照匹配时，文件还可能包含校准后的 <code>channel_dbm</code> 元数据字段。逐频点的主要数值仍为 dBFS。</p>
-<h2 id="section-16">16. 输出与诊断</h2>
+<h2 id="section-17">17. 输出与诊断</h2>
 <p><strong>输出与诊断</strong>面板记录带时间戳的消息，包括应用就绪、设备刷新、驱动就绪、连接、采集开始/停止、配置操作、导出以及面向用户的错误。</p>
-<p>报告问题时请使用这些信息。它不是用于内部驱动安装、证书设置或工程恢复流程的受支持接口。</p>
-<h2 id="section-17">17. 状态栏</h2>
+<p>应用启动时该面板处于隐藏状态，以便频谱显示获得完整的窗口高度。选择<strong>视图 &gt; 输出与诊断</strong>可显示它；面板可见时该菜单项处于勾选状态，再次选择即可隐藏。<strong>恢复默认布局</strong>也会将其隐藏。</p>
+<p>无论面板是否可见，消息都会被记录，因此隐藏期间不会丢失任何内容。面板保留最近消息的有限历史；在当前实现中，超过 1000 行后最早的条目会被丢弃。</p>
+<p><strong>文件 &gt; 保存诊断日志...</strong>会将已累积的消息写入您选择的文件。该面板无需可见，也不必先将其打开。报告问题时请使用该文件。</p>
+<p>输出与诊断不是用于内部驱动安装、证书设置或工程恢复流程的受支持接口。</p>
+<h2 id="section-18">18. 状态栏</h2>
 <p>状态栏显示简要的设备和采集状态以及频谱上下文。根据当前数据，它可以包括数据源、单次/连续或已停止状态、信道积分范围、采集模式、FFT 频点间隔、ENBW、增益、线路 Offset、校准状态和扫描进度。</p>
 <p>显示 <code>uncalibrated</code> 或 <code>未标定</code> 状态表示所请求或活动的增益没有匹配的已保存校准；它本身并不表示设备故障。</p>
-<h2 id="section-18">18. 菜单和工具栏参考</h2>
+<h2 id="section-19">19. 菜单和工具栏参考</h2>
 <h3>文件</h3>
 <ul>
-<li><strong>加载配置</strong>和<strong>保存配置</strong>：参见<a href="#section-14">配置文件</a>。</li>
+<li><strong>加载配置</strong>和<strong>保存配置</strong>：参见<a href="#section-15">配置文件</a>。</li>
+<li><strong>保存诊断日志...</strong>：将已累积的诊断消息写入您选择的文件。参见<a href="#section-17">输出与诊断</a>。</li>
 <li><strong>退出</strong>：关闭应用。</li>
 </ul>
 <h3>设备</h3>
 <ul>
-<li><strong>刷新设备</strong>、<strong>连接所选设备</strong>、<strong>断开设备</strong>和<strong>检查连接</strong>：参见<a href="#section-7">设备与采集</a>。</li>
+<li><strong>刷新设备</strong>、<strong>连接所选设备</strong>和<strong>断开设备</strong>：参见<a href="#section-8">设备与采集</a>。<strong>断开设备</strong>与面板上的<strong>断开</strong>是同一操作。</li>
+<li><strong>检查连接</strong>：验证现有连接。参见<a href="#section-22">故障排查</a>。</li>
 </ul>
 <h3>运行与频率</h3>
 <ul>
-<li><strong>连续运行</strong>、<strong>单次扫描</strong>、<strong>停止</strong>、<strong>清除最大保持</strong>、<strong>Center+SPAN</strong>和<strong>导出 CSV</strong>：参见<a href="#section-9">运行测量</a>和<a href="#section-12">频率和跨度控件</a>。</li>
-<li><strong>数据源</strong>：参见<a href="#section-13">数据源</a>。</li>
+<li><strong>连续运行</strong>、<strong>单次扫描</strong>、<strong>停止</strong>、<strong>清除最大保持</strong>、<strong>Center+SPAN</strong>和<strong>导出 CSV</strong>：参见<a href="#section-10">运行测量</a>和<a href="#section-13">频率和跨度控件</a>。<strong>清除最大保持</strong>和<strong>导出 CSV</strong>需要完整版。</li>
+<li><strong>数据源</strong>：参见<a href="#section-14">数据源</a>。</li>
 <li><strong>恢复默认布局</strong>：恢复工具栏和停靠面板。</li>
 </ul>
 <h3>视图</h3>
 <ul>
-<li><strong>自动适配量程</strong>：参见<a href="#section-10">频谱显示和轨迹</a>。</li>
+<li><strong>自动适配量程</strong>（完整版）：参见<a href="#section-11">频谱显示和轨迹</a>。</li>
+<li><strong>输出与诊断</strong>：显示或隐藏诊断面板。参见<a href="#section-17">输出与诊断</a>。</li>
 </ul>
 <h3>帮助</h3>
 <ul>
-<li><strong>使用说明</strong>当前显示简短的应用内使用摘要。</li>
-<li><strong>窗函数对比与选择</strong>显示 Hann 和 Blackman-Harris 窗函数说明。</li>
+<li><strong>使用说明</strong>会在浏览器中打开本离线用户指南，使用应用当前的界面语言。</li>
+<li><strong>升级到完整版...</strong>：当 Microsoft Store 产品可用时，打开完整版升级流程。该菜单项也会改为报告当前状态：正在查询 Microsoft Store 时显示<strong>正在检查完整版...</strong>，升级进行中显示<strong>正在购买完整版...</strong>，无法访问 Store 时显示<strong>重试 Microsoft Store...</strong>，完整版已生效后显示<strong>完整版</strong>。</li>
+<li><strong>支持</strong>：在浏览器中打开公开的产品支持网站。</li>
+<li><strong>隐私政策</strong>：在浏览器中打开已发布的隐私政策。</li>
 <li><strong>关于 About</strong>显示产品标识、版本、发布者、第三方声明提示和本地隐私声明。</li>
 </ul>
-<p>工具栏提供以下文本按钮：连续运行、单次扫描、停止、清除保持、导出 CSV、Center+SPAN、应用仪表参数和恢复默认布局。</p>
-<h2 id="section-19">19. 窗函数和 FFT 概念</h2>
+<p>Hann 和 Blackman-Harris 窗函数的说明可通过<strong>设备与采集</strong>中<strong>窗函数</strong>控件旁的 <strong>?</strong> 按钮查看。</p>
+<p>工具栏提供以下文本按钮：连续运行、单次扫描、停止、清除保持、导出 CSV、Center+SPAN、应用仪表参数和恢复默认布局。其中清除保持和导出 CSV 需要完整版。</p>
+<h2 id="section-20">20. 窗函数和 FFT 概念</h2>
 <p>FFT 将每个采集到的时域 I/Q 数据块转换为频率点。在给定采样率下，更多 FFT 点提供更细的频点间隔；采样率和所选跨度决定可用频率覆盖范围。</p>
 <ul>
 <li><strong>Hann</strong> 的 ENBW 约为 1.50 个 FFT 频点，适合常规查看和一般信道功率工作。</li>
 <li><strong>Blackman-Harris</strong> 的 ENBW 约为 2.00 个 FFT 频点，旁瓣低得多，在弱信号靠近强载波时可能更有帮助。</li>
 </ul>
 <p>信道功率计算会应用 ENBW 校正。更改窗函数后，请重新采集并重新校准，然后再依赖已校准的信道结果。</p>
-<h2 id="section-20">20. 测量准确度和解释</h2>
+<h2 id="section-21">21. 测量准确度和解释</h2>
 <p>除非应用明确显示匹配的已校准结果，否则请使用 dBFS 进行相对频谱解释。设备增益、PPM 校正和线路 Offset 的用途不同：</p>
 <ul>
 <li><strong>增益</strong>请求调谐器增益设置；后端使用最接近的受支持档位。它不是功率校准。</li>
@@ -217,26 +294,30 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <li><strong>ENBW</strong>影响宽带功率解释，并已由信道计算考虑。</li>
 </ul>
 <p>进行任何条件校准时，请使用已知参考、匹配设置、适当衰减和稳定的测量环境。更换设备、增益、频率相关条件、窗函数或相关测量设置后，应重新检查校准。</p>
-<h2 id="section-21">21. 故障排查</h2>
+<h2 id="section-22">22. 故障排查</h2>
 <ul>
 <li><strong>未列出设备：</strong>确认已连接测试硬件，然后选择刷新。</li>
 <li><strong>WinUSB 驱动不可用：</strong>设备已存在，但 Interface 0 尚未能供 Mattino 后端使用。应用不会更改驱动。请仅在已发布的受批准生产支持路径可用时使用该路径。</li>
 <li><strong>无法连接：</strong>刷新设备列表，确认就绪状态，并确保没有其他应用占用设备。</li>
-<li><strong>采集无法开始：</strong>停止任何活动采集，查看输出与诊断消息，并检查频率、跨度、信道带宽、FFT、采样率、增益和 PPM 输入是否有效。</li>
+<li><strong>需要核实可疑的连接状态：</strong>使用<strong>设备 &gt; 检查连接</strong>。它会重新测试已打开的设备并报告结果，不会改变连接。这是一项诊断步骤，不属于正常连接流程。</li>
+<li><strong>连续运行和单次扫描不可用：</strong>选择设备数据时请先连接设备；选择演示数据时无需连接。采集已在运行时，这两个命令都不会开始新的采集。</li>
+<li><strong>采集无法开始：</strong>停止任何活动采集，从<strong>视图</strong>菜单显示输出与诊断并查看消息，并检查频率、跨度、信道带宽、FFT、采样率、增益和 PPM 输入是否有效。</li>
 <li><strong>轨迹或信道结果异常：</strong>检查削波、所选数据源、增益、线路 Offset、窗函数、平均、标记/信道范围，以及校准是否确实匹配当前设备和设置。</li>
-<li><strong>USB 设备停止响应：</strong>尽可能在应用中断开并重新连接，然后刷新。不要将工程证书或驱动操作作为最终用户解决方法。</li>
+<li><strong>USB 设备停止响应：</strong>尽可能在应用中先选择<strong>断开</strong>再选择<strong>连接</strong>，然后刷新。不要将工程证书或驱动操作作为最终用户解决方法。</li>
 </ul>
-<h2 id="section-22">22. 获取支持</h2>
+<h2 id="section-23">23. 获取支持</h2>
 <p>SDR Spectrum Analyzer 的技术支持可通过公开产品支持网站获得：</p>
 <p><a href="https://wangyaoyang.github.io/mattino507-support/">https://wangyaoyang.github.io/mattino507-support/</a></p>
 <p>该支持网站提供支持信息，并可访问公开的 GitHub 支持请求系统。</p>
-<p>请求支持时，请提供应用版本、Windows 版本、设备就绪状态、已测试硬件标识、相关诊断消息，以及在有帮助时提供截图。</p>
+<p>请求支持时，请提供应用版本、Windows 版本、设备就绪状态、已测试硬件标识、相关诊断消息，以及在有帮助时提供截图。<strong>文件 &gt; 保存诊断日志...</strong>可将诊断消息收集为一个可随请求附上的文件。</p>
 <p>请勿在公开支持请求中发布密码、凭据、产品密钥、私有证书、个人地址或其他敏感个人信息。</p>
-<h2 id="section-23">23. 隐私和许可</h2>
+<h2 id="section-24">24. 隐私和许可</h2>
 <p>请参阅当前发行版单独发布的隐私政策和最终用户许可协议。</p>
-<p>当前版本的隐私政策和最终用户许可协议可通过 SDR Spectrum Analyzer 产品支持网站获取。</p>
+<p>当前版本的隐私政策和最终用户许可协议可通过 SDR Spectrum Analyzer 产品支持网站获取。隐私政策发布于：</p>
+<p><a href="https://wangyaoyang.github.io/mattino507-support/sdr-spectrum-analyzer/privacy.html">https://wangyaoyang.github.io/mattino507-support/sdr-spectrum-analyzer/privacy.html</a></p>
+<p><strong>帮助 &gt; 隐私政策</strong>会打开同一页面。</p>
 <p>请勿在本用户指南中重复隐私政策或 EULA 条款。</p>
-<h2 id="section-24">24. 第三方组件</h2>
+<h2 id="section-25">25. 第三方组件</h2>
 <p>商业发行版可能包含第三方开源组件或运行时组件。适用的声明和许可文本随产品在 <code>THIRD_PARTY_NOTICES.txt</code> 及其配套许可证文件中提供。商业 V1.0 包动态链接 libusb，并包含源自 Google Radio Receiver 的 Apache-2.0 归属说明；它不包含也不依赖 Legacy Osmocom rtl-sdr 运行时。</p>
 </main>
 </body>

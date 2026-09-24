@@ -17,6 +17,9 @@ h3 { margin-top:1.7rem; font-size:1.13rem; }
 p,li { max-width:88ch; } ul,ol { padding-left:1.5rem; } li+li { margin-top:.3rem; }
 a { color:#69e8f5; } a:focus,a:hover { color:#fff; }
 code { background:var(--code); border:1px solid var(--line); border-radius:4px; padding:.08rem .32rem; color:#d1f8ff; overflow-wrap:anywhere; }
+table { border-collapse:collapse; width:100%; max-width:88ch; margin:1.35rem 0; }
+th,td { border:1px solid var(--line); padding:.42rem .6rem; text-align:left; vertical-align:top; }
+th { background:var(--code); color:var(--accent); font-weight:600; }
 .screenshot-placeholder { border:1px dashed var(--accent); background:rgba(53,216,232,.08); color:#baf8ff; border-radius:6px; padding:1rem; margin:1.25rem 0; }
 figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figure img { display:block; width:100%; max-width:100%; height:auto; border:1px solid var(--line); border-radius:5px; background:#07111a; } figcaption { color:var(--muted); font-size:.94rem; margin-top:.55rem; text-align:center; }
 @page { size:Letter; margin:.65in; }
@@ -27,6 +30,8 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
   h1 { font-size:22pt; } h2 { font-size:15pt; margin-top:1.55rem; } h3 { font-size:12pt; }
   a { color:#075a78; text-decoration:underline; } code { color:#111; background:#eee; border-color:#bbb; }
   ul,ol,.screenshot-placeholder { break-inside:avoid; }
+  table { font-size:9.8pt; margin:.9rem 0; } tr { break-inside:avoid; } thead { display:table-header-group; }
+  th,td { border-color:#aaa; padding:.3rem .45rem; } th { background:#eee; color:#111; }
   figure { break-inside:avoid; margin:1rem auto; } figure img { border-color:#aaa; } figcaption { color:#222; font-size:9.5pt; }
   p { orphans:3; widows:3; }
   .screenshot-placeholder { background:#f2fbfc; color:#111; }
@@ -44,93 +49,154 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <p>V1.0 normally displays relative signal levels in <strong>dBFS</strong>: decibels relative to the digital full-scale level of the SDR. dBFS is not the same as RF input power in dBm.</p>
 <p>Displayed values depend on the SDR tuner and ADC response, selected gain, frequency, sample rate, connected cables and attenuators, and the RF environment. A value nearer 0 dBFS is stronger, but values too near 0 dBFS can clip the ADC and distort the spectrum.</p>
 <p>The application includes a channel-power calibration workflow for a matching measurement setup and reference instrument. Such a calibration is conditional on its saved setup; it is not a universal device calibration. Do not treat V1.0 as a calibrated laboratory spectrum analyser, a precision power meter, or a guarantee of absolute dBm accuracy.</p>
-<h2 id="section-3">3. System and hardware requirements</h2>
+<h2 id="section-3">3. Free and Full Version</h2>
+<p>SDR Spectrum Analyzer is a free application. The Free Version has no time limit, no trial period, and no usage counter; it does not expire or stop working. The Full Version is a one-time upgrade that unlocks the remaining controls and measurement features. There is no subscription.</p>
+<p>The Free Version acquires live spectrum from supported hardware at a fixed instrument configuration. You choose the centre frequency; the remaining capture and display settings are held at the values in the table below.</p>
+<table>
+<thead>
+<tr><th>Setting</th><th>Free Version</th><th>Full Version</th></tr>
+</thead>
+<tbody>
+<tr><td>Centre frequency</td><td>Adjustable, 24-1766 MHz</td><td>Adjustable, 24-1766 MHz</td></tr>
+<tr><td>Span</td><td>Fixed at 1.600 MHz</td><td>Adjustable</td></tr>
+<tr><td>Channel bandwidth</td><td>Fixed at 1.000 MHz</td><td>Adjustable</td></tr>
+<tr><td>Acquisition mode</td><td>Fixed-frequency continuous</td><td>Fixed span or segmented sweep</td></tr>
+<tr><td>Sample rate</td><td>2.048 MS/s</td><td>1.024, 2.048, or 2.4 MS/s</td></tr>
+<tr><td>FFT points</td><td>1024</td><td>1024 to 16384</td></tr>
+<tr><td>Window</td><td>Hann</td><td>Hann or Blackman-Harris</td></tr>
+<tr><td>Gain</td><td>0 dB</td><td>Adjustable</td></tr>
+<tr><td>Frequency correction (PPM)</td><td>0</td><td>-200 to +200</td></tr>
+<tr><td>Sweep averaging</td><td>1</td><td>1, 4, 8, 16, or 32</td></tr>
+<tr><td>Reference level</td><td>0 dBFS</td><td>Adjustable</td></tr>
+<tr><td>dB per division</td><td>10</td><td>Adjustable</td></tr>
+<tr><td>Path offset</td><td>0 dB</td><td>Adjustable</td></tr>
+</tbody>
+</table>
+<p>Both versions include device refresh, selection, <strong>Connect</strong> and <strong>Release</strong>; centre-frequency tuning across the whole 24-1766 MHz range; the Current / Average trace; frequency-unit selection; Demo Data as a data source; and <strong>Save Configuration</strong> / <strong>Load Configuration</strong>.</p>
+<p>The following require the Full Version:</p>
+<table>
+<thead>
+<tr><th>Feature</th><th>Free Version</th><th>Full Version</th></tr>
+</thead>
+<tbody>
+<tr><td>Markers M1 and M2</td><td>-</td><td>Available</td></tr>
+<tr><td>Delta marker readout</td><td>-</td><td>Available</td></tr>
+<tr><td>Channel power</td><td>-</td><td>Available</td></tr>
+<tr><td>Segmented (wide-span) sweep</td><td>-</td><td>Available</td></tr>
+<tr><td>Channel-power calibration</td><td>-</td><td>Available</td></tr>
+<tr><td>Max Hold</td><td>-</td><td>Available</td></tr>
+<tr><td>Frozen Reference</td><td>-</td><td>Available</td></tr>
+<tr><td>Auto Scale</td><td>-</td><td>Available</td></tr>
+<tr><td>CSV export</td><td>-</td><td>Available</td></tr>
+</tbody>
+</table>
+<p><strong>Loading a configuration file in the Free Version.</strong> A <code>.cfg</code> file written by the Full Version can be loaded in the Free Version. Settings the Free Version does not adjust are set back to the Free values shown above. This is normal behaviour, not an error and not a damaged file; loading the same file again after upgrading restores the stored values.</p>
+<p><strong>Demo Data is a data source, not an upgrade.</strong> Selecting Demo Data changes where the displayed data comes from. It does not unlock anything: every feature marked Full Version above stays Full Version while Demo Data is selected.</p>
+<p><strong>Upgrading.</strong> <strong>Help &gt; Upgrade to Full Version...</strong> opens the Full Version upgrade flow when the Store product is available. See <a href="#section-19">Menus and toolbar reference</a>.</p>
+<h2 id="section-4">4. System and hardware requirements</h2>
 <ul>
-<li>A supported Windows desktop environment. The current MSIX candidate targets Windows Desktop with a minimum version of Windows 10 2004.</li>
+<li>A supported Windows desktop environment. The application targets Windows Desktop with a minimum version of Windows 10 2004.</li>
 <li>Tested RTL2838-based USB SDR hardware (VID:PID <code>0BDA:2838</code>) with an R820T-series tuner.</li>
 <li>A functional Microsoft WinUSB binding on the device&#39;s Interface 0 (<code>MI_00</code>).</li>
 </ul>
 <p>Only the tested RTL2838/R820T-series path is claimed. Compatibility with all RTL-SDR devices, RTL2832U devices, clones, or other tuner families is not claimed.</p>
-<h2 id="section-4">4. Installation</h2>
+<h2 id="section-5">5. Installation</h2>
 <p>Install SDR Spectrum Analyzer using the release package supplied for the chosen release channel.</p>
 <p>Application installation and SDR driver preparation are separate. The application does not install, download, update, replace, or otherwise modify drivers. Compatible hardware must already have the required Windows driver configuration before it can be accessed.</p>
 <p>The production WinUSB signing and distribution architecture remains subject to Microsoft guidance. This guide deliberately does not provide a driver-download, certificate, Test Mode, Zadig, or recovery procedure. Detailed driver troubleshooting belongs to future supported troubleshooting material.</p>
-<h2 id="section-5">5. Getting started</h2>
+<h2 id="section-6">6. Getting started</h2>
 <ol>
 <li>Start SDR Spectrum Analyzer.</li>
 <li>Connect tested compatible SDR hardware whose Interface 0 is already ready for WinUSB.</li>
-<li>In <strong>Device &amp; Acquisition</strong>, select <strong>Refresh</strong> and select the listed device.</li>
-<li>Select <strong>Connect</strong>. The diagnostics area reports the detected device and readiness result.</li>
-<li>Set frequency, span, acquisition mode, sample rate, FFT points, window, gain, frequency correction, and sweep averaging as needed.</li>
+<li>In <strong>Device &amp; Acquisition</strong>, select the refresh button beside the device list, then select the listed device.</li>
+<li>Select <strong>Connect</strong>. When the device opens, the status text turns green and reads <strong>USB connected</strong>, and the button becomes <strong>Release</strong>.</li>
+<li>Set the centre frequency. In the Full Version, also set span, acquisition mode, sample rate, FFT points, window, gain, frequency correction, and sweep averaging as needed.</li>
 <li>Select <strong>Single Sweep</strong> for one completed acquisition or <strong>Continuous Run</strong> for repeated acquisition.</li>
-<li>Inspect the trace, markers, channel range, and status information.</li>
+<li>Inspect the trace, channel range, and status information.</li>
 <li>Select <strong>Stop</strong> when you need to end a running acquisition.</li>
+<li>Select <strong>Release</strong> when you have finished with the device.</li>
 </ol>
-<h2 id="section-6">6. Main window overview</h2>
+<p>To try the application without hardware, select <strong>Run &amp; Frequency &gt; Data Source &gt; Demo Data (not measured)</strong> and then <strong>Single Sweep</strong> or <strong>Continuous Run</strong>. No USB connection is required. Demo Data is generated, not measured, and Full Version features remain Full Version while it is selected.</p>
+<h2 id="section-7">7. Main window overview</h2>
 <figure><a href="assets/screenshots/Figure_1.png"><img src="assets/screenshots/Figure_1.png" alt="SDR Spectrum Analyzer main application window"></a><figcaption>Figure 1. SDR Spectrum Analyzer main application window</figcaption></figure>
 <p>The main window contains these areas:</p>
 <ul>
 <li><strong>Device &amp; Acquisition</strong>: hardware selection and capture settings.</li>
 <li><strong>Display &amp; Markers</strong>: scaling, traces, markers, path offset, and channel-power controls.</li>
 <li><strong>Spectrum display</strong>: traces, axes, channel boundaries, and marker readouts.</li>
-<li><strong>Output &amp; Diagnostics</strong>: timestamped user-facing status and diagnostic messages.</li>
+<li><strong>Output &amp; Diagnostics</strong>: timestamped user-facing status and diagnostic messages. This pane is hidden when the application starts; show it from <strong>View &gt; Output &amp; Diagnostics</strong>.</li>
 <li><strong>Status bar</strong>: device/acquisition state and spectrum or channel context.</li>
 <li><strong>Menu and toolbar</strong>: shortcuts to the commands described below.</li>
 </ul>
-<p>The left-side settings panes can be docked and may scroll when their available height is limited. <strong>Restore Default Layout</strong> restores the application toolbar and dock-pane layout.</p>
-<h2 id="section-7">7. Device and acquisition</h2>
+<p>The left-side settings panes can be docked and may scroll when their available height is limited. <strong>Restore Default Layout</strong> restores the application toolbar and dock-pane layout, which hides Output &amp; Diagnostics again.</p>
+<h2 id="section-8">8. Device and acquisition</h2>
 <h3>Device controls</h3>
+<p>The first row holds the device list and a compact refresh button. The second row shows the connection state and the one action that changes it.</p>
 <ul>
 <li><strong>Device list</strong>: lists enumerated SDR devices.</li>
-<li><strong>Refresh</strong>: enumerates supported devices and reports readiness.</li>
-<li><strong>Connect</strong>: opens the selected listed device.</li>
-<li><strong>Disconnect</strong>: closes the current device connection.</li>
-<li><strong>Check Connection</strong>: verifies an existing connection.</li>
+<li><strong>Refresh</strong> (the button beside the device list): enumerates supported devices and reports readiness.</li>
+<li><strong>Connection status</strong>: read-only text. It reads <strong>USB disconnected</strong> in red when no device is open, and <strong>USB connected</strong> in green when one is. It is an indicator, not a button.</li>
+<li><strong>Connect</strong> / <strong>Release</strong>: the action button. It reads <strong>Connect</strong> while disconnected and opens the selected listed device. Once a device is open it reads <strong>Release</strong> and closes the connection. <strong>Release</strong> stays available during an acquisition; using it then stops the acquisition first and closes the device afterwards.</li>
 </ul>
+<p>The same commands are also on the <strong>Device</strong> menu, where the disconnect command is named <strong>Disconnect Device</strong>. That menu additionally offers <strong>Check Connection</strong>, a diagnostic operation described under <a href="#section-22">Troubleshooting</a>; it is not a required step in the normal connection sequence.</p>
 <p>The readiness message distinguishes a missing device, an unavailable WinUSB Interface 0, a ready interface, and a backend access failure. A ready interface is still required before connection and capture can succeed.</p>
 <h3>Frequency and acquisition controls</h3>
 <ul>
 <li><strong>Frequency unit</strong>: Hz, kHz, MHz, or GHz for frequency entry.</li>
-<li><strong>Center / Span</strong> or <strong>Start / Stop</strong>: the two frequency-entry modes. Use <strong>Center+SPAN</strong> to switch between them.</li>
-<li><strong>Channel BW MHz</strong>: channel integration width. Applying it uses the current display centre as the channel centre.</li>
-<li><strong>Acq Mode</strong>: fixed-span acquisition or segmented sweep.</li>
-<li><strong>Sample rate</strong>: 1.024, 2.048, or 2.4 MS/s.</li>
-<li><strong>FFT Points</strong>: 1024, 2048, 4096, 8192, or 16384.</li>
-<li><strong>Window</strong>: Hann or Blackman-Harris.</li>
-<li><strong>Gain</strong>: requested tuner gain from the available application list. The device selects the closest supported tuner step.</li>
-<li><strong>Freq Corr / PPM</strong>: integer frequency correction from -200 to +200 PPM. Zero disables correction.</li>
-<li><strong>Sweep Avg</strong>: 1, 4, 8, 16, or 32 completed sweeps.</li>
+<li><strong>Center / Span</strong> or <strong>Start / Stop</strong>: the two frequency-entry modes. Use <strong>Center+SPAN</strong> to switch between them. The centre frequency is adjustable in both versions; the span is Full Version only.</li>
+<li><strong>Channel BW MHz</strong> (Full Version): channel integration width. Applying it uses the current display centre as the channel centre.</li>
+<li><strong>Acq Mode</strong> (Full Version): fixed-span acquisition or segmented sweep.</li>
+<li><strong>Sample rate</strong> (Full Version): 1.024, 2.048, or 2.4 MS/s.</li>
+<li><strong>FFT Points</strong> (Full Version): 1024, 2048, 4096, 8192, or 16384.</li>
+<li><strong>Window</strong> (Full Version): Hann or Blackman-Harris.</li>
+<li><strong>Gain</strong> (Full Version): requested tuner gain from the available application list. The device selects the closest supported tuner step.</li>
+<li><strong>Freq Corr / PPM</strong> (Full Version): integer frequency correction from -200 to +200 PPM. Zero disables correction.</li>
+<li><strong>Sweep Avg</strong> (Full Version): 1, 4, 8, 16, or 32 completed sweeps.</li>
 </ul>
+<p>In the Free Version these settings are held at the fixed values listed in <a href="#section-3">Free and Full Version</a>.</p>
 <p>Capture-affecting settings, data-source changes, and configuration load/save are unavailable while an acquisition is active. Stop first, then apply the change.</p>
-<h2 id="section-8">8. Acquisition modes</h2>
+<h2 id="section-9">9. Acquisition modes</h2>
 <h3>Fixed span</h3>
 <p>Fixed span is limited to the usable instantaneous bandwidth of the selected sample rate and FFT configuration. The application excludes edge and DC-affected bins from the usable stitched data area.</p>
-<h3>Segmented sweep</h3>
+<h3>Segmented sweep (Full Version)</h3>
 <p>For a wider span, SDR Spectrum Analyzer retunes through sequential frequency segments and stitches their usable FFT bins into the displayed range. It does <strong>not</strong> acquire the entire displayed span simultaneously.</p>
 <p>Each segment uses four FFT frames internally and averages their linear power. <strong>Sweep Avg</strong> then averages corresponding bins across complete sweeps. Higher averaging reduces variation but increases settling time and slows response to changing signals.</p>
-<h2 id="section-9">9. Running measurements</h2>
+<h2 id="section-10">10. Running measurements</h2>
 <ul>
 <li><strong>Continuous Run</strong> starts repeated device acquisition or repeated Demo Data updates.</li>
 <li><strong>Single Sweep</strong> completes one acquisition sweep and then stops.</li>
 <li><strong>Stop</strong> requests that the current acquisition or demo run stop. The last published result remains displayed.</li>
-<li><strong>Clear Max Hold</strong> clears the maximum-hold data collected so far.</li>
+<li><strong>Clear Max Hold</strong> (Full Version) clears the maximum-hold data collected so far.</li>
 </ul>
-<p>When device data is active, acquisition requires a connected and usable SDR. The output area reports connection, capture, stop, and error status.</p>
-<h2 id="section-10">10. Spectrum display and traces</h2>
+<p><strong>Continuous Run</strong> and <strong>Single Sweep</strong> are available only when the selected data source is ready:</p>
+<table>
+<thead>
+<tr><th>Data source</th><th>USB state</th><th>Continuous Run / Single Sweep</th></tr>
+</thead>
+<tbody>
+<tr><td>Device Data</td><td>Disconnected</td><td>Unavailable</td></tr>
+<tr><td>Device Data</td><td>Connected and idle</td><td>Available</td></tr>
+<tr><td>Demo Data</td><td>Not required</td><td>Available</td></tr>
+</tbody>
+</table>
+<p>While an acquisition is already running, neither command is available as a way to start a new one; stop the current acquisition first. Status messages for connection, capture, stop, and errors are written to the status bar and to Output &amp; Diagnostics, which does not have to be visible to receive them.</p>
+<h2 id="section-11">11. Spectrum display and traces</h2>
 <figure><a href="assets/screenshots/Figure_2.png"><img src="assets/screenshots/Figure_2.png" alt="SDR Spectrum Analyzer spectrum display with Current, Max Hold, and Frozen Reference traces"></a><figcaption>Figure 2. Spectrum display showing Current / Average, Max Hold, and Frozen Reference traces</figcaption></figure>
 <p>The plot shows frequency horizontally and dBFS by default vertically. If a matching saved channel calibration is active for the current device and setup, eligible channel and trace readouts can use dBm; otherwise they remain dBFS.</p>
 <ul>
 <li><strong>Current / Average Trace</strong> shows the current processed result or the selected sweep average.</li>
-<li><strong>Max Hold</strong> retains the highest observed value at each frequency bin until cleared.</li>
-<li><strong>Frozen Reference</strong> shows a separately frozen trace for visual comparison. <strong>Freeze Curr as Ref</strong> captures the current trace and its original frequency range.</li>
-<li><strong>Ref Level dBFS</strong> sets the top value of the display scale. It does not change hardware gain or acquired samples.</li>
-<li><strong>dB per</strong> selects the vertical division size; <strong>Apply Scale</strong> applies the entered scale.</li>
-<li><strong>Auto Scale</strong> sets a practical scale from the current trace.</li>
-<li><strong>Path Offset</strong> is a non-negative display and calibration-path compensation value. Apply it after entering the known path loss or attenuation.</li>
+<li><strong>Max Hold</strong> (Full Version) retains the highest observed value at each frequency bin until cleared.</li>
+<li><strong>Frozen Reference</strong> (Full Version) shows a separately frozen trace for visual comparison. <strong>Freeze Curr as Ref</strong> captures the current trace and its original frequency range.</li>
+<li><strong>Ref Level dBFS</strong> (Full Version) sets the top value of the display scale. It does not change hardware gain or acquired samples.</li>
+<li><strong>dB per</strong> (Full Version) selects the vertical division size; <strong>Apply Scale</strong> applies the entered scale.</li>
+<li><strong>Auto Scale</strong> (Full Version) sets a practical scale from the current trace.</li>
+<li><strong>Path Offset</strong> (Full Version) is a non-negative display and calibration-path compensation value. Apply it after entering the known path loss or attenuation.</li>
 </ul>
+<p>The Free Version shows the Current / Average trace at a reference level of 0 dBFS, 10 dB per division, and no path offset.</p>
 <p>Stable production colours are green for Current / Average, yellow for Max Hold, and blue for Frozen Reference.</p>
-<h2 id="section-11">11. Markers and measurements</h2>
+<h2 id="section-12">12. Markers and measurements</h2>
 <figure><a href="assets/screenshots/Figure_3.png"><img src="assets/screenshots/Figure_3.png" alt="SDR Spectrum Analyzer M1 and M2 markers with channel analysis"></a><figcaption>Figure 3. M1 and M2 markers with channel analysis</figcaption></figure>
+<p>Markers, the delta readout, channel power, and the calibration workflow described in this section require the Full Version.</p>
 <p>The plot has two markers, <strong>M1</strong> and <strong>M2</strong>.</p>
 <ul>
 <li>Left-click a valid plotted point to place M1.</li>
@@ -144,70 +210,81 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <h3>Channel power and integration range</h3>
 <p>The channel range is centred on the current display centre and uses <strong>Channel BW MHz</strong>. The plot draws its range boundaries. A channel result becomes available only after a complete, valid sweep covering that range and the selected average count.</p>
 <p>The <strong>Ref Chan Power dBm</strong> field and <strong>Calibrate</strong> button are for a reference-instrument calibration workflow. Calibration requires device data, a live connected device, a valid completed channel result, no clipping, a matching current capture setup, a valid path offset, and a reference input from -160 to +30 dBm. <strong>Clear Calib</strong> removes the saved channel calibration record.</p>
-<h2 id="section-12">12. Frequency and span controls</h2>
+<h2 id="section-13">13. Frequency and span controls</h2>
 <p>Use the selected frequency unit when entering values. <strong>Center+SPAN</strong> switches the two entry fields between:</p>
 <ul>
 <li>centre frequency plus span; and</li>
 <li>start frequency plus stop frequency.</li>
 </ul>
-<p>The valid display range is 24 MHz to 1766 MHz, with a minimum span of 10 kHz. Changing range clears the active device snapshot; in Demo Data mode it produces a new generated view. Wider spans use segmented acquisition as described in <a href="#section-8">Acquisition modes</a>.</p>
+<p>The valid display range is 24 MHz to 1766 MHz. In the Free Version the span is fixed at 1.600 MHz and only the centre frequency can be moved within that range. In the Full Version the span is adjustable, with a minimum of 10 kHz. Changing range clears the active device snapshot; in Demo Data mode it produces a new generated view. Wider spans use segmented acquisition as described in <a href="#section-9">Acquisition modes</a>.</p>
 <p>Use the mouse wheel over the plot to zoom around the pointer. Drag an empty plot area to pan. These interactions are unavailable while a hardware capture is busy.</p>
-<h2 id="section-13">13. Data source</h2>
+<h2 id="section-14">14. Data source</h2>
 <p>The <strong>Data Source</strong> submenu offers:</p>
 <ul>
 <li><strong>Device Data</strong>: spectrum data acquired from a connected supported SDR.</li>
 <li><strong>Demo Data (not measured)</strong>: generated demonstration data.</li>
 </ul>
 <p>Demo Data does not access USB and cannot be used for RF measurement or calibration. It is intended for learning the user interface and display behaviour.</p>
-<h2 id="section-14">14. Configuration files</h2>
+<p>Demo Data is an alternative data source only. It is not a Full Version trial and does not unlock Full Version features; see <a href="#section-3">Free and Full Version</a>.</p>
+<h2 id="section-15">15. Configuration files</h2>
 <p><strong>File &gt; Save Configuration</strong> writes an <code>.cfg</code> text file selected by the user. <strong>File &gt; Load Configuration</strong> reads a compatible <code>.cfg</code> file after acquisition has stopped.</p>
 <p>The current format is versioned as <code>SDR_SA_CONFIG=1</code> and stores capture settings, display scale, trace visibility, channel width, path offset, data source, frequency-entry mode/unit, and an optional reference channel power. It is an application configuration file; do not assume it is a general interchange format or manually edit it unless you can validate the result in the application.</p>
-<h2 id="section-15">15. Exporting data</h2>
-<p><strong>Export CSV</strong> is available when a spectrum trace exists. The application asks for a user-selected <code>.csv</code> location.</p>
+<p>In the Free Version, settings that the Free Version does not adjust are set back to their Free values when a file is loaded. See <a href="#section-3">Free and Full Version</a>.</p>
+<h2 id="section-16">16. Exporting data</h2>
+<p><strong>Export CSV</strong> requires the Full Version. It is available when a spectrum trace exists. The application asks for a user-selected <code>.csv</code> location.</p>
 <p>The CSV includes comment metadata for the data source, dBFS unit, capture settings where a device snapshot exists, channel result status, and path offset. Its table columns are:</p>
 <p><code>frequency_hz,power_dbfs,valid</code></p>
 <p><code>valid</code> identifies bins containing usable plotted data. For device data, the file may also include a calibrated <code>channel_dbm</code> metadata field only when the current saved calibration matches the snapshot. The primary per-bin values remain dBFS.</p>
-<h2 id="section-16">16. Output and diagnostics</h2>
+<h2 id="section-17">17. Output and diagnostics</h2>
 <p>The <strong>Output &amp; Diagnostics</strong> pane records timestamped messages for application readiness, device refresh, driver readiness, connection, acquisition start/stop, configuration actions, export, and user-visible errors.</p>
-<p>Use it when reporting a problem. It is not a supported interface for internal driver installation, certificate setup, or engineering recovery procedures.</p>
-<h2 id="section-17">17. Status bar</h2>
+<p>The pane is hidden when the application starts, so that the spectrum display gets the full window height. Select <strong>View &gt; Output &amp; Diagnostics</strong> to show it; the menu item is checked while the pane is visible, and selecting it again hides the pane. <strong>Restore Default Layout</strong> also hides it.</p>
+<p>Messages are recorded whether or not the pane is visible, so nothing is lost while it is hidden. The pane keeps a bounded history of the most recent messages; in the current implementation the oldest entries are discarded beyond 1000 lines.</p>
+<p><strong>File &gt; Save Diagnostic Log...</strong> writes the accumulated messages to a file you choose. The pane does not have to be visible, and you do not need to open it first. Use this file when reporting a problem.</p>
+<p>Output &amp; Diagnostics is not a supported interface for internal driver installation, certificate setup, or engineering recovery procedures.</p>
+<h2 id="section-18">18. Status bar</h2>
 <p>The status bar presents a concise device and acquisition state plus spectrum context. Depending on the current data, it can include the data source, single/continuous or stopped state, channel integration range, acquisition mode, FFT bin spacing, ENBW, gain, path offset, calibration state, and sweep progress.</p>
 <p>The displayed <code>uncalibrated</code> or <code>未标定</code> status means that the requested or active gain is not represented by a matching saved calibration; it does not by itself indicate a device failure.</p>
-<h2 id="section-18">18. Menus and toolbar reference</h2>
+<h2 id="section-19">19. Menus and toolbar reference</h2>
 <h3>File</h3>
 <ul>
-<li><strong>Load Configuration</strong> and <strong>Save Configuration</strong>: see <a href="#section-14">Configuration files</a>.</li>
+<li><strong>Load Configuration</strong> and <strong>Save Configuration</strong>: see <a href="#section-15">Configuration files</a>.</li>
+<li><strong>Save Diagnostic Log...</strong>: writes the accumulated diagnostic messages to a file you choose. See <a href="#section-17">Output and diagnostics</a>.</li>
 <li><strong>Exit</strong>: closes the application.</li>
 </ul>
 <h3>Device</h3>
 <ul>
-<li><strong>Refresh Devices</strong>, <strong>Connect Selected Device</strong>, <strong>Disconnect Device</strong>, and <strong>Check Connection</strong>: see <a href="#section-7">Device and acquisition</a>.</li>
+<li><strong>Refresh Devices</strong>, <strong>Connect Selected Device</strong>, and <strong>Disconnect Device</strong>: see <a href="#section-8">Device and acquisition</a>. <strong>Disconnect Device</strong> is the same operation as <strong>Release</strong> on the panel.</li>
+<li><strong>Check Connection</strong>: verifies an existing connection. See <a href="#section-22">Troubleshooting</a>.</li>
 </ul>
 <h3>Run &amp; Frequency</h3>
 <ul>
-<li><strong>Continuous Run</strong>, <strong>Single Sweep</strong>, <strong>Stop</strong>, <strong>Clear Max Hold</strong>, <strong>Center+SPAN</strong>, and <strong>Export CSV</strong>: see <a href="#section-9">Running measurements</a> and <a href="#section-12">Frequency and span controls</a>.</li>
-<li><strong>Data Source</strong>: see <a href="#section-13">Data source</a>.</li>
+<li><strong>Continuous Run</strong>, <strong>Single Sweep</strong>, <strong>Stop</strong>, <strong>Clear Max Hold</strong>, <strong>Center+SPAN</strong>, and <strong>Export CSV</strong>: see <a href="#section-10">Running measurements</a> and <a href="#section-13">Frequency and span controls</a>. <strong>Clear Max Hold</strong> and <strong>Export CSV</strong> require the Full Version.</li>
+<li><strong>Data Source</strong>: see <a href="#section-14">Data source</a>.</li>
 <li><strong>Restore Default Layout</strong> restores the toolbar and dock panes.</li>
 </ul>
 <h3>View</h3>
 <ul>
-<li><strong>Auto Scale</strong>: see <a href="#section-10">Spectrum display and traces</a>.</li>
+<li><strong>Auto Scale</strong> (Full Version): see <a href="#section-11">Spectrum display and traces</a>.</li>
+<li><strong>Output &amp; Diagnostics</strong>: shows or hides the diagnostics pane. See <a href="#section-17">Output and diagnostics</a>.</li>
 </ul>
 <h3>Help</h3>
 <ul>
-<li><strong>User Guide</strong> currently displays a short in-application usage summary.</li>
-<li><strong>Window Comparison and Selection</strong> displays guidance for Hann and Blackman-Harris windows.</li>
+<li><strong>User Guide</strong> opens this offline User Guide in your browser, in the language the application is currently using.</li>
+<li><strong>Upgrade to Full Version...</strong> opens the Full Version upgrade flow when the Store product is available. The same menu item reports the current state instead: it reads <strong>Checking Full Version...</strong> while the Microsoft Store is being queried, <strong>Purchasing Full Version...</strong> while an upgrade is in progress, <strong>Retry Microsoft Store...</strong> when the Store could not be reached, and <strong>Full Version</strong> once the Full Version is active.</li>
+<li><strong>Support</strong> opens the public product support site in your browser.</li>
+<li><strong>Privacy Policy</strong> opens the published privacy policy in your browser.</li>
 <li><strong>About</strong> displays product identity, version, publisher, the third-party-notices reminder, and the local privacy statement.</li>
 </ul>
-<p>The toolbar provides text buttons for Continuous Run, Single Sweep, Stop, Clear Hold, Export CSV, Center+SPAN, Apply Settings, and Restore Default Layout.</p>
-<h2 id="section-19">19. Window functions and FFT concepts</h2>
+<p>Guidance for the Hann and Blackman-Harris windows is available from the <strong>?</strong> button beside the <strong>Window</strong> control in <strong>Device &amp; Acquisition</strong>.</p>
+<p>The toolbar provides text buttons for Continuous Run, Single Sweep, Stop, Clear Hold, Export CSV, Center+SPAN, Apply Settings, and Restore Default Layout. Clear Hold and Export CSV require the Full Version.</p>
+<h2 id="section-20">20. Window functions and FFT concepts</h2>
 <p>The FFT converts each captured time-domain I/Q block into frequency bins. More FFT points provide finer bin spacing at a given sample rate, while sample rate and the selected span determine the usable frequency coverage.</p>
 <ul>
 <li><strong>Hann</strong> has approximately 1.50 FFT-bin ENBW and is suited to general viewing and ordinary channel-power work.</li>
 <li><strong>Blackman-Harris</strong> has approximately 2.00 FFT-bin ENBW and much lower sidelobes, which can help when weak signals are near strong carriers.</li>
 </ul>
 <p>The channel-power calculation applies ENBW correction. After changing a window, acquire again and recalibrate before relying on a calibrated channel result.</p>
-<h2 id="section-20">20. Measurement accuracy and interpretation</h2>
+<h2 id="section-21">21. Measurement accuracy and interpretation</h2>
 <p>Use dBFS for relative spectrum interpretation unless the application explicitly shows a matching calibrated result. Device gain, PPM correction, and path offset have different purposes:</p>
 <ul>
 <li><strong>Gain</strong> requests a tuner gain setting; the backend uses the closest supported step. It is not a power calibration.</li>
@@ -217,26 +294,30 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <li><strong>ENBW</strong> affects broadband power interpretation and is accounted for by the channel calculation.</li>
 </ul>
 <p>Use known references, matching settings, appropriate attenuation, and a stable measurement environment when performing any conditional calibration. Recheck calibration after changing device, gain, frequency-related conditions, window, or relevant measurement settings.</p>
-<h2 id="section-21">21. Troubleshooting</h2>
+<h2 id="section-22">22. Troubleshooting</h2>
 <ul>
 <li><strong>No device listed:</strong> confirm that tested hardware is connected, then select Refresh.</li>
 <li><strong>WinUSB driver unavailable:</strong> the device is present but Interface 0 is not ready for the Mattino backend. The application will not change a driver. Use only an approved production support path when one is published.</li>
 <li><strong>Unable to connect:</strong> refresh the list, confirm readiness, and ensure another application is not holding the device.</li>
-<li><strong>Acquisition does not start:</strong> stop any active acquisition, review the Output &amp; Diagnostics message, and check valid frequency, span, channel bandwidth, FFT, sample-rate, gain, and PPM inputs.</li>
+<li><strong>Verifying a connection that looks wrong:</strong> use <strong>Device &gt; Check Connection</strong>. It re-tests the open device and reports the result without changing the connection. It is a diagnostic step, not part of the normal connection sequence.</li>
+<li><strong>Continuous Run and Single Sweep are unavailable:</strong> with Device Data selected, connect a device first; with Demo Data selected, no connection is needed. Neither command starts a new acquisition while one is already running.</li>
+<li><strong>Acquisition does not start:</strong> stop any active acquisition, show Output &amp; Diagnostics from the <strong>View</strong> menu and review the message, and check valid frequency, span, channel bandwidth, FFT, sample-rate, gain, and PPM inputs.</li>
 <li><strong>Unexpected trace or channel result:</strong> check clipping, selected data source, gain, path offset, window, averaging, marker/channel range, and whether a calibration actually matches the current device and setup.</li>
-<li><strong>USB device stops responding:</strong> disconnect and reconnect through the application where possible, then refresh. Do not use engineering certificate or driver procedures as an end-user workaround.</li>
+<li><strong>USB device stops responding:</strong> select <strong>Release</strong> and then <strong>Connect</strong> again through the application where possible, then refresh. Do not use engineering certificate or driver procedures as an end-user workaround.</li>
 </ul>
-<h2 id="section-22">22. Getting support</h2>
+<h2 id="section-23">23. Getting support</h2>
 <p>Technical support for SDR Spectrum Analyzer is available through the public product support site:</p>
 <p><a href="https://wangyaoyang.github.io/mattino507-support/">https://wangyaoyang.github.io/mattino507-support/</a></p>
 <p>The support site provides support information and access to the public GitHub support-request system.</p>
-<p>When requesting support, include the application version, Windows version, device readiness state, tested hardware identity, relevant diagnostic messages, and a screenshot when useful.</p>
+<p>When requesting support, include the application version, Windows version, device readiness state, tested hardware identity, relevant diagnostic messages, and a screenshot when useful. <strong>File &gt; Save Diagnostic Log...</strong> collects the diagnostic messages into a file you can attach.</p>
 <p>Do not post passwords, credentials, product keys, private certificates, personal addresses, or other sensitive personal information in a public request.</p>
-<h2 id="section-23">23. Privacy and license</h2>
+<h2 id="section-24">24. Privacy and license</h2>
 <p>Refer to the separately published Privacy Policy and End User License Agreement for the current release.</p>
-<p>The current versions are available through the SDR Spectrum Analyzer product support site.</p>
+<p>The current versions are available through the SDR Spectrum Analyzer product support site. The privacy policy is published at:</p>
+<p><a href="https://wangyaoyang.github.io/mattino507-support/sdr-spectrum-analyzer/privacy.html">https://wangyaoyang.github.io/mattino507-support/sdr-spectrum-analyzer/privacy.html</a></p>
+<p><strong>Help &gt; Privacy Policy</strong> opens the same page.</p>
 <p>Do not duplicate Privacy Policy or EULA terms in this User Guide.</p>
-<h2 id="section-24">24. Third-party components</h2>
+<h2 id="section-25">25. Third-party components</h2>
 <p>The commercial distribution may include third-party open-source/runtime components. Applicable notices and licence texts are supplied with the product in <code>THIRD_PARTY_NOTICES.txt</code> and its accompanying licence files. The commercial V1.0 package dynamically links libusb and includes Apache-2.0 attribution for Google Radio Receiver-derived material; it does not include or depend on the Legacy Osmocom rtl-sdr runtime.</p>
 </main>
 </body>

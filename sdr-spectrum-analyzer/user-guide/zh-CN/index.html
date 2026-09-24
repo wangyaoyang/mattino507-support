@@ -50,7 +50,7 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <p>显示数值取决于 SDR 调谐器和 ADC 响应、所选增益、频率、采样率、连接的电缆和衰减器以及 RF 环境。越接近 0 dBFS 的数值表示越强的信号，但过于接近 0 dBFS 可能导致 ADC 削波并使频谱失真。</p>
 <p>应用包含针对匹配测量设置和参考仪器的信道功率校准流程。这种校准受其保存的设置条件约束，并非通用设备校准。请勿将 V1.0 视为已校准的实验室级频谱分析仪、精密功率计，或具有绝对 dBm 准确度保证的产品。</p>
 <h2 id="section-3">3. 免费版与完整版</h2>
-<p>SDR Spectrum Analyzer 是一款免费应用。免费版没有时间限制、没有试用期、也没有使用次数限制，不会到期，也不会停止工作。完整版是一次性升级，解锁其余的控件和测量功能。没有订阅。</p>
+<p>SDR Spectrum Analyzer 是一款免费应用。免费版没有时间限制、没有试用期、也没有使用次数限制，不会到期，也不会停止工作。完整版是通过 Microsoft Store 的一次性购买，解锁其余的控件和测量功能。没有订阅。</p>
 <p>免费版以固定的仪表配置从受支持硬件采集实时频谱。中心频率由您设置，其余采集和显示设置保持为下表中的数值。</p>
 <table>
 <thead>
@@ -90,9 +90,19 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <tr><td>导出 CSV</td><td>—</td><td>可用</td></tr>
 </tbody>
 </table>
-<p><strong>在免费版中加载配置文件。</strong>由完整版写出的 <code>.cfg</code> 文件可以在免费版中加载。免费版不提供调节的设置会被恢复为上表中的免费版数值。这是正常行为，既不是错误，也不表示文件损坏；升级后再次加载同一文件即可恢复其中保存的数值。</p>
+<p><strong>在免费版中加载配置文件。</strong>由完整版写出的 <code>.cfg</code> 文件可以在免费版中加载。免费版不提供调节的设置会被恢复为上表中的免费版数值。这是正常行为，既不是错误，也不表示文件损坏；完整版生效后再次加载同一文件即可恢复其中保存的数值。</p>
 <p><strong>演示数据是一种数据源，不是升级。</strong>选择演示数据只改变所显示数据的来源，不会解锁任何功能：选择演示数据时，上表中标记为完整版的功能仍然属于完整版。</p>
-<p><strong>升级。</strong>当 Microsoft Store 产品可用时，<strong>帮助 &gt; 升级到完整版...</strong>会打开完整版升级流程。参见<a href="#section-19">菜单和工具栏参考</a>。</p>
+<p><strong>购买或恢复完整版。</strong>完整版是通过 Microsoft Store 的一次性购买，没有订阅，也不需要另外下载。免费版和完整版是同一个已安装的应用；应用启用哪些功能，取决于该电脑上登录 Microsoft Store 的 Microsoft 账户所持有的 Store 授权。</p>
+<p><strong>帮助 &gt; 购买或恢复完整版...</strong>对两种情形都适用：既用于购买完整版，也用于在您已经购买过的另一台电脑上取回授权。价格由 Microsoft Store 按您所在区域显示，应用自身不保存任何价格。参见<a href="#section-19">菜单和工具栏参考</a>。</p>
+<p><strong>如果您已经购买完整版，而某台电脑仍显示 Free 模式：</strong></p>
+<ol>
+<li>在该电脑上使用拥有这笔购买的 Microsoft 账户登录 Microsoft Store。</li>
+<li>从 Microsoft Store 安装并启动 SDR Spectrum Analyzer。</li>
+<li>选择<strong>帮助 &gt; 购买或恢复完整版...</strong>。Microsoft Store 可能会提示该账户已经拥有完整版。如果出现此提示，则无需再次购买。</li>
+<li>返回应用。Store 交互结束后，应用会立即再次检查完整版授权。</li>
+<li>如果应用仍显示 Free 模式，请关闭并重新启动应用，使应用在下次启动时再次检查 Store 授权。</li>
+</ol>
+<p>完整版授权归属于您的 Microsoft 账户，而不是某一台电脑。在刚刚设置好的电脑上，Windows 可能尚未将该授权在本机就绪。Store 交互和重新启动都不会强制 Windows 完成这一步：它们只是让应用多一次机会，去读取本机当前为已登录账户保存的授权。如果仍然显示 Free 模式，说明在该电脑当前登录的 Microsoft Store 账户下未找到完整版购买记录。这只是对本机、该账户、此刻查询结果的描述，并不说明该购买是否存在。请确认登录的是完成购买的那个账户。</p>
 <h2 id="section-4">4. 系统和硬件要求</h2>
 <ul>
 <li>支持的 Windows 桌面环境。应用面向 Windows Desktop，最低版本为 Windows 10 2004。</li>
@@ -270,7 +280,7 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <h3>帮助</h3>
 <ul>
 <li><strong>使用说明</strong>会在浏览器中打开本离线用户指南，使用应用当前的界面语言。</li>
-<li><strong>升级到完整版...</strong>：当 Microsoft Store 产品可用时，打开完整版升级流程。该菜单项也会改为报告当前状态：正在查询 Microsoft Store 时显示<strong>正在检查完整版...</strong>，升级进行中显示<strong>正在购买完整版...</strong>，无法访问 Store 时显示<strong>重试 Microsoft Store...</strong>，完整版已生效后显示<strong>完整版</strong>。</li>
+<li><strong>购买或恢复完整版...</strong>：打开 Microsoft Store，用于购买完整版，或让已经拥有该购买的账户在本机取回授权。该菜单项也会改为报告当前状态：正在查询 Microsoft Store 时显示<strong>正在检查完整版...</strong>，Store 购买进行中显示<strong>正在购买完整版...</strong>，无法访问 Store 时显示<strong>重试 Microsoft Store...</strong>，完整版已生效后显示<strong>完整版</strong>。参见<a href="#section-3">免费版与完整版</a>。</li>
 <li><strong>支持</strong>：在浏览器中打开公开的产品支持网站。</li>
 <li><strong>隐私政策</strong>：在浏览器中打开已发布的隐私政策。</li>
 <li><strong>关于 About</strong>显示产品标识、版本、发布者、第三方声明提示和本地隐私声明。</li>

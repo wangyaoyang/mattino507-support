@@ -50,7 +50,7 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <p>Displayed values depend on the SDR tuner and ADC response, selected gain, frequency, sample rate, connected cables and attenuators, and the RF environment. A value nearer 0 dBFS is stronger, but values too near 0 dBFS can clip the ADC and distort the spectrum.</p>
 <p>The application includes a channel-power calibration workflow for a matching measurement setup and reference instrument. Such a calibration is conditional on its saved setup; it is not a universal device calibration. Do not treat V1.0 as a calibrated laboratory spectrum analyser, a precision power meter, or a guarantee of absolute dBm accuracy.</p>
 <h2 id="section-3">3. Free and Full Version</h2>
-<p>SDR Spectrum Analyzer is a free application. The Free Version has no time limit, no trial period, and no usage counter; it does not expire or stop working. The Full Version is a one-time upgrade that unlocks the remaining controls and measurement features. There is no subscription.</p>
+<p>SDR Spectrum Analyzer is a free application. The Free Version has no time limit, no trial period, and no usage counter; it does not expire or stop working. The Full Version is a one-time Microsoft Store purchase that unlocks the remaining controls and measurement features. There is no subscription.</p>
 <p>The Free Version acquires live spectrum from supported hardware at a fixed instrument configuration. You choose the centre frequency; the remaining capture and display settings are held at the values in the table below.</p>
 <table>
 <thead>
@@ -90,9 +90,19 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <tr><td>CSV export</td><td>-</td><td>Available</td></tr>
 </tbody>
 </table>
-<p><strong>Loading a configuration file in the Free Version.</strong> A <code>.cfg</code> file written by the Full Version can be loaded in the Free Version. Settings the Free Version does not adjust are set back to the Free values shown above. This is normal behaviour, not an error and not a damaged file; loading the same file again after upgrading restores the stored values.</p>
+<p><strong>Loading a configuration file in the Free Version.</strong> A <code>.cfg</code> file written by the Full Version can be loaded in the Free Version. Settings the Free Version does not adjust are set back to the Free values shown above. This is normal behaviour, not an error and not a damaged file; loading the same file again once the Full Version is active restores the stored values.</p>
 <p><strong>Demo Data is a data source, not an upgrade.</strong> Selecting Demo Data changes where the displayed data comes from. It does not unlock anything: every feature marked Full Version above stays Full Version while Demo Data is selected.</p>
-<p><strong>Upgrading.</strong> <strong>Help &gt; Upgrade to Full Version...</strong> opens the Full Version upgrade flow when the Store product is available. See <a href="#section-19">Menus and toolbar reference</a>.</p>
+<p><strong>Purchasing or restoring the Full Version.</strong> The Full Version is a one-time Microsoft Store purchase, with no subscription and no separate download. The Free Version and the Full Version are the same installed application; which features it enables follows the Microsoft Store entitlement held by the Microsoft account that is signed in to the Store on that computer.</p>
+<p><strong>Help &gt; Purchase or Restore Full Version...</strong> covers both cases. Use it to buy the Full Version, and use it again on another computer where you have already bought it. The price shown comes from the Microsoft Store for your region; the application holds no price of its own. See <a href="#section-19">Menus and toolbar reference</a>.</p>
+<p><strong>If you have already purchased the Full Version and a computer shows Free mode:</strong></p>
+<ol>
+<li>Sign in to the Microsoft Store on that computer with the Microsoft account that owns the purchase.</li>
+<li>Install and start SDR Spectrum Analyzer from the Microsoft Store.</li>
+<li>Select <strong>Help &gt; Purchase or Restore Full Version...</strong>. The Microsoft Store may report that the account already owns the Full Version. If it does, you do not need to purchase it again.</li>
+<li>Return to the application. It checks the Full Version licence again as soon as the Store interaction ends.</li>
+<li>If the application still shows Free mode, close and restart it so that it can check the Store entitlement again during startup.</li>
+</ol>
+<p>A Full Version licence belongs to your Microsoft account, not to one computer. On a newly set up computer Windows may not have made that licence available locally yet. Neither the Store interaction nor a restart forces Windows to do so: each one only gives the application another opportunity to read the licence the computer currently holds for the signed-in account. If Free mode continues, no Full Version purchase was found for the Microsoft Store account currently signed in on that computer. That describes what this computer reported for that account at that moment; it is not a statement about whether the purchase exists. Check that you are signed in with the account that made the purchase.</p>
 <h2 id="section-4">4. System and hardware requirements</h2>
 <ul>
 <li>A supported Windows desktop environment. The application targets Windows Desktop with a minimum version of Windows 10 2004.</li>
@@ -270,7 +280,7 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <h3>Help</h3>
 <ul>
 <li><strong>User Guide</strong> opens this offline User Guide in your browser, in the language the application is currently using.</li>
-<li><strong>Upgrade to Full Version...</strong> opens the Full Version upgrade flow when the Store product is available. The same menu item reports the current state instead: it reads <strong>Checking Full Version...</strong> while the Microsoft Store is being queried, <strong>Purchasing Full Version...</strong> while an upgrade is in progress, <strong>Retry Microsoft Store...</strong> when the Store could not be reached, and <strong>Full Version</strong> once the Full Version is active.</li>
+<li><strong>Purchase or Restore Full Version...</strong> opens the Microsoft Store so that you can buy the Full Version, or so that a computer signed in to an account that already owns it can pick the licence up. The same menu item reports the current state instead: it reads <strong>Checking Full Version...</strong> while the Microsoft Store is being queried, <strong>Purchasing Full Version...</strong> while a Store purchase is in progress, <strong>Retry Microsoft Store...</strong> when the Store could not be reached, and <strong>Full Version</strong> once the Full Version is active. See <a href="#section-3">Free and Full Version</a>.</li>
 <li><strong>Support</strong> opens the public product support site in your browser.</li>
 <li><strong>Privacy Policy</strong> opens the published privacy policy in your browser.</li>
 <li><strong>About</strong> displays product identity, version, publisher, the third-party-notices reminder, and the local privacy statement.</li>

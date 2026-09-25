@@ -90,21 +90,9 @@
       margin-top: 28px;
     }
 
-    .store-button {
-      display: inline-block;
-      padding: 13px 22px;
-      border-radius: 6px;
-      background: #ffffff;
-      color: #111820;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 600;
-      transition: transform 0.15s ease, background 0.15s ease;
-    }
-
-    .store-button:hover {
-      transform: translateY(-2px);
-      background: #e8f7fc;
+    .store-badge img {
+      display: block;
+      border: 0;
     }
 
     .store-note {
@@ -113,45 +101,26 @@
       line-height: 1.5;
     }
 
-    .spectrum {
-      margin: 52px 0 48px;
-      height: 150px;
-      position: relative;
-      border-bottom: 1px solid #284150;
-      overflow: hidden;
+    .hero {
+      margin: 44px 0 48px;
+      max-width: 900px;
     }
 
-    .grid {
-      position: absolute;
-      inset: 0;
-      opacity: 0.32;
-      background-image:
-        linear-gradient(#294250 1px, transparent 1px),
-        linear-gradient(90deg, #294250 1px, transparent 1px);
-      background-size: 70px 38px;
-    }
-
-    .trace {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 20px;
-      height: 95px;
-    }
-
-    .trace svg {
-      width: 100%;
-      height: 100%;
+    /* The image is 1536x1024; width/height attributes reserve that ratio while
+       it loads and these two rules let it shrink with the column. */
+    .hero img {
       display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid #284150;
+      border-radius: 10px;
     }
 
-    .marker {
-      position: absolute;
-      left: 63%;
-      top: 18px;
-      color: #ffd34e;
-      font-size: 18px;
-      transform: translateX(-50%);
+    .hero figcaption {
+      margin-top: 12px;
+      color: #8fa5b2;
+      font-size: 14px;
+      line-height: 1.5;
     }
 
     .edition-section {
@@ -360,10 +329,6 @@
       .demo-grid {
         grid-template-columns: 1fr;
       }
-
-      .spectrum {
-        height: 115px;
-      }
     }
   </style>
 </head>
@@ -392,11 +357,12 @@
     </p>
 
     <div class="store-actions">
-      <a class="store-button"
-         href="https://apps.microsoft.com/detail/9N2WSXJ518CL"
-         target="_blank"
-         rel="noopener">
-        Get it from Microsoft Store
+      <a class="store-badge"
+         href="https://get.microsoft.com/installer/download/9n2wsxj518cl?referrer=appbadge"
+         target="_self">
+        <img src="https://get.microsoft.com/images/en-us%20dark.svg"
+             width="200"
+             alt="Download SDR Spectrum Analyzer from the Microsoft Store" />
       </a>
 
       <span class="store-note">
@@ -405,32 +371,15 @@
       </span>
     </div>
 
-    <div class="spectrum" aria-hidden="true">
-      <div class="grid"></div>
-
-      <div class="marker">&#9660;</div>
-
-      <div class="trace">
-        <svg viewBox="0 0 1000 100" preserveAspectRatio="none">
-          <polyline
-            fill="none"
-            stroke="#35e0c1"
-            stroke-width="2"
-            points="
-              0,84 30,82 60,85 90,80 120,83
-              150,78 180,81 210,79 240,83
-              270,76 300,80 330,73 360,77
-              390,70 420,72 450,63 475,67
-              500,55 520,59 540,45 555,50
-              570,38 585,48 600,32 615,42
-              625,15 635,44 645,36 655,51
-              670,42 685,57 700,51 720,62
-              745,60 770,69 800,67 830,75
-              860,71 890,79 920,76 950,82
-              980,79 1000,83" />
-        </svg>
-      </div>
-    </div>
+    <figure class="hero">
+      <img src="sdr-spectrum-analyzer/assets/ExtendedBrandLogo_1536x1024.png"
+           width="1536"
+           height="1024"
+           alt="SDR Spectrum Analyzer RF spectrum analysis software" />
+      <figcaption>
+        Some advanced features shown require the Full Version.
+      </figcaption>
+    </figure>
 
     <section class="edition-section">
       <h2>Choose the Version That Fits Your Needs</h2>

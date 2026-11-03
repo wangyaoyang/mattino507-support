@@ -682,6 +682,7 @@ figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figu
 <li>【Freq. Corr.】, then 【PPM】: frequency correction from -200 to +200 PPM; 0 means no correction. It compensates a systematic oscillator frequency error and does not change gain or power.</li>
 <li>【RF Front End】: the gain controls of the connected receiver (also reached by pressing 【AMPT】, then 【Front End...】).</li>
 </ul>
+<p><strong>If the device list looks empty after 【Refresh】.</strong> After 【Refresh】, the readout box of 【Select Device】 can show only a dash (—), and 【Connect / Disconnect】 stays unavailable, although the search has found the receivers. Click the readout box with the mouse: the list opens (for example <code>0: RTL2838UHIDIR [serial number]</code> and <code>1: SDRplay-RSP1B [serial number]</code>). Click the receiver you want; 【Connect / Disconnect】 then becomes available.</p>
 <p>The <strong>Device</strong> menu in the menu bar offers the same operations: <strong>Refresh Devices</strong>, <strong>Connect Selected Device</strong>, <strong>Disconnect Device</strong>, and the diagnostic <strong>Check Connection</strong>.</p>
 <p><strong>RTL-SDR front end (while stopped).</strong> 【Tuner Gain】 requests a tuner gain from 0 to 50 dB in 1 dB steps; the tuner uses the closest step it supports. The requested gain is not a power calibration.</p>
 <p><strong>RSP1B front end.</strong> The gain settings can be changed only while acquisition is stopped.</p>

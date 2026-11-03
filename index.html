@@ -232,6 +232,10 @@
       background: #05090d;
     }
 
+    .demo-videos {
+      margin-bottom: 18px;
+    }
+
     .demo-earlier {
       margin: 18px 0 0;
       color: #8fa5b2;
@@ -527,9 +531,55 @@
       <h2>See SDR Spectrum Analyzer in Action</h2>
 
       <p class="demo-intro">
-        Screenshots from the version 1.2 User Guide. Both show functions
-        that need the Full Version.
+        Two short videos recorded with version 1.2 (English subtitles, no
+        sound) and two screenshots from the version 1.2 User Guide. All of
+        them show functions that need the Full Version.
       </p>
+
+      <div class="demo-grid demo-videos">
+
+        <div class="demo-card">
+          <video controls playsinline preload="metadata" width="1920" height="1080"
+                 poster="sdr-spectrum-analyzer/media/v1.2_RSP1B_OFDM_Channel_Power_Calibration_poster.jpg"
+                 aria-label="Video: RSP1B 20 MHz OFDM channel power calibration">
+            <source src="sdr-spectrum-analyzer/media/v1.2_RSP1B_OFDM_Channel_Power_Calibration.mp4"
+                    type="video/mp4" />
+            <a href="sdr-spectrum-analyzer/media/v1.2_RSP1B_OFDM_Channel_Power_Calibration.mp4">Download
+            the video (MP4)</a>
+          </video>
+
+          <span class="demo-badge">Full Version &middot; RSP1B &middot; Video 1:17</span>
+
+          <h3>RSP1B: 20 MHz OFDM Channel Power Calibration</h3>
+          <p>
+            Sweep mode &middot; 30 MHz span &middot; Ref Power from a
+            reference spectrum analyzer &middot; Calibrate collects 10
+            averaging windows &middot; Channel Power then reads in dBm
+            (ch. cal.)
+          </p>
+        </div>
+
+        <div class="demo-card">
+          <video controls playsinline preload="metadata" width="1920" height="1080"
+                 poster="sdr-spectrum-analyzer/media/v1.2_RTL-SDR_Markers_MaxHold_Reference_poster.jpg"
+                 aria-label="Video: RTL-SDR markers, Max Hold and reference trace">
+            <source src="sdr-spectrum-analyzer/media/v1.2_RTL-SDR_Markers_MaxHold_Reference.mp4"
+                    type="video/mp4" />
+            <a href="sdr-spectrum-analyzer/media/v1.2_RTL-SDR_Markers_MaxHold_Reference.mp4">Download
+            the video (MP4)</a>
+          </video>
+
+          <span class="demo-badge">Full Version &middot; RTL-SDR &middot; Video 1:36</span>
+
+          <h3>RTL-SDR: Markers, Max Hold and Reference Trace</h3>
+          <p>
+            Fixed mode at 496 MHz &middot; CW test signal &middot; peak
+            search and M2 delta readout &middot; Max Hold and Freeze as Ref
+            while the signal moves
+          </p>
+        </div>
+
+      </div>
 
       <div class="demo-grid">
 

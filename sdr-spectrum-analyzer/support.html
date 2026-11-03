@@ -98,6 +98,31 @@
       margin: 7px 0;
     }
 
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 15px;
+    }
+
+    th, td {
+      padding: 9px 12px;
+      border: 1px solid #263947;
+      text-align: left;
+      vertical-align: top;
+      color: #b9c7cf;
+    }
+
+    th {
+      background: #0e1c25;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
     a {
       color: #55d8ff;
     }
@@ -173,20 +198,31 @@
 
   <p>
     This page provides support information for SDR Spectrum Analyzer,
-    a Windows desktop application for RF spectrum analysis using compatible
-    USB software-defined radio (SDR) hardware.
+    a Windows desktop application for RF spectrum analysis using supported
+    USB software-defined radio (SDR) receivers. The complete instructions are
+    in the <a href="user-guide/">User Guide</a>; the guide for the installed
+    version is also available in the application under
+    <strong>Help &gt; User Guide</strong>.
   </p>
 
   <h2>Supported Environment</h2>
 
-  <p>
-    SDR Spectrum Analyzer is designed for supported Windows systems and
-    compatible USB SDR hardware.
-  </p>
+  <ul>
+    <li><strong>Windows:</strong> Windows 10 version 2004 or later.</li>
+    <li><strong>RTL-SDR:</strong> tested RTL2838-based USB hardware
+      (VID:PID <code>0BDA:2838</code>) with an R820T-series tuner, with a
+      working Microsoft WinUSB driver on the device's Interface 0. Only this
+      tested path is claimed; other RTL-SDR devices, clones and tuner
+      families are not.</li>
+    <li><strong>SDRplay RSP1B:</strong> the SDRplay API must be installed
+      from SDRplay before you connect the RSP1B. The application uses the
+      installed API; it does not include or install it.</li>
+  </ul>
 
   <p>
-    Hardware compatibility may depend on the SDR device, tuner, USB
-    configuration, Windows driver configuration, and operating-system
+    Installing SDR Spectrum Analyzer does not install, download, update or
+    replace any receiver driver or the SDRplay API. Hardware behaviour may
+    also depend on the USB configuration and the operating-system
     environment.
   </p>
 
@@ -195,12 +231,26 @@
   <p>If you encounter a problem, please check the following:</p>
 
   <ul>
-    <li>Confirm that the SDR device is physically connected to the computer.</li>
-    <li>Restart SDR Spectrum Analyzer and reconnect the device.</li>
-    <li>Confirm that Windows recognizes the USB device.</li>
-    <li>Make sure another SDR application is not currently using the same device.</li>
-    <li>Restart Windows if the USB device has stopped responding.</li>
+    <li>Confirm that the receiver is physically connected to the computer.</li>
+    <li>On the Control Panel, press <strong>Device</strong>, then
+      <strong>Refresh</strong>, select the receiver and connect again.</li>
+    <li>For an RSP1B that is not listed, check that the SDRplay API is
+      installed; install or repair it from SDRplay, then refresh.</li>
+    <li>For an RTL-SDR, the readiness message tells you whether Interface 0
+      is bound to WinUSB. The application does not change a driver.</li>
+    <li>Make sure no other application is using the same receiver.</li>
+    <li>If a connection looks wrong, select <strong>Device &gt; Check
+      Connection</strong> in the menu bar. It tests the open device again
+      without changing the connection.</li>
+    <li>Restart SDR Spectrum Analyzer, and restart Windows if the USB device
+      has stopped responding.</li>
   </ul>
+
+  <p>
+    The <a href="user-guide/">User Guide</a> sections
+    <em>Recovering from Common Errors</em> and <em>Troubleshooting
+    reference</em> explain each message the application shows.
+  </p>
 
   <h2>Information to Include in a Support Request</h2>
 
@@ -209,12 +259,18 @@
   </p>
 
   <ul>
-    <li>SDR Spectrum Analyzer version.</li>
+    <li>SDR Spectrum Analyzer version (<strong>Help &gt; About</strong>).</li>
     <li>Windows version.</li>
-    <li>SDR hardware model and tuner type, if known.</li>
+    <li>Receiver model (RTL-SDR or RSP1B) and, for an RTL-SDR, the tuner
+      type if known.</li>
+    <li>Edition: Free Version or Full Version.</li>
     <li>A short description of the problem and the steps that reproduce it.</li>
-    <li>The exact error message displayed by the application, if any.</li>
-    <li>A screenshot, when useful.</li>
+    <li>The exact error message displayed by the application, if any.
+      <strong>File &gt; Save Diagnostic Log...</strong> in the menu bar saves
+      the diagnostic messages to a file you can attach.</li>
+    <li>A screenshot, when useful. On the Control Panel, press
+      <strong>File</strong>, then <strong>Export Screenshot...</strong>, to
+      save the spectrum view.</li>
   </ul>
 
   <p>
@@ -232,9 +288,78 @@
   </p>
 
   <p>
-    Unless explicitly stated otherwise, displayed power values are relative
-    measurements such as dBFS and should not be interpreted as calibrated
-    absolute RF power measurements.
+    The level scale depends on the receiver and on calibration:
+  </p>
+
+  <div class="table-wrap">
+    <table>
+      <tr>
+        <th>Unit</th>
+        <th>When it is shown</th>
+      </tr>
+      <tr>
+        <td>dBFS</td>
+        <td>RTL-SDR device data: relative to the digital full scale.</td>
+      </tr>
+      <tr>
+        <td>Rel.dB</td>
+        <td>RSP1B device data: a relative level referred to the receiver
+          input. It is neither dBFS nor dBm.</td>
+      </tr>
+      <tr>
+        <td>Raw Rel.dB</td>
+        <td>RSP1B, when no trustworthy system gain is available, or at
+          8&nbsp;MS/s with a system gain below 15 dB. It is not comparable with
+          Rel.dB.</td>
+      </tr>
+      <tr>
+        <td>dBm</td>
+        <td>Only when a matching calibration applies. It is derived from
+          your own reference measurement and is valid only for the setup it
+          was made with.</td>
+      </tr>
+    </table>
+  </div>
+
+  <p>
+    SDR Spectrum Analyzer is not a calibrated laboratory spectrum analyser
+    or a precision power meter, and it does not guarantee absolute dBm
+    accuracy.
+  </p>
+
+  <h3>Channel Power reads in Rel.dB or dBFS although I calibrated</h3>
+
+  <p>
+    A channel-power calibration applies only to the exact settings it was
+    made with. An RSP1B channel-power calibration applies only when all 9
+    settings match (mode, centre frequency, channel bandwidth, sample rate,
+    IF bandwidth, Gain Reduction, LNA state, FFT points and window); Channel
+    Power then reads in dBm (ch. cal.) while the trace stays in Rel.dB.
+    Restore those settings (a saved configuration file is the easiest way)
+    or recalibrate, and check that <strong>Disable Calibration</strong> under
+    <strong>Cal</strong> is off.
+  </p>
+
+  <h3>Channel Power of a narrowband signal in RSP1B Sweep mode</h3>
+
+  <p>
+    In the tested configuration (Sweep mode, 496 MHz, span 30 MHz, channel
+    bandwidth 20 MHz, 8&nbsp;MS/s, IF 8&nbsp;MHz), the Channel Power reading of a CW
+    signal was observed to depend on its position in the channel by about
+    1 dB compared with a broadband OFDM reference. This is an observation
+    from that configuration, not a guaranteed maximum error. Where accuracy
+    matters, check the result against a reference instrument with a signal
+    of the kind you measure.
+  </p>
+
+  <h3>What do the marks on an RSP1B trace mean?</h3>
+
+  <p>
+    <em>Possible internal spur interference</em> marks a peak on a frequency
+    where the RSP1B can produce internal lines, and <em>Suspected IQ
+    Image</em> marks a peak that may be a mirror image of a stronger signal.
+    Both marks are hints for the display only; they are not measurements,
+    and the absence of a mark does not mean that no such line is present.
   </p>
 
   <h2>Full Version Purchase and Restore</h2>
@@ -245,7 +370,36 @@
     Free Version and the Full Version are the same installed application: which
     features it enables follows the Microsoft Store entitlement held by the
     Microsoft account that is signed in to the Store on that computer. Pricing
-    is shown by the Microsoft Store for your region.
+    is shown by the Microsoft Store for your region; before the Microsoft Store
+    opens, the application shows that price and asks you to confirm.
+  </p>
+
+  <p>
+    The command <strong>Help &gt; Purchase or Restore Full Version...</strong>
+    shows the current state:
+  </p>
+
+  <ul>
+    <li><strong>Purchase or Restore Full Version...</strong> in the Free
+      Version;</li>
+    <li><strong>Checking Full Version...</strong> while the licence is being
+      checked;</li>
+    <li><strong>Purchasing Full Version...</strong> while a Microsoft Store
+      purchase is open;</li>
+    <li><strong>Retry Microsoft Store...</strong> if the Microsoft Store could
+      not be reached; select it to check the licence again;</li>
+    <li><strong>Full Version</strong>, not selectable, when the Full Version
+      is active.</li>
+  </ul>
+
+  <p>
+    There is no command that switches between the editions by hand. The
+    edition follows the Microsoft Store licence check, which runs at
+    startup, after every purchase or restore in the Microsoft Store, and when
+    Windows reports a licence change. If the Microsoft Store cannot be
+    reached, the application stays in the Free Version until a later check
+    succeeds. The User Guide section <em>Free and Full Versions</em> explains
+    what changes when the edition changes.
   </p>
 
   <h3>I already purchased Full Version. Why does another PC show Free mode?</h3>
@@ -259,7 +413,7 @@
   <ol>
     <li>Sign in to the Microsoft Store on that PC with the Microsoft account that owns the purchase.</li>
     <li>Install and start SDR Spectrum Analyzer from the Microsoft Store.</li>
-    <li>In the application, choose <strong>Help &gt; Purchase or Restore Full Version...</strong></li>
+    <li>In the application, choose <strong>Help &gt; Purchase or Restore Full Version...</strong> If the command reads <strong>Retry Microsoft Store...</strong>, select it first; it checks the licence again.</li>
     <li>The Microsoft Store may report that the account already owns the Full Version. If it does, you do not need to purchase it again.</li>
     <li>Return to the application. It checks the Full Version licence again as soon as the Store interaction ends.</li>
     <li>If the application still shows Free mode, close and restart it so that it can check the Store entitlement again during startup.</li>
@@ -291,7 +445,7 @@
     <ol>
       <li>在该电脑上使用拥有这笔购买的 Microsoft 账户登录 Microsoft Store。</li>
       <li>从 Microsoft Store 安装并启动 SDR Spectrum Analyzer。</li>
-      <li>在应用中选择<strong>帮助 &gt; 购买或恢复完整版...</strong></li>
+      <li>在应用中选择<strong>帮助 &gt; 购买或恢复完整版...</strong>。如果该命令显示为<strong>重试 Microsoft Store...</strong>，请先选择它；它会再次检查授权。</li>
       <li>Microsoft Store 可能会提示该账户已经拥有完整版。如果出现此提示，则无需再次购买。</li>
       <li>返回应用。Store 交互结束后，应用会立即再次检查完整版授权。</li>
       <li>如果应用仍显示 Free 模式，请关闭并重新启动应用，使应用在下次启动时再次检查 Store 授权。</li>
@@ -309,7 +463,11 @@
     </p>
 
     <p>
-      完整的中文说明请参见<a href="user-guide/zh-CN/index.html">用户指南</a>的“免费版与完整版”一章。
+      应用中没有手动切换版本的命令；版本由 Microsoft Store 授权检查决定。
+    </p>
+
+    <p>
+      完整的中文说明请参见<a href="user-guide/v1.2/zh-CN/index.html#section-3">用户指南 1.2</a>的“免费版与完整版”一节（1.0 版请参见<a href="user-guide/zh-CN/index.html">用户指南 1.0</a>）。
     </p>
   </div>
 

@@ -223,12 +223,50 @@
       background: rgba(16, 31, 41, 0.78);
     }
 
-    .demo-card video {
+    .demo-card video,
+    .demo-card img {
       display: block;
       width: 100%;
       height: auto;
       border-radius: 5px;
       background: #05090d;
+    }
+
+    .demo-videos {
+      margin-bottom: 18px;
+    }
+
+    .demo-earlier {
+      margin: 18px 0 0;
+      color: #8fa5b2;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .demo-earlier a {
+      color: #55d8ff;
+    }
+
+    .edition-card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: #9fb1bc;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .edition-card li + li {
+      margin-top: 4px;
+    }
+
+    .units-note {
+      margin: 18px 0 0;
+      padding: 16px 20px;
+      border-left: 3px solid #f4c542;
+      background: rgba(244, 197, 66, 0.06);
+      color: #9fb1bc;
+      font-size: 14px;
+      line-height: 1.65;
     }
 
     .demo-badge {
@@ -351,8 +389,9 @@
     <h1>SDR Spectrum Analyzer</h1>
 
     <p class="subtitle">
-      A Windows desktop application for RF spectrum analysis using
-      compatible USB software-defined radio hardware.
+      A Windows desktop application for RF spectrum analysis with
+      supported USB software-defined radio receivers: tested RTL-SDR
+      devices and the SDRplay RSP1B.
       Explore, measure, and understand the RF spectrum from your PC.
     </p>
 
@@ -373,7 +412,7 @@
     </div>
 
     <figure class="hero">
-      <img src="sdr-spectrum-analyzer/assets/ExtendedBrandLogo_1536x1024.png"
+      <img src="sdr-spectrum-analyzer/assets/ExtendedBrandLogo_v1.2_1536x1024.png"
            width="1536"
            height="1024"
            alt="SDR Spectrum Analyzer RF spectrum analysis software" />
@@ -388,7 +427,10 @@
       <p class="edition-intro">
         SDR Spectrum Analyzer is free to download and use for
         fixed-frequency spectrum viewing. The optional Full Version
-        unlocks advanced measurement and wideband analysis capabilities.
+        unlocks additional settings and measurement functions, within the
+        capabilities of the connected receiver. Both editions are the same
+        installed application: the edition follows the Microsoft Store
+        licence of the Microsoft account signed in to the Store.
       </p>
 
       <div class="edition-grid">
@@ -397,13 +439,15 @@
           <span class="edition-label">Free</span>
           <h3>Free Version</h3>
           <p>
-            Tune the center frequency across 24&ndash;1766 MHz and perform
-            continuous fixed-frequency spectrum analysis with a 1.600 MHz span.
-            The Free Version provides a practical way to view live RF spectrum
-            data using compatible USB SDR hardware.
+            Set the centre frequency (RTL-SDR 24&ndash;1766&nbsp;MHz, RSP1B
+            1&nbsp;kHz&ndash;2&nbsp;GHz) and view the live spectrum in Fixed mode with
+            a fixed 1.400&nbsp;MHz span. The other acquisition and display settings
+            use a fixed combination; on the RSP1B you choose the IF bandwidth
+            (1.536, 5, 6, 7 or 8&nbsp;MHz). Device connection, Demo Data,
+            configuration files and PNG screenshots are included.
           </p>
           <p class="edition-note">
-            Free to download and use.
+            Free to download and use. No time limit.
           </p>
         </div>
 
@@ -411,9 +455,12 @@
           <span class="edition-label">Full</span>
           <h3>Full Version</h3>
           <p>
-            Unlock adjustable span and measurement settings, wideband and
-            segmented sweep, markers, channel power, calibration, Max Hold,
-            frozen reference traces, Auto Scale, and CSV export.
+            Unlock adjustable span and acquisition settings, Sweep mode for
+            ranges wider than the receiver acquires at one tuning frequency,
+            two markers, Channel Power, channel-power calibration from your
+            own reference measurement (RTL-SDR and RSP1B; on the RSP1B with a
+            CW or a broadband reference signal such as OFDM), Max Hold, frozen
+            reference traces, Auto Scale, and CSV export.
           </p>
           <p class="edition-note">
             Optional one-time purchase through Microsoft Store.
@@ -424,50 +471,157 @@
       </div>
     </section>
 
-    <section class="demo-section">
-      <h2>See SDR Spectrum Analyzer in Action</h2>
+    <section class="edition-section">
+      <h2>Supported Receivers</h2>
 
-      <p class="demo-intro">
-        Real-time spectrum analysis using compatible USB SDR hardware.
-        The demonstrations below show advanced capabilities available
-        with the Full Version.
+      <p class="edition-intro">
+        SDR Spectrum Analyzer runs on Windows 10 version 2004 or later.
+        Installing the application does not install, download or change
+        any receiver driver or the SDRplay API.
       </p>
 
-      <div class="demo-grid">
+      <div class="edition-grid">
 
-        <div class="demo-card">
-          <video controls preload="metadata">
-            <source
-              src="sdr-spectrum-analyzer/media/SPAN30_BW20MHz_web.mp4"
-              type="video/mp4">
-            Your browser does not support HTML5 video.
-          </video>
-
-          <span class="demo-badge">Full Version Demonstration</span>
-
-          <h3>30 MHz Wideband Sweep</h3>
-          <p>
-            30 MHz span &middot; 20 MHz channel bandwidth
+        <div class="edition-card">
+          <span class="edition-label">RTL-SDR</span>
+          <h3>Tested RTL-SDR receivers</h3>
+          <ul>
+            <li>RTL2838-based USB hardware (VID:PID 0BDA:2838) with an
+                R820T-series tuner</li>
+            <li>Needs a working Microsoft WinUSB driver on the device's
+                Interface 0</li>
+            <li>24&ndash;1766&nbsp;MHz &middot; 1.024, 2.048 or 2.4 MS/s
+                &middot; levels in dBFS</li>
+          </ul>
+          <p class="edition-note">
+            Only this tested path is claimed; other RTL-SDR devices,
+            clones and tuner families are not.
           </p>
         </div>
 
-        <div class="demo-card">
-          <video controls preload="metadata">
-            <source
-              src="sdr-spectrum-analyzer/media/SPAN2M_BW500KHz_web.mp4"
-              type="video/mp4">
-            Your browser does not support HTML5 video.
-          </video>
-
-          <span class="demo-badge">Full Version Demonstration</span>
-
-          <h3>2 MHz Detailed Spectrum Analysis</h3>
-          <p>
-            2 MHz span &middot; 500 kHz channel bandwidth
+        <div class="edition-card">
+          <span class="edition-label">RSP1B</span>
+          <h3>SDRplay RSP1B</h3>
+          <ul>
+            <li>Needs the SDRplay API from SDRplay, installed separately;
+                the application does not include it</li>
+            <li>1&nbsp;kHz&ndash;2&nbsp;GHz &middot; 2 or 8 MS/s &middot; IF bandwidth
+                0.2 to 8 MHz</li>
+            <li>Levels in Rel.dB (referred to the receiver input)</li>
+          </ul>
+          <p class="edition-note">
+            Sweep mode on the RSP1B accepts only the characterised
+            sample-rate and IF-bandwidth combinations.
           </p>
         </div>
 
       </div>
+
+      <p class="units-note">
+        <strong>Levels are relative unless a calibration applies.</strong>
+        The trace reads in dBFS on an RTL-SDR and in Rel.dB on an RSP1B
+        (Raw Rel.dB when no trustworthy system gain is available). dBm is
+        shown only when a matching calibration made from your own reference
+        measurement applies, and only for the setup it was made with.
+        SDR Spectrum Analyzer is not a calibrated laboratory instrument.
+      </p>
+    </section>
+
+    <section class="demo-section">
+      <h2>See SDR Spectrum Analyzer in Action</h2>
+
+      <p class="demo-intro">
+        Two short videos recorded with version 1.2 (English subtitles, no
+        sound) and two screenshots from the version 1.2 User Guide. All of
+        them show functions that need the Full Version.
+      </p>
+
+      <div class="demo-grid demo-videos">
+
+        <div class="demo-card">
+          <video controls playsinline preload="metadata" width="1920" height="1080"
+                 poster="sdr-spectrum-analyzer/media/v1.2_RSP1B_OFDM_Channel_Power_Calibration_poster.jpg"
+                 aria-label="Video: RSP1B 20 MHz OFDM channel power calibration">
+            <source src="sdr-spectrum-analyzer/media/v1.2_RSP1B_OFDM_Channel_Power_Calibration.mp4"
+                    type="video/mp4" />
+            <a href="sdr-spectrum-analyzer/media/v1.2_RSP1B_OFDM_Channel_Power_Calibration.mp4">Download
+            the video (MP4)</a>
+          </video>
+
+          <span class="demo-badge">Full Version &middot; RSP1B &middot; Video 1:17</span>
+
+          <h3>RSP1B: 20 MHz OFDM Channel Power Calibration</h3>
+          <p>
+            Sweep mode &middot; 30 MHz span &middot; Ref Power from a
+            reference spectrum analyzer &middot; Calibrate collects 10
+            averaging windows &middot; Channel Power then reads in dBm
+            (ch. cal.)
+          </p>
+        </div>
+
+        <div class="demo-card">
+          <video controls playsinline preload="metadata" width="1920" height="1080"
+                 poster="sdr-spectrum-analyzer/media/v1.2_RTL-SDR_Markers_MaxHold_Reference_poster.jpg"
+                 aria-label="Video: RTL-SDR markers, Max Hold and reference trace">
+            <source src="sdr-spectrum-analyzer/media/v1.2_RTL-SDR_Markers_MaxHold_Reference.mp4"
+                    type="video/mp4" />
+            <a href="sdr-spectrum-analyzer/media/v1.2_RTL-SDR_Markers_MaxHold_Reference.mp4">Download
+            the video (MP4)</a>
+          </video>
+
+          <span class="demo-badge">Full Version &middot; RTL-SDR &middot; Video 1:36</span>
+
+          <h3>RTL-SDR: Markers, Max Hold and Reference Trace</h3>
+          <p>
+            Fixed mode at 496 MHz &middot; CW test signal &middot; peak
+            search and M2 delta readout &middot; Max Hold and Freeze as Ref
+            while the signal moves
+          </p>
+        </div>
+
+      </div>
+
+      <div class="demo-grid">
+
+        <div class="demo-card">
+          <img src="sdr-spectrum-analyzer/user-guide/v1.2/en-US/assets/screenshots/Figure_1.png"
+               loading="lazy"
+               alt="Main window with the spectrum display, the Control Panel and the status bar" />
+
+          <span class="demo-badge">Full Version &middot; RSP1B</span>
+
+          <h3>Instrument-Style Main Window</h3>
+          <p>
+            Sweep mode &middot; 30 MHz span &middot; Control Panel with
+            function keys, softkeys and parameter entry
+          </p>
+        </div>
+
+        <div class="demo-card">
+          <img src="sdr-spectrum-analyzer/user-guide/v1.2/en-US/assets/screenshots/Figure_3.png"
+               loading="lazy"
+               alt="OFDM signal measured in Sweep mode with a calibrated Channel Power result" />
+
+          <span class="demo-badge">Full Version &middot; RSP1B</span>
+
+          <h3>OFDM Channel Power</h3>
+          <p>
+            30 MHz span &middot; 20 MHz channel bandwidth &middot; Channel
+            Power in dBm (ch. cal.) because a matching channel-power
+            calibration applies
+          </p>
+        </div>
+
+      </div>
+
+      <p class="demo-earlier">
+        Earlier demonstration videos, recorded with version 1.0 and its
+        previous interface:
+        <a href="sdr-spectrum-analyzer/media/SPAN30_BW20MHz_web.mp4">30 MHz
+        wideband sweep</a> &middot;
+        <a href="sdr-spectrum-analyzer/media/SPAN2M_BW500KHz_web.mp4">2 MHz
+        detailed spectrum analysis</a>.
+      </p>
     </section>
 
     <div class="cards">
@@ -475,8 +629,8 @@
       <a class="card" href="sdr-spectrum-analyzer/user-guide/">
         <h2>User Guide</h2>
         <p>
-          Complete operating instructions for Free and Full Version features,
-          spectrum measurements, traces, markers, wideband sweep,
+          Complete operating instructions for the Free and Full Versions,
+          RTL-SDR and RSP1B receivers, measurements, Channel Power,
           calibration, configuration, and troubleshooting.
         </p>
         <span class="arrow">Open User Guide &rarr;</span>
@@ -485,8 +639,8 @@
       <a class="card" href="sdr-spectrum-analyzer/support.html">
         <h2>Support</h2>
         <p>
-          Troubleshooting information, hardware guidance,
-          and support requests for SDR Spectrum Analyzer.
+          Troubleshooting information, receiver requirements,
+          Full Version purchase and restore, and support requests.
         </p>
         <span class="arrow">Open Support &rarr;</span>
       </a>

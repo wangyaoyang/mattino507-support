@@ -3,3 +3,8 @@
 # so it is not reported as trailing whitespace. No text/eol conversion.
 /sdr-spectrum-analyzer/user-guide/en-US/index.html whitespace=cr-at-eol
 /sdr-spectrum-analyzer/user-guide/zh-CN/index.html whitespace=cr-at-eol
+
+# The v1.2 User Guide is copied byte for byte from the frozen 1.2.0 package
+# (HTML with CRLF, PDF, PNG). Never convert these files, so the published
+# bytes stay identical to the package.
+/sdr-spectrum-analyzer/user-guide/v1.2/** -text whitespace=cr-at-eol

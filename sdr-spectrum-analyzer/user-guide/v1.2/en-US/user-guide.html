@@ -1,0 +1,935 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Mattino 507 Software">
+<title>SDR Spectrum Analyzer User Guide</title>
+<style>
+:root { color-scheme: dark; --bg:#08131d; --panel:#102231; --text:#e9f4f8; --muted:#b2c7d1; --accent:#35d8e8; --line:#285165; --code:#0a1924; }
+* { box-sizing:border-box; }
+body { margin:0; background:linear-gradient(145deg,#07111a,#0b1d2a 48%,#07111a); color:var(--text); font:16px/1.65 "Segoe UI",Arial,"Microsoft YaHei UI",sans-serif; }
+main { max-width:980px; margin:0 auto; padding:48px 28px 72px; }
+h1,h2,h3 { color:#f5fdff; line-height:1.25; }
+h1 { border-bottom:2px solid var(--accent); padding-bottom:18px; margin-top:0; font-size:2.15rem; }
+h2 { margin-top:2.4rem; padding-top:.35rem; color:var(--accent); font-size:1.45rem; }
+h3 { margin-top:1.7rem; font-size:1.13rem; }
+p,li { max-width:88ch; } ul,ol { padding-left:1.5rem; } li+li { margin-top:.3rem; }
+a { color:#69e8f5; } a:focus,a:hover { color:#fff; }
+code { background:var(--code); border:1px solid var(--line); border-radius:4px; padding:.08rem .32rem; color:#d1f8ff; overflow-wrap:anywhere; }
+table { border-collapse:collapse; width:100%; max-width:88ch; margin:1.35rem 0; }
+th,td { border:1px solid var(--line); padding:.42rem .6rem; text-align:left; vertical-align:top; }
+th { background:var(--code); color:var(--accent); font-weight:600; }
+.pdf-link { margin:-.4rem 0 1.6rem; font-size:.95rem; }
+.screenshot-placeholder { border:1px dashed var(--accent); background:rgba(53,216,232,.08); color:#baf8ff; border-radius:6px; padding:1rem; margin:1.25rem 0; }
+figure { margin:1.65rem auto; max-width:100%; } figure a { display:block; } figure img { display:block; width:auto; max-width:100%; max-height:85vh; height:auto; margin:0 auto; border:1px solid var(--line); border-radius:5px; background:#07111a; } figcaption { color:var(--muted); font-size:.94rem; margin-top:.55rem; text-align:center; }
+@page { size:Letter; margin:.65in; }
+@media print {
+  body { background:#fff; color:#111; font-size:10.5pt; line-height:1.48; }
+  main { max-width:none; padding:0; }
+  h1,h2,h3 { color:#111; break-after:avoid-page; }
+  h1 { font-size:22pt; } h2 { font-size:15pt; margin-top:1.55rem; } h3 { font-size:12pt; }
+  a { color:#075a78; text-decoration:underline; } code { color:#111; background:#eee; border-color:#bbb; }
+  ul,ol,.screenshot-placeholder { break-inside:avoid; }
+  table { font-size:9.8pt; margin:.9rem 0; } tr { break-inside:avoid; } thead { display:table-header-group; }
+  th,td { border-color:#aaa; padding:.3rem .45rem; } th { background:#eee; color:#111; }
+  figure { break-inside:avoid; page-break-inside:avoid; margin:1rem auto; } figure img { border-color:#aaa; max-height:6.8in; } figcaption { color:#222; font-size:9.5pt; }
+  p { orphans:3; widows:3; }
+  .screenshot-placeholder { background:#f2fbfc; color:#111; }
+  .pdf-link { display:none; }
+}
+</style>
+</head>
+<body>
+<main>
+<h1>SDR Spectrum Analyzer User Guide</h1>
+<p class="pdf-link"><a href="user-guide.pdf">PDF version of this guide (user-guide.pdf)</a></p>
+<p><strong>Product:</strong> SDR Spectrum Analyzer <strong>Publisher:</strong> Mattino 507 Software <strong>Version:</strong> 1.2 <strong>Last updated:</strong> November 2026</p>
+<h2 id="section-1">1. Introduction</h2>
+<p>SDR Spectrum Analyzer is a Windows desktop application for viewing and analysing RF spectrum data with supported USB software-defined radio (SDR) hardware. Version 1.2 works with two device families:</p>
+<ul>
+<li><strong>RTL-SDR</strong>: tested RTL2838-based receivers with an R820T-series tuner.</li>
+<li><strong>SDRplay RSP1B</strong>: the RSP1B receiver, through the SDRplay API that you install separately.</li>
+</ul>
+<p>The application shows frequency-domain traces in Fixed mode (one tuning frequency) or Sweep mode (a segmented sweep). It also offers markers, Channel Power, a channel-power calibration workflow, configuration files, PNG screenshots and CSV export. Which of these you can use depends on the edition (see <a href="#section-3">Free and Full Versions</a>) and on the connected device.</p>
+<p>It is a spectrum visualisation and analysis application, not a general-purpose radio receiver or audio-demodulation application.</p>
+<h3>Guide structure</h3>
+<p>Sections 1-7 explain the product, the two editions, installation, the main window and the Control Panel. Sections 8-15 are step-by-step procedures; if you are new to the application, start with <a href="#section-8">Measuring a CW Signal</a>. Section 16 lists every Control Panel key in a complete operation tree. Sections 17-31 are reference chapters, ending with a troubleshooting table that explains each message. Section 32 explains how to get support, and Section 33 covers privacy, licensing and third-party components.</p>
+<h2 id="section-2">2. Measurement scope and important limitations</h2>
+<p>The level scale depends on the device and on calibration:</p>
+<table>
+<thead>
+<tr><th>Unit</th><th>When it is shown</th><th>Meaning</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>dBFS</strong></td><td>RTL-SDR device data</td><td>Decibels relative to the digital full scale of the ADC. 0 dBFS is the largest representable level; values too close to 0 dBFS can clip and distort the spectrum.</td></tr>
+<tr><td><strong>Rel.dB</strong></td><td>RSP1B device data</td><td>A relative level: the digital power minus the system gain reported by the SDRplay API, referred to the receiver input. Changing Gain Reduction or the LNA state therefore leaves the reading of the same signal nearly unchanged. It is neither dBFS nor dBm.</td></tr>
+<tr><td><strong>Raw Rel.dB</strong></td><td>RSP1B, when no trustworthy system gain is available, or at 8 MS/s with a system gain below 15 dB</td><td>The digital level without the system-gain correction. It is not comparable with Rel.dB and is not shown as dBm.</td></tr>
+<tr><td><strong>dBm</strong></td><td>Only when a matching calibration applies (see <a href="#section-25">Calibration</a>)</td><td>An absolute level derived from your own reference measurement, valid only for the setup it was made with.</td></tr>
+</tbody>
+</table>
+<p>Displayed values depend on the receiver, the selected gain, frequency, sample rate, IF bandwidth, cables, attenuators and the RF environment. A calibration in this application applies only to the exact conditions under which it was made; it is not a universal device calibration. Do not treat SDR Spectrum Analyzer as a calibrated laboratory spectrum analyser, a precision power meter, or a guarantee of absolute dBm accuracy.</p>
+<p>On the RSP1B, the receiver itself can produce narrow internal lines at some multiples of 24 MHz. When a visible peak lies on such a frequency, the plot marks it with an orange circle and a blue &quot;?&quot; and the legend <strong>Possible internal spur interference</strong>. The mark means only that the frequency <em>may</em> be affected; it does not say that the peak is a spur, and the absence of a mark does not mean the frequency is free of such lines.</p>
+<p>On the RSP1B, a strong signal can also produce a weaker mirror image (an IQ image) at the frequency that is symmetric to it about a tuning centre. When a visible peak is probably such an image of a stronger peak, the plot marks it with a small light-blue hollow ellipse with two short white strokes, placed just above the peak, and the legend <strong>Suspected IQ Image</strong>. The mark is display only: it does not change the trace, Channel Power or the CSV data. It means only that the peak <em>may</em> be an image; it is not a measurement of the image level, and the absence of a mark does not mean that no image is present. In Sweep mode one strong signal can produce more than one marked image, because each segment that contains the signal has its own tuning centre.</p>
+<h2 id="section-3">3. Free and Full Versions</h2>
+<p>SDR Spectrum Analyzer is available in two editions: the Free Version and the Full Version. They are the same installed application, not separate installations. Which edition is active on a computer depends on the Microsoft Store licence of the Microsoft account that is signed in to the Store on that computer (see <em>Purchasing or restoring the Full Version</em> below).</p>
+<p>The Free Version has no time limit, no trial period and no usage counter; it does not expire. The Full Version is a one-time Microsoft Store purchase, with no subscription. It unlocks additional parameter settings and measurement functions. These are available within the capabilities of the connected receiver, the allowed values, the acquisition state and the functions implemented in v1.2.</p>
+<p>In the Free Version, each supported receiver measures with a fixed combination of acquisition and display parameters: you set the centre frequency and, on the RSP1B, the IF bandwidth. The table below summarizes the main differences between the two editions. <a href="#section-12">Receiver Configuration and Measurement Limits</a> explains what the fixed parameter combination means for a measurement, and <a href="#section-16">Complete operation tree</a> shows the availability of every key.</p>
+<table>
+<thead>
+<tr><th>Setting or function</th><th>Free Version, RTL-SDR</th><th>Free Version, RSP1B</th><th>Full Version</th></tr>
+</thead>
+<tbody>
+<tr><td>Centre frequency</td><td>Adjustable, 24-1766 MHz</td><td>Adjustable, 1 kHz-2 GHz</td><td>Adjustable (device range)</td></tr>
+<tr><td>Span</td><td>Fixed at 1.400 MHz</td><td>Fixed at 1.400 MHz</td><td>Adjustable</td></tr>
+<tr><td>Acquisition mode</td><td>Fixed mode</td><td>Fixed mode</td><td>Fixed mode or Sweep mode</td></tr>
+<tr><td>Sample rate</td><td>2.048 MS/s</td><td>2.000 MS/s</td><td>RTL: 1.024, 2.048 or 2.4 MS/s; RSP1B: 2 or 8 MS/s</td></tr>
+<tr><td>FFT points</td><td>1024</td><td>1024</td><td>1024 to 16384</td></tr>
+<tr><td>Window</td><td>Hann</td><td>Hann</td><td>Hann or Blackman-Harris</td></tr>
+<tr><td>Sweep Average</td><td>4</td><td>4</td><td>1, 4, 8, 16 or 32</td></tr>
+<tr><td>Gain</td><td>Tuner Gain 0 dB</td><td>Gain Reduction 40 dB, LNA state 2, Minimum GR 20 dB</td><td>Adjustable</td></tr>
+<tr><td>IF bandwidth</td><td>Not applicable</td><td>Your choice of 1.536, 5, 6, 7 or 8 MHz</td><td>RSP1B: 0.2, 0.3, 0.6, 1.536, 5, 6, 7 or 8 MHz</td></tr>
+<tr><td>Frequency correction (PPM)</td><td>0</td><td>0</td><td>-200 to +200</td></tr>
+<tr><td>Reference level / dB per division / Path Offset</td><td>0 / 10 dB / 0 dB</td><td>0 / 10 dB / 0 dB</td><td>Adjustable</td></tr>
+<tr><td>Markers, Channel Power, channel-power calibration</td><td>Not available</td><td>Not available</td><td>Available</td></tr>
+<tr><td>Max Hold, frozen reference, Auto Scale, CSV export</td><td>Not available</td><td>Not available</td><td>Available</td></tr>
+</tbody>
+</table>
+<p>Both editions include device selection and connection, the live trace, Demo Data, configuration files, PNG screenshots and the Control Panel language. Elsewhere in this guide, a short note marks the functions that need the Full Version.</p>
+<p><strong>Configuration files.</strong> A configuration file saved with the Full Version can be loaded in the Free Version. The settings that the Free Version does not let you change are then set to the values of its fixed parameter combination, and the other settings are taken from the file. This is normal behaviour: it does not mean that the file is damaged, and the file itself is not changed. On the RSP1B, a file whose IF bandwidth does not fit the fixed 1.400 MHz span is refused (see <a href="#section-12">Receiver Configuration and Measurement Limits</a>).</p>
+<p><strong>Demo Data is a data source, not an upgrade.</strong> Selecting Demo Data changes only where the displayed data comes from. It does not unlock or upgrade any Full Version function.</p>
+<p><strong>Purchasing or restoring the Full Version.</strong> Select <strong>Help</strong> → <strong>Purchase or Restore Full Version...</strong> in both cases. On a computer where the signed-in Microsoft account does not own the Full Version, the command opens the Microsoft Store purchase. On another computer that is signed in to the Store with the account that already owns the Full Version, the same command restores it, and you do not pay again. No separate download is needed. The price shown comes from the Microsoft Store for your region; the application holds no price of its own. See <a href="#section-30">Menu reference</a>.</p>
+<p>The command shows the current state: <strong>Purchase or Restore Full Version...</strong> in the Free Version; <strong>Checking Full Version...</strong> while the licence is being checked; <strong>Purchasing Full Version...</strong> while a Microsoft Store purchase is open; <strong>Retry Microsoft Store...</strong> if the Microsoft Store could not be reached (select it to check the licence again); and <strong>Full Version</strong>, not selectable, when the Full Version is active. Before the Microsoft Store opens, the application shows the price returned by the Microsoft Store and asks you to confirm.</p>
+<p><strong>If the Full Version functions stay unavailable on a computer where you already bought the Full Version:</strong></p>
+<ol>
+<li>Sign in to the Microsoft Store on that computer with the Microsoft account that made the purchase.</li>
+<li>Install and start SDR Spectrum Analyzer from the Microsoft Store.</li>
+<li>Select <strong>Help</strong> → <strong>Purchase or Restore Full Version...</strong>. If the Microsoft Store reports that the account already owns the Full Version, you do not need to buy it again. If the command reads <strong>Retry Microsoft Store...</strong>, select it first; it checks the licence again.</li>
+<li>Return to the application. It checks the Full Version licence again as soon as the Store interaction ends.</li>
+<li>If the Full Version functions are still unavailable, close and restart the application; it checks the licence again at startup.</li>
+</ol>
+<p><strong>When the edition changes.</strong> There is no command that switches between the editions by hand. The edition follows the Microsoft Store licence check, which runs at startup, after every purchase or restore in the Microsoft Store, and when Windows reports a licence change; the result appears in the status bar and in Output &amp; Diagnostics. If the Microsoft Store cannot be reached, the application stays in the edition it started with (the Free Version) until a later check succeeds. When the Full Version becomes active, its keys become available, the RSP1B gain settings return to their defaults, the other settings keep their current values, and the two markers are placed at the centre frequency &#177; Span/4. If acquisition was running, the displayed trace is cleared and no longer updates; press 【STOP】 and then 【RUN】. When the Free Version becomes active (for example because a Microsoft account without the Full Version is signed in to the Store), a running acquisition is stopped, the displayed trace is cleared, and the settings are set to the fixed parameter combination of the Free Version; the selected IF bandwidth is kept.</p>
+<p>A Full Version licence belongs to your Microsoft account, not to one computer. On a newly set up computer, Windows may not yet have synchronised the purchase licence to that computer. Neither the Store interaction nor a restart can force this synchronisation; each only lets the application check again. If the status bar then shows <em>Microsoft Store license: No Full Version purchase was found for the Microsoft Store account currently signed in.</em>, the application could not find the licence for that account on this computer at that moment. This does not mean that the purchase does not exist. Check that the Store is signed in with the account that made the purchase, wait a while, and try again.</p>
+<h2 id="section-4">4. System and hardware requirements</h2>
+<ul>
+<li><strong>Windows</strong>: the application runs on Windows desktop computers with Windows 10 version 2004 or later.</li>
+<li><strong>RTL-SDR</strong>: tested RTL2838-based USB SDR hardware (VID:PID <code>0BDA:2838</code>) with an R820T-series tuner, with a functional Microsoft WinUSB binding on the device&#39;s Interface 0 (<code>MI_00</code>). Only this tested path is claimed; compatibility with all RTL-SDR devices, RTL2832U devices, clones or other tuner families is not claimed.</li>
+<li><strong>SDRplay RSP1B</strong>: the RSP1B receiver with the SDRplay API installed on the computer. The application uses the API that SDRplay provides; it does not include or install it.</li>
+</ul>
+<table>
+<thead>
+<tr><th></th><th>RTL-SDR</th><th>RSP1B</th></tr>
+</thead>
+<tbody>
+<tr><td>Tuning range</td><td>24-1766 MHz</td><td>1 kHz-2 GHz</td></tr>
+<tr><td>Sample rates</td><td>1.024, 2.048, 2.4 MS/s</td><td>2, 8 MS/s</td></tr>
+<tr><td>IF bandwidth</td><td>Not applicable</td><td>0.2, 0.3, 0.6, 1.536, 5, 6, 7, 8 MHz</td></tr>
+<tr><td>Gain controls</td><td>Tuner Gain 0-50 dB</td><td>LNA state, Gain Reduction, Minimum GR</td></tr>
+<tr><td>Level unit</td><td>dBFS</td><td>Rel.dB</td></tr>
+</tbody>
+</table>
+<h2 id="section-5">5. Installation</h2>
+<p>Install SDR Spectrum Analyzer using the release package supplied for the chosen release channel.</p>
+<p>Application installation and receiver driver preparation are separate. The application does not install, download, update, replace, or otherwise modify drivers or the SDRplay API.</p>
+<ul>
+<li><strong>RTL-SDR</strong>: the device must already have the required Windows driver configuration (WinUSB on Interface 0) before the application can access it. The production WinUSB signing and distribution architecture remains subject to Microsoft guidance; this guide deliberately does not provide a driver-download, certificate, Test Mode, Zadig, or recovery procedure.</li>
+<li><strong>RSP1B</strong>: install the SDRplay API from SDRplay before you connect the RSP1B. The application finds the installed API automatically.</li>
+</ul>
+<h2 id="section-6">6. Main window overview</h2>
+<figure><a href="assets/screenshots/Figure_1.png"><img src="assets/screenshots/Figure_1.png" alt="SDR Spectrum Analyzer v1.2 main window"></a><figcaption>Figure 1. Main window (Full Version, RSP1B, Sweep mode, 576 MHz, SPAN 30 MHz, running): System keys on the left, spectrum display in the centre, Control Panel on the right, status bar at the bottom.</figcaption></figure>
+<p>The main window contains these areas:</p>
+<ul>
+<li><strong>Menu bar</strong>: File, Device, Acquisition, View and Help (see <a href="#section-30">Menu reference</a>).</li>
+<li><strong>Control Panel</strong>: the instrument-style key panel used for almost every setting. The system keys 【Device】, 【Setup】, 【File】, 【Cal】 and 【Mode】 are on the left of the spectrum; the softkeys, the hard keys, the Virtual Knob, the parameter readout and the unit keys are on the right (see <a href="#section-7">Control Panel basics</a>).</li>
+<li><strong>Spectrum display</strong>: an information bar along the top (device, Ref Level, Samp Mode, Samp Rate, FFT Pts, IF BW and other values), the trace, the frequency and level axes, the red peak readout, marker lines and readouts, the Channel Power range and readout, and the internal-spur marks.</li>
+<li><strong>Properties</strong>: a read-only overview of the current settings, grouped as Frequency, Acquisition, Amplitude, Display &amp; Markers and Device &amp; Advanced, with a short description of where each value is changed. Show or hide it with <strong>View</strong> → <strong>Properties</strong>.</li>
+<li><strong>Output &amp; Diagnostics</strong>: timestamped user-facing messages. This pane is hidden when the application starts; show it with <strong>View</strong> → <strong>Output &amp; Diagnostics</strong>.</li>
+<li><strong>Status bar</strong>: the latest message or acquisition progress on the left, and the spectrum context on the right.</li>
+</ul>
+<p>The panes can be docked. <strong>View</strong> → <strong>Restore Default Layout</strong> restores the default dock-pane layout, which hides Output &amp; Diagnostics again.</p>
+<p>The screenshots in this guide show the English user interface. <a href="#section-16">Complete operation tree</a> lists every Control Panel key by its on-screen name.</p>
+<h2 id="section-7">7. Control Panel basics</h2>
+<p>The Control Panel works like the front panel of a bench spectrum analyser. Every operation below can be done with the mouse; numeric entry also works from the keyboard while the Control Panel has the focus.</p>
+<p><strong>How keys are written in this guide.</strong> A name in brackets, such as 【FREQ】 or 【Center Freq】, is a key on the Control Panel, written exactly as the key is labelled. Menu commands in the menu bar are written in bold, with → between the menu levels, for example <strong>Help</strong> → <strong>User Guide</strong>. Keys on the computer keyboard are also written in bold, for example <strong>Shift</strong>.</p>
+<p><strong>Keys.</strong></p>
+<ul>
+<li><strong>Hard keys</strong> have fixed positions and select a function area: 【FREQ】, 【SPAN】, 【AMPT】, 【BW】, 【SWEEP】, 【TRIG】, 【MKR】, 【MKR→】, 【TRACE】, 【MEAS】 and 【LINES】. The system keys 【Device】, 【Setup】, 【File】, 【Cal】 and 【Mode】, on the left of the spectrum, work the same way.</li>
+<li><strong>Softkeys</strong> are the column of up to 8 keys whose labels change with the selected function area. A softkey that opens a sub-page (for example 【Marker Select】 or 【Front End...】) replaces the column with that page.</li>
+<li>【BACK】 returns to the previous page. 【MORE】 shows the next page of the same function area where one exists; 【AMPT】 has a second page that holds 【Path Offset】.</li>
+<li>【RUN】, 【SINGLE】, 【STOP】 and 【Auto Scale】 are hard keys next to the function-area keys and are always visible.</li>
+</ul>
+<p><strong>Active parameter.</strong> When you press a parameter softkey (for example 【Center Freq】), it becomes the active parameter: its name appears above the readout, and its value appears in the readout box. Direct entry, the Virtual Knob and the mouse wheel then change this parameter. Pressing 【FREQ】, 【SPAN】 or 【AMPT】 also makes the first parameter of that area active (【Center Freq】, 【Span】 or 【Ref Level】).</p>
+<p><strong>Entering a number directly.</strong></p>
+<ol>
+<li>Make the parameter active.</li>
+<li>Type the value with the digit keys, the decimal point and, for parameters that allow negative values, the minus sign.</li>
+<li>Finish the entry with a unit key or with 【Enter】.</li>
+</ol>
+<p>The unit keys depend on the parameter:</p>
+<table>
+<thead>
+<tr><th>Parameter type</th><th>Unit keys</th><th>Enter means</th></tr>
+</thead>
+<tbody>
+<tr><td>Frequencies (Center, Start, Stop, Span, Marker Frequency, Channel Bandwidth), Sample Rate, IF Bandwidth</td><td>【GHz】, 【MHz】, 【kHz】 (there is no Hz key)</td><td>MHz</td></tr>
+<tr><td>Levels (Ref Level, Scale / dB per Div, Path Offset, Gain Reduction)</td><td>【dB】</td><td>dB</td></tr>
+<tr><td>Ref Power</td><td>【dBm】, and 【Unset】 to clear the value</td><td>dBm</td></tr>
+<tr><td>PPM and other list values</td><td>【Enter】 only</td><td>the value as typed</td></tr>
+</tbody>
+</table>
+<p>On the keyboard, <strong>G</strong>, <strong>M</strong> and <strong>K</strong> are the same as 【GHz】, 【MHz】 and 【kHz】; <strong>Backspace</strong> and <strong>Delete</strong> edit the entry, <strong>Esc</strong> cancels it, and <strong>Enter</strong> confirms it. A typed value takes effect only when you finish the entry.</p>
+<p><strong>Virtual Knob and mouse wheel.</strong> The Virtual Knob is the round control on the Control Panel. It changes the active parameter one step at a time, and each step takes effect immediately:</p>
+<ul>
+<li>Drag the Virtual Knob in a circle. Every 15 degrees of rotation is one step; clockwise increases the value and anticlockwise decreases it.</li>
+<li>Use the mouse wheel to turn the Virtual Knob. With the mouse pointer over the Control Panel or over the spectrum plot, each notch of the wheel turns the Virtual Knob by one step: rolling the wheel forward (away from you) increases the value, and rolling it back decreases it.</li>
+</ul>
+<p>The size of one step depends on the parameter:</p>
+<table>
+<thead>
+<tr><th>Parameter</th><th>One step</th></tr>
+</thead>
+<tbody>
+<tr><td>Center Freq</td><td>1/32 of the displayed span</td></tr>
+<tr><td>Start Freq, Stop Freq</td><td>1/16 of the displayed span</td></tr>
+<tr><td>Marker Frequency</td><td>1/64 of the displayed span</td></tr>
+<tr><td>Span, Channel Bandwidth, Scale / dB per Div</td><td>next value in the 1-2-5 sequence</td></tr>
+<tr><td>Ref Level, Ref Power</td><td>1 dB</td></tr>
+<tr><td>Path Offset</td><td>0.1 dB</td></tr>
+<tr><td>Gain Reduction</td><td>1 dB</td></tr>
+<tr><td>PPM</td><td>1</td></tr>
+<tr><td>List parameters (Sample Rate, IF Bandwidth, FFT Points, Window Function, Sweep Average, LNA State, Minimum GR, Tuner Gain, Select Device)</td><td>next allowed value</td></tr>
+</tbody>
+</table>
+<p><strong>Modifier keys.</strong> Hold <strong>Shift</strong> while you turn the Virtual Knob or the mouse wheel for one tenth of the step, or hold <strong>Ctrl</strong> for ten times the step. The modifier keys do not change the 1-2-5 sequence or the list parameters, and the step for Gain Reduction and PPM is at least one unit. A step that would leave the allowed range stops at the limit, and the feedback area shows <em>At limit</em>.</p>
+<p><strong>Choosing from a list.</strong> For a list parameter, click the readout box to open the list of allowed values, then click a value. You can also step through the list with the Virtual Knob or the mouse wheel, or type a value from the list and press 【Enter】.</p>
+<p><strong>Feedback area.</strong> When an input is refused, the feedback area under the readout states why (for example <em>Out of range</em>, <em>Stop acquisition first</em> or a message from the device rules), and the previous value stays in force. Click the feedback area to open the full text; its close button closes it.</p>
+<p><strong>Greyed keys.</strong> A key is greyed when it cannot be used now: the edition does not include it, the connected device has no such control, acquisition must be stopped first, or there is nothing to act on yet. Some keys exist only to keep the panel layout stable and are not implemented in v1.2; they are always greyed. <a href="#section-16">Complete operation tree</a> lists every key with its status.</p>
+<p><strong>Language.</strong> Press 【Setup】, then 【Language】, to switch the Control Panel between 【System Default】, 【English】 and 【简体中文】 for the current session. The menus, dialogs, messages, the Properties pane and the language of the User Guide opened from the Help menu follow the Windows display language at startup.</p>
+<h2 id="section-8">8. Measuring a CW Signal</h2>
+<figure><a href="assets/screenshots/Figure_2.png"><img src="assets/screenshots/Figure_2.png" alt="Real CW measurement at 496 MHz in Fixed mode"></a><figcaption>Figure 2. CW signal at 496 MHz measured in Fixed mode (SPAN 1 MHz, 2 MS/s, IF 1.536 MHz): M1 is on the peak; the green trace is Max Hold.</figcaption></figure>
+<p>This procedure measures a continuous-wave (CW) signal with the receiver tuned to one frequency. The example uses an RSP1B with a CW signal at 496 MHz. The same steps apply to an RTL-SDR, which has Tuner Gain instead of LNA State and Gain Reduction and has no IF bandwidth setting.</p>
+<ol>
+<li>Connect the receiver: press the 【Device】 key, then the 【Refresh】 softkey. Choose the receiver with the 【Select Device】 softkey, and then press the 【Connect / Disconnect】 softkey. 【Device Status】 shows <strong>Connected</strong>.</li>
+<li>Press the 【Mode】 key, then the 【Spectrum Analyzer】 softkey, and then the 【Fixed】 softkey.</li>
+<li>Press the 【FREQ】 key (【Center Freq】 becomes the active parameter), type <code>496</code> and press the 【MHz】 key.</li>
+<li>Press the 【SPAN】 key, type <code>1</code> and press the 【MHz】 key.</li>
+<li>Press the 【BW】 key. Press the 【Sample Rate】 softkey and choose 2 MS/s from the list, then press the 【IF Bandwidth】 softkey and choose 1.536 MHz. Leave 【FFT Points】 at 4096 and 【Window Function】 at Hann.</li>
+<li>Press the 【AMPT】 key, then the 【Front End...】 softkey, and set 【LNA State】 and 【Gain Reduction】 (for example LNA State 3 and Gain Reduction 40 dB). Then press the 【BACK】 key.</li>
+<li>Press the 【SWEEP】 key, then the 【Sweep Average】 softkey, and choose 4 or 16.</li>
+<li>Press the 【RUN】 key. The trace appears, and the red peak readout shows the level at the highest point.</li>
+<li>Press the 【MKR→】 key, then the 【Peak】 softkey. M1 moves to the CW peak, and the marker readout shows its frequency and level.</li>
+<li>If the trace is too high or too low on the screen, press the 【Auto Scale】 key, or press the 【AMPT】 key and set 【Ref Level】.</li>
+<li>When you have finished the measurement, press the 【STOP】 key. The last result stays on the screen.</li>
+</ol>
+<p><strong>Notes.</strong></p>
+<ul>
+<li>In Fixed mode the span cannot be wider than the usable Fixed-mode span. At 2 MS/s with IF 1.536 MHz that is 1.52 MHz, so 1 MHz is accepted. A wider span is refused with <em>Fixed span too wide</em>.</li>
+<li>While the acquisition runs, you can still move the centre frequency: type a new value, turn the Virtual Knob or the mouse wheel, or press the 【MKR→】 key and then the 【CF -&gt; MKR】 softkey. To change the span or the acquisition settings, press 【STOP】 first.</li>
+<li>Availability: in the Free Version, the settings of steps 2, 4, 6 and 7 and the sample rate in step 5 are fixed. You set the centre frequency and, on the RSP1B, the IF bandwidth (see <a href="#section-12">Receiver Configuration and Measurement Limits</a>).</li>
+</ul>
+<h2 id="section-9">9. Measuring OFDM Channel Power</h2>
+<figure><a href="assets/screenshots/Figure_3.png"><img src="assets/screenshots/Figure_3.png" alt="OFDM signal measured in Sweep mode with a calibrated Channel Power result"></a><figcaption>Figure 3. OFDM Channel Power measurement (RSP1B, Sweep mode, centre frequency 496 MHz, SPAN 30 MHz, Channel BW 20 MHz, 8 MS/s, IF 8 MHz, Sweep Average 16, stopped with the last result kept). A matching RSP1B channel-power calibration applies, so Channel Power reads in dBm (ch. cal.) while the trace stays in Rel.dB. The dip at the centre is the unused centre subcarrier of the OFDM signal. Ref Level 30 Rel.dB; M1 marks the centre dip and M2 the noise beside the signal.</figcaption></figure>
+<p>This procedure measures the power of a 20 MHz wide OFDM signal with an RSP1B. A 30 MHz span is wider than the usable Fixed-mode span, so this measurement uses Sweep mode. Sweep mode and Channel Power need the Full Version.</p>
+<ol>
+<li>Connect the RSP1B (see step 1 of <a href="#section-8">Measuring a CW Signal</a>).</li>
+<li>Press the 【Mode】 key, then the 【Spectrum Analyzer】 softkey, and then the 【Sweep】 softkey.</li>
+<li>Press the 【BW】 key and set 【Sample Rate】 to 8 MS/s, 【IF Bandwidth】 to 8 MHz, 【FFT Points】 to 4096 and 【Window Function】 to Hann. This is one of the characterised combinations for Sweep mode on the RSP1B.</li>
+<li>Press the 【FREQ】 key and enter the centre frequency of the OFDM signal. Then press the 【SPAN】 key, type <code>30</code> and press the 【MHz】 key.</li>
+<li>Press the 【SWEEP】 key, then the 【Sweep Average】 softkey, and choose 16.</li>
+<li>Press the 【MEAS】 key, then the 【CP / ACP / MC-ACP】 softkey. Channel Power is now on.</li>
+<li>Press the 【CP / ACP Config】 softkey, then the 【Channel Settings】 softkey, and then the 【Channel Bandwidth】 softkey. Type <code>20</code> and press the 【MHz】 key. The channel boundaries are drawn around the centre frequency.</li>
+<li>Press the 【RUN】 key. The status bar shows the sweep progress. When 16 complete sweeps have been averaged, the readout below the spectrum shows <em>Channel BW 20 MHz &#183; Channel Power ...</em>.</li>
+<li>Check that no overload advisory is shown. If one appears, press the 【STOP】 key, raise 【Gain Reduction】 or select a higher 【LNA State】 (press the 【AMPT】 key, then the 【Front End...】 softkey), and press the 【RUN】 key again.</li>
+<li>When you have the result you need, press the 【STOP】 key.</li>
+</ol>
+<p><strong>Notes.</strong></p>
+<ul>
+<li>Channel Power unit on the RSP1B: if a matching RSP1B channel-power calibration exists for exactly these settings (as in Figure 3), Channel Power reads in dBm (ch. cal.); otherwise it reads in Rel.dB. In both cases the trace stays in Rel.dB (see <a href="#section-14">Understanding Calibration and Channel-Power Calibration</a>). If the trace shows Raw Rel.dB, Channel Power may show no valid value (see <a href="#section-31">Troubleshooting reference</a>).</li>
+<li>The channel is always centred on the centre frequency. To measure a channel elsewhere, change the centre frequency.</li>
+<li>To hide the Channel Power readout again, press the 【MEAS】 key, then the 【All Functions Off】 softkey.</li>
+</ul>
+<h2 id="section-10">10. Wide-Span Spectrum Scanning</h2>
+<p>Use Sweep mode to view a frequency range much wider than the receiver can acquire at one tuning frequency. Sweep mode needs the Full Version.</p>
+<ol>
+<li>Press the 【Mode】 key, then the 【Spectrum Analyzer】 softkey, and then the 【Sweep】 softkey.</li>
+<li>Press the 【BW】 key and choose one of the characterised combinations for Sweep mode on the RSP1B: 2 MS/s with IF 1.536 or 5 MHz, or 8 MS/s with IF 1.536 or 8 MHz, in each case with 【FFT Points】 set to 4096 and the Hann window.</li>
+<li>Set the frequency range. Press the 【FREQ】 key and set 【Start Freq】 and 【Stop Freq】, or set 【Center Freq】, then press the 【SPAN】 key and set 【Span】. To cover the whole tuning range, press the 【SPAN】 key, then the 【Full Span】 softkey.</li>
+<li>Press the 【RUN】 key. The application sweeps the range repeatedly until you stop it, and the status bar shows <em>RSP1B sweep: generation ..., segment .../...</em>. To acquire only one sweep, press the 【SINGLE】 key instead; acquisition then stops by itself after one complete sweep.</li>
+<li>When the sweeps you need have completed, press the 【STOP】 key. The last complete result stays on the screen.</li>
+</ol>
+<p><strong>Limits.</strong> If the selected range extends beyond the RSP1B tuning range of 1 kHz-2 GHz, the application does not start the sweep, and it does not narrow the range for you; correct the start or stop frequency. A sweep is acquired in segments, one segment per tuning step. If the selected range and settings would need more than 256 segments, or if one sweep would take an estimated time of more than 120 s, the application shows a message before the sweep starts and does not start it.</p>
+<p><strong>Tuning centres (RSP1B).</strong> A receiver tuned to one frequency shows an artefact at its own tuning frequency (DC). In Sweep mode on the RSP1B, with the four combinations listed in step 2, the application does not use the data next to each tuning centre: the bins within about 12-48 kHz of every tuning centre (depending on the combination) are taken from a neighbouring segment, whose tuning centre is placed so that it covers them. This applies only to RSP1B Sweep mode; it does not apply to Fixed mode or to an RTL-SDR. Known limitations: with 2 MS/s and IF 1.536 MHz, weak narrow lines related to the tuning centres can appear with some settings; with 2 MS/s and IF 5 MHz, the noise floor in the regions next to the tuning centres may not be flat, and the signal accuracy in these regions has not been verified separately.</p>
+<p><strong>If acquisition is interrupted.</strong> If the receiver&#39;s data stream is briefly interrupted during a sweep, the application tries to resume acquisition and discards the incomplete sweep that was affected. The status bar then shows <em>[stream recoveries: N]</em>, where N is the number of recoveries during this run. If the interruptions continue, the sweep stops and the status bar shows <em>RSP1B sweep failed: ...</em>. If a message says that the application must be restarted to continue, close and restart the application.</p>
+<h2 id="section-11">11. Comparing Signals with Traces and Markers</h2>
+<p>This procedure uses Max Hold, a frozen reference and the two markers, which need the Full Version.</p>
+<figure><a href="assets/screenshots/Figure_4.png"><img src="assets/screenshots/Figure_4.png" alt="Live trace, Max Hold, frozen reference and two markers"></a><figcaption>Figure 4. Comparing traces: live trace (yellow), Max Hold (green) and frozen reference (blue); M1 on the 496 MHz peak, M2 at 496.25 MHz, and the M2 - M1 difference in the readout.</figcaption></figure>
+<ol>
+<li>Start an acquisition (see <a href="#section-8">Measuring a CW Signal</a>).</li>
+<li>Press the 【TRACE】 key, then the 【Trace Mode】 softkey, and then the 【Max Hold】 softkey. A green trace keeps the highest value measured at each frequency.</li>
+<li>To keep the current picture for comparison, press the 【TRACE】 key, then the 【Freeze as Ref】 softkey. The blue reference trace stays on the screen while the live (yellow) trace continues; the 【Reference Trace】 softkey shows or hides it.</li>
+<li>Press the 【MKR→】 key, then the 【Peak】 softkey, to put M1 on the highest point.</li>
+<li>Press the 【MKR】 key, then the 【Marker Select】 softkey, and then the 【M2】 softkey. Press the 【BACK】 key and then the 【Marker Frequency】 softkey, and type a frequency or turn the Virtual Knob or the mouse wheel. Alternatively, hold <strong>Shift</strong> and click the plot.</li>
+<li>Read the marker readout: M1, M2, and the difference M2 - M1 in frequency and level.</li>
+<li>To centre the display on the selected marker, press the 【MKR→】 key, then the 【CF -&gt; MKR】 softkey. To move the selected marker to the centre frequency instead, press the 【MKR -&gt; CF】 softkey.</li>
+<li>To restart Max Hold, press the 【TRACE】 key, then the 【Clear Hold】 softkey. To discard the frozen reference, press the 【Clear Reference】 softkey.</li>
+</ol>
+<p>Changing the centre frequency, the span or an acquisition setting starts a new measurement grid: averaging and Max Hold start again.</p>
+<h2 id="section-12">12. Receiver Configuration and Measurement Limits</h2>
+<p>Before a measurement starts, the application checks that the settings fit together and that the receiver can deliver them. This section explains those rules, so that you can prepare a configuration that is accepted the first time. The individual controls are described in <a href="#section-17">Device connection and RF front end</a>, <a href="#section-18">Frequency, span and bandwidth</a> and <a href="#section-19">Acquisition modes: Fixed and Sweep</a>.</p>
+<p><strong>Receiver differences.</strong></p>
+<ul>
+<li><strong>RTL-SDR</strong>: 24-1766 MHz, sample rates 1.024, 2.048 or 2.4 MS/s, Tuner Gain, levels in dBFS, no IF bandwidth setting.</li>
+<li><strong>RSP1B</strong>: 1 kHz-2 GHz, sample rates 2 or 8 MS/s, IF bandwidth, LNA State, Gain Reduction and Minimum GR, levels in Rel.dB.</li>
+</ul>
+<p><strong>Three terms.</strong></p>
+<ul>
+<li><strong>Sample rate (Fs)</strong>: the number of complex samples the receiver delivers per second. It sets the widest band that can be acquired at one tuning frequency.</li>
+<li><strong>IF bandwidth</strong> (RSP1B only): the width of the receiver&#39;s IF filter. Signals outside it are attenuated, and the response near its edges is not flat.</li>
+<li><strong>Usable Fixed-mode span</strong>: the widest display span that the application accepts in Fixed mode for a given combination of settings. It leaves out the band edges and the bins next to the centre that cannot be measured reliably.</li>
+</ul>
+<p><strong>How the combination limits the span.</strong> In Fixed mode the whole span is acquired at one tuning frequency. The span must therefore fit within the band that the sample rate (together with the FFT size) delivers and, on the RSP1B, within the flat part of the IF filter. The smaller of the two limits applies: a narrow IF bandwidth limits the span even at 8 MS/s, and a wide IF bandwidth cannot extend the span beyond what the sample rate allows. The application applies these limits:</p>
+<table>
+<thead>
+<tr><th>Receiver</th><th>Sample rate (Fs)</th><th>IF bandwidth</th><th>Maximum Fixed-mode span</th></tr>
+</thead>
+<tbody>
+<tr><td>RTL-SDR</td><td>1.024 MS/s</td><td>Not applicable</td><td>about 0.81 MHz (limited by Fs)</td></tr>
+<tr><td>RTL-SDR</td><td>2.048 MS/s</td><td>Not applicable</td><td>about 1.63 MHz (limited by Fs)</td></tr>
+<tr><td>RTL-SDR</td><td>2.4 MS/s</td><td>Not applicable</td><td>about 1.91 MHz (limited by Fs)</td></tr>
+<tr><td>RSP1B</td><td>2 MS/s</td><td>0.2 / 0.3 / 0.6 MHz</td><td>0.2 / 0.3 / 0.6 MHz (limited by the IF filter)</td></tr>
+<tr><td>RSP1B</td><td>2 MS/s</td><td>1.536 MHz</td><td>1.52 MHz (limited by the IF filter)</td></tr>
+<tr><td>RSP1B</td><td>2 MS/s</td><td>5, 6, 7 or 8 MHz</td><td>about 1.59 MHz (limited by Fs)</td></tr>
+<tr><td>RSP1B</td><td>8 MS/s</td><td>0.2 / 0.3 / 0.6 MHz</td><td>0.2 / 0.3 / 0.61 MHz (limited by the IF filter)</td></tr>
+<tr><td>RSP1B</td><td>8 MS/s</td><td>1.536 MHz</td><td>1.5 MHz (limited by the IF filter)</td></tr>
+<tr><td>RSP1B</td><td>8 MS/s</td><td>5 MHz</td><td>4.52 MHz (limited by the IF filter)</td></tr>
+<tr><td>RSP1B</td><td>8 MS/s</td><td>6 MHz</td><td>5.44 MHz (limited by the IF filter)</td></tr>
+<tr><td>RSP1B</td><td>8 MS/s</td><td>7 MHz</td><td>about 6.36-6.4 MHz (limited by Fs)</td></tr>
+<tr><td>RSP1B</td><td>8 MS/s</td><td>8 MHz</td><td>about 6.38 MHz (limited by the IF filter)</td></tr>
+</tbody>
+</table>
+<p>The limits set by Fs depend slightly on the FFT size; for example, with Fs 8 MS/s, IF 8 MHz and 1024 FFT points the limit is 6.36 MHz instead of 6.38 MHz. When a span is refused, the message states the limit that applies. The application keeps the IF bandwidth you selected and does not change it automatically. For a span wider than these limits, use Sweep mode (Full Version); on the RSP1B, Sweep mode accepts only the characterised combinations listed in <a href="#section-19">Acquisition modes: Fixed and Sweep</a>.</p>
+<p><strong>Gain and level range.</strong> On an RTL-SDR, Tuner Gain is requested from 0 to 50 dB. On an RSP1B, the highest LNA state depends on the frequency band, and Gain Reduction cannot go below Minimum GR; a value that is not allowed is refused and the previous value stays. Start with moderate gain (for example Gain Reduction 40 dB and LNA state 3), run once, and check that no overload advisory appears. At 8 MS/s with a system gain below 15 dB, an RSP1B trace is shown in Raw Rel.dB.</p>
+<p><strong>Fixed parameter combination in the Free Version.</strong> In the Free Version the acquisition uses a fixed combination of parameters (see the table in <a href="#section-3">Free and Full Versions</a>): span 1.400 MHz, Fixed mode, FFT 1024, Hann, Sweep Average 4, and the receiver&#39;s own sample rate and gain. On the RSP1B the IF bandwidth remains your choice. At Fs 2 MS/s with a 1.400 MHz span, the table above shows that only 1.536, 5, 6, 7 and 8 MHz fit, so the IF list offers only these. If the IF bandwidth is 0.2, 0.3 or 0.6 MHz, starting an acquisition or loading a configuration file is refused with a message that begins <em>&quot;Free edition: the SPAN is fixed at 1.400 MHz, but IF bandwidth …&quot;</em> and lists the IF bandwidths that fit; choose one of them. A receiver other than an RTL-SDR or RSP1B is refused with <em>&quot;The current device is not supported in the Free edition. Current settings are unchanged.&quot;</em></p>
+<figure><a href="assets/screenshots/Figure_5.png"><img src="assets/screenshots/Figure_5.png" alt="IF Bandwidth list of an RSP1B in the Free Version"></a><figcaption>Figure 5. Free Version with an RSP1B: at the fixed 1.400 MHz span the IF Bandwidth list offers only 1.536, 5, 6, 7 and 8 MHz.</figcaption></figure>
+<p><strong>Preparing a valid configuration.</strong></p>
+<ol>
+<li>Connect the receiver and check that 【Device Status】 shows <strong>Connected</strong>.</li>
+<li>Choose the mode: Fixed mode for a span within the limits above, Sweep mode for a wider span.</li>
+<li>Choose a sample rate and IF bandwidth that cover the span (for an RSP1B in Sweep mode: a characterised combination, 【FFT Points】 4096 and the Hann window).</li>
+<li>Set the gain and the centre frequency.</li>
+<li>Press the 【RUN】 key. If the acquisition is refused, the message names the setting to change; see <a href="#section-15">Recovering from Common Errors</a> and <a href="#section-31">Troubleshooting reference</a>.</li>
+</ol>
+<h2 id="section-13">13. Saving Settings and Exporting Results</h2>
+<p><strong>Save the instrument settings.</strong></p>
+<ol>
+<li>If an acquisition is running, press the 【STOP】 key.</li>
+<li>Press the 【File】 key, then the 【Save Config...】 softkey, and choose a <code>.cfg</code> file name.</li>
+<li>To restore the settings later, press the 【File】 key, then the 【Load Config...】 softkey, and choose the file.</li>
+</ol>
+<p><strong>Save a picture of the spectrum.</strong> Press the 【File】 key, then the 【Export Screenshot...】 softkey, and choose a <code>.png</code> file name. This works in both editions and also while acquisition is running.</p>
+<p><strong>Save the measured data (Full Version).</strong> After a trace exists, press the 【File】 key, then the 【Export CSV...】 softkey (or select <strong>Acquisition</strong> → <strong>Export CSV</strong> in the menu bar), and choose a <code>.csv</code> file name. The file contains the live trace (not Max Hold) with comment lines that describe the settings; see <a href="#section-28">Exporting data and screenshots</a>.</p>
+<p>A configuration file does not contain a trace or a measurement result, and a screenshot is a picture only. Use the CSV file for measurement data.</p>
+<h2 id="section-14">14. Understanding Calibration and Channel-Power Calibration</h2>
+<p><strong>Read the calibration status.</strong> Press the 【Cal】 key. 【Calibration Status】 describes the amplitude of the <strong>trace</strong>: on an RSP1B it normally reads <strong>Not Calibrated</strong> (the trace is in Rel.dB). To see which unit is in force and why, press the 【AMPT】 key and read 【Unit / Reference Status】. An RSP1B channel-power calibration does not change the trace: Channel Power can read in dBm while 【Calibration Status】 still reads <strong>Not Calibrated</strong>.</p>
+<figure><a href="assets/screenshots/Figure_6.png"><img src="assets/screenshots/Figure_6.png" alt="Cal page with calibration status and unit"></a><figcaption>Figure 6. Cal page: Calibration Status reads Not Calibrated (the RSP1B trace is in Rel.dB), and Ref: Rel.dB shows the unit in force.</figcaption></figure>
+<p><strong>Create an RSP1B channel-power calibration (Full Version).</strong></p>
+<ol>
+<li>Feed a stable reference signal (a CW signal, or a continuous broadband signal such as OFDM) and measure its channel power at your reference plane with a reference instrument, using the same centre frequency and channel bandwidth.</li>
+<li>Set up the measurement as in <a href="#section-9">Measuring OFDM Channel Power</a> (Sweep mode) or in Fixed mode, with the reference signal inside the channel and Sweep Average 16 or more. Use a reference signal well above the receiver noise in the channel: the application does not check the signal-to-noise ratio, and noise in the channel adds to the measured power.</li>
+<li>If an attenuator is connected between the reference plane and the receiver, enter its value with 【Path Offset】: press the 【AMPT】 key, then the 【MORE】 key, and then the 【Path Offset】 softkey.</li>
+<li>Press the 【RUN】 key.</li>
+<li>Press the 【Cal】 key, then the 【Ref Power】 softkey. Type the reference reading and press the 【dBm】 key. You can also enter it later, while the calibration runs.</li>
+<li>Press the 【Calibrate】 softkey. The calibration then runs by itself: the feedback area shows how many of the 10 averaging windows have been collected and names any condition that is not met yet. It takes at least as long as 10 complete averaging windows, and it stops without saving after 10 minutes. To cancel it, press 【Calibrate】 again and answer Yes.</li>
+<li>When every check has passed, a confirmation dialog shows the reference power, the path offset and the exact settings. Choose Yes to save the calibration for exactly the current 9 settings; No saves nothing.</li>
+</ol>
+<p><strong>Use the calibration later.</strong> Restore the same 9 settings (mode, centre frequency, channel bandwidth, sample rate, IF bandwidth, Gain Reduction, LNA state, FFT points and window); a saved configuration file is the easiest way. Channel Power then reads in dBm.</p>
+<p><strong>RTL-SDR.</strong> The steps are the same, except that 【Calibrate】 creates the calibration at once from the current result, so press it only when the Channel Power result is steady. An RTL-SDR calibration also shows the trace in dBm, and 【Calibration Status】 reads <strong>Channel Cal.</strong> while it applies.</p>
+<p>Before relying on an RSP1B calibration in Sweep mode, read the limitation at the end of <a href="#section-25">Calibration</a>.</p>
+<p><strong>Turn calibration off or remove it.</strong> To turn all calibrations off for this session, press the 【Cal】 key, then the 【Disable Calibration】 softkey. To delete the calibration of the current settings, stop acquisition, press the 【Cal】 key, then the 【Clear Calibration Data...】 softkey, and confirm.</p>
+<h2 id="section-15">15. Recovering from Common Errors</h2>
+<ul>
+<li><strong>The feedback area shows &quot;Stop acquisition first&quot;.</strong> Press the 【STOP】 key, change the setting, and press the 【RUN】 key again.</li>
+<li><strong>&quot;Fixed span too wide&quot;.</strong> Reduce the span, choose a sample rate or IF bandwidth that gives a wider usable span, or change to Sweep mode (Full Version): press the 【Mode】 key, then the 【Spectrum Analyzer】 softkey, and then the 【Sweep】 softkey.</li>
+<li><strong>An RSP1B sweep does not start.</strong> Read the message: it names the setting to change (sample rate and IF bandwidth pair, FFT points, window, range, number of segments or sweep time). Use a characterised combination from <a href="#section-10">Wide-Span Spectrum Scanning</a>.</li>
+<li><strong>An acquisition is refused because of the IF bandwidth (Free Version, RSP1B).</strong> Press the 【BW】 key, then the 【IF Bandwidth】 softkey, and choose 1.536, 5, 6, 7 or 8 MHz (see <a href="#section-12">Receiver Configuration and Measurement Limits</a>).</li>
+<li><strong>【Device Status】 shows Device Lost or Connection Error.</strong> Press the 【Connect / Disconnect】 softkey to release the receiver, check the USB cable, press the 【Refresh】 softkey, select the receiver and connect again.</li>
+<li><strong>【RUN】 and 【SINGLE】 stay greyed.</strong> With Device Data, a receiver must be connected. 【RUN】 and 【SINGLE】 also stay greyed until a running acquisition has fully stopped.</li>
+<li><strong>The User Guide cannot be opened from the Help menu.</strong> The installation is incomplete; repair or reinstall the application.</li>
+</ul>
+<p>More messages and their meaning are listed in <a href="#section-31">Troubleshooting reference</a>.</p>
+<h2 id="section-16">16. Complete operation tree</h2>
+<p>This section lists every key of the Control Panel, derived from the v1.2 application. The Key column gives the key sequence, with → between the keys. For example, 【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 means: press the 【MEAS】 key, then the 【CP / ACP / MC-ACP】 softkey, and then the 【CP / ACP Config】 softkey. The arrow in the label of the 【MKR→】 key is inside the brackets, so 【MKR→】 → 【Peak】 means: press 【MKR→】, then 【Peak】. A path that begins with … continues the path of the rows above it.</p>
+<figure><a href="assets/screenshots/Figure_7.png"><img src="assets/screenshots/Figure_7.png" alt="Control Panel close-up with a refused entry"></a><figcaption>Figure 7. Control Panel close-up: the active parameter Span with the entry 2 and the unit keys, the Virtual Knob, and the feedback area refusing the change while acquisition is running (Stop acquisition first).</figcaption></figure>
+<p><strong>How to read the tables.</strong></p>
+<ul>
+<li><strong>Type</strong> says what happens when you press the key. A <em>Parameter</em> key makes a value active so that you can change it (see <a href="#section-7">Control Panel basics</a>). An <em>Action</em> key does something once. A <em>Toggle</em> key switches a function on or off, or selects one of several options. A <em>Status</em> key shows information that cannot be changed. A <em>Page</em> key opens a sub-page of softkeys; 【BACK】 returns to the previous page.</li>
+<li><strong>Edition</strong> says which edition offers the key. <em>Free and Full</em> means that the key works in both editions; <em>Full only</em> means that the key needs the Full Version and is greyed in the Free Version.</li>
+<li><strong>Receiver</strong> says which receivers the key applies to: <em>RTL-SDR and RSP1B</em>, <em>RTL-SDR only</em> or <em>RSP1B only</em>. A key for a control that the connected receiver does not have is greyed.</li>
+<li><strong>During acquisition</strong> says whether you can use the key while an acquisition is running. <em>Usable</em> means that it works at any time. <em>Stop acquisition first</em> means that it works only after you press 【STOP】. <em>Only when stopped</em> means that the key starts an acquisition and is therefore available only while none is running. <em>Only while disconnected</em> means that it works only while no receiver is connected.</li>
+<li>Below a table, <strong>Not available in v1.2</strong> lists the keys of that area that are shown on the panel but are always greyed. <em>Not implemented</em> means that the key belongs to the v1.2 panel but has no function in this version. <em>Reserved</em> means that the key keeps the place of a function planned for a later version.</li>
+</ul>
+<h3>FREQ</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【FREQ】 → 【Center Freq】</td><td>Parameter</td><td>Centre of the display window; GHz / MHz / kHz; step 1/32 of span</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable, except during a single acquisition</td></tr>
+<tr><td>【FREQ】 → 【Start Freq】</td><td>Parameter</td><td>Left edge; changes centre and span; step 1/16 of span</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【FREQ】 → 【Stop Freq】</td><td>Parameter</td><td>Right edge; changes centre and span; step 1/16 of span</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【FREQ】 → 【Freq Step】: not implemented</li>
+<li>【FREQ】 → 【Freq Offset】: reserved</li>
+</ul>
+<h3>SPAN</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【SPAN】 → 【Span】</td><td>Parameter</td><td>Display width, minimum 1 kHz; GHz / MHz / kHz; steps in the 1-2-5 sequence</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【SPAN】 → 【Full Span】</td><td>Action</td><td>Sweep mode: whole tuning range; Fixed mode: widest allowed span</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【SPAN】 → 【Zoom In】</td><td>Action</td><td>Next smaller span in the 1-2-5 sequence</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【SPAN】 → 【Zoom Out】</td><td>Action</td><td>Next larger span in the 1-2-5 sequence</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【SPAN】 → 【Zero Span】: reserved</li>
+</ul>
+<h3>AMPT</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【AMPT】 → 【Ref Level】</td><td>Parameter</td><td>Level at the top of the plot; dB; step 1 dB</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【AMPT】 → 【Scale / dB per Div】</td><td>Parameter</td><td>1, 2, 5, 10 or 20 dB per division</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【AMPT】 → 【Auto Scale】</td><td>Action</td><td>Practical scale from the current trace</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【AMPT】 → 【Unit / Reference Status】</td><td>Status</td><td>Unit in force and the reason</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【AMPT】 → 【Front End...】</td><td>Page</td><td>Receiver gain controls (same keys as 【Device】 → 【RF Front End】)</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【AMPT】 → 【Front End...】 → 【Tuner Gain】</td><td>Parameter</td><td>0-50 dB, list</td><td>Full only</td><td>RTL-SDR only</td><td>Stop acquisition first</td></tr>
+<tr><td>【AMPT】 → 【Front End...】 → 【LNA State】</td><td>Parameter</td><td>LNA attenuation state, list (maximum 6, 9 or 8 by band)</td><td>Full only</td><td>RSP1B only</td><td>Stop acquisition first</td></tr>
+<tr><td>【AMPT】 → 【Front End...】 → 【Gain Reduction】</td><td>Parameter</td><td>Minimum GR to 59 dB; dB; step 1 dB</td><td>Full only</td><td>RSP1B only</td><td>Stop acquisition first</td></tr>
+<tr><td>【AMPT】 → 【Front End...】 → 【Minimum GR】</td><td>Parameter</td><td>20 dB or 0 dB, list</td><td>Full only</td><td>RSP1B only</td><td>Stop acquisition first</td></tr>
+<tr><td>【AMPT】 → 【Front End...】 → 【IF Bandwidth】</td><td>Parameter</td><td>IF bandwidth, list (Free Version: 1.536, 5, 6, 7 or 8 MHz)</td><td>Free and Full</td><td>RSP1B only</td><td>Stop acquisition first</td></tr>
+<tr><td>【AMPT】 → 【MORE】 → 【Path Offset】</td><td>Parameter</td><td>0-100 dB ahead of the receiver; dB; step 0.1 dB</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+</tbody>
+</table>
+<h3>BW</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【BW】 → 【IF Bandwidth】</td><td>Parameter</td><td>IF bandwidth, list</td><td>Free and Full</td><td>RSP1B only</td><td>Stop acquisition first</td></tr>
+<tr><td>【BW】 → 【Sample Rate】</td><td>Parameter</td><td>RTL-SDR 1.024 / 2.048 / 2.4 MS/s, RSP1B 2 / 8 MS/s, list</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【BW】 → 【FFT Points】</td><td>Parameter</td><td>1024 to 16384, list</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【BW】 → 【Window Function】</td><td>Parameter</td><td>Hann or Blackman-Harris, list</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【BW】 → 【RBW】: reserved</li>
+<li>【BW】 → 【VBW】: reserved</li>
+</ul>
+<h3>SWEEP</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【SWEEP】 → 【Continuous Sweep】</td><td>Action</td><td>Same as 【RUN】</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Only when stopped</td></tr>
+<tr><td>【SWEEP】 → 【Single Sweep】</td><td>Action</td><td>Same as 【SINGLE】</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Only when stopped</td></tr>
+<tr><td>【SWEEP】 → 【Stop】</td><td>Action</td><td>Same as 【STOP】</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【SWEEP】 → 【Sweep Average】</td><td>Parameter</td><td>1, 4, 8, 16 or 32, list</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【SWEEP】 → 【Trigger...】</td><td>Page</td><td>Opens a page whose only key is 【Free Run】</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【SWEEP】 → 【Sweep Time】: reserved</li>
+<li>【SWEEP】 → 【Trigger...】 → 【Free Run】: not implemented (acquisition always runs freely, without a trigger)</li>
+</ul>
+<h3>TRIG</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【TRIG】 → 【Trigger/Gate Source】</td><td>Page</td><td>Opens the trigger source page</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【TRIG】 → 【Trigger/Gate Source】 → 【Free Run】: not implemented</li>
+<li>【TRIG】 → 【Trigger/Gate Source】 → 【External】: reserved</li>
+<li>【TRIG】 → 【Trigger/Gate Source】 → 【IF Power】: reserved</li>
+<li>【TRIG】 → 【Trigger/Gate Source】 → 【Video / More】: reserved</li>
+<li>【TRIG】 → 【Trigger/Gate Level】: reserved</li>
+<li>【TRIG】 → 【Trigger/Gate Polarity】: reserved</li>
+<li>【TRIG】 → 【Trigger Offset】: reserved</li>
+<li>【TRIG】 → 【Gate Settings】: reserved</li>
+</ul>
+<h3>MKR</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【MKR】 → 【Marker Select】</td><td>Page</td><td>Choose M1 or M2</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【MKR】 → 【Marker Select】 → 【M1】</td><td>Toggle</td><td>【Marker Frequency】 and the 【MKR→】 softkeys act on M1</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【MKR】 → 【Marker Select】 → 【M2】</td><td>Toggle</td><td>【Marker Frequency】 and the 【MKR→】 softkeys act on M2</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【MKR】 → 【Marker Mode】</td><td>Page</td><td>Normal or Delta</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【MKR】 → 【Marker Mode】 → 【Normal】</td><td>Toggle</td><td>Selects M1</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【MKR】 → 【Marker Mode】 → 【Delta】</td><td>Toggle</td><td>Selects M2 (readout relative to M1)</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【MKR】 → 【Marker Frequency】</td><td>Parameter</td><td>Frequency of the selected marker; GHz / MHz / kHz; step 1/64 of span</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【MKR】 → 【Marker On/Off】: not implemented</li>
+<li>【MKR】 → 【Marker Function...】: reserved</li>
+</ul>
+<h3>MKR→</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【MKR→】 → 【Peak】</td><td>Action</td><td>M1 to the highest point of the trace</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【MKR→】 → 【CF -&gt; MKR】</td><td>Action</td><td>Centre frequency to the selected marker, span kept</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable, except during a single acquisition</td></tr>
+<tr><td>【MKR→】 → 【MKR -&gt; CF】</td><td>Action</td><td>Selected marker to the centre frequency</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【MKR→】 → 【Next Peak】: not implemented</li>
+<li>【MKR→】 → 【Next Peak Mode...】: reserved</li>
+<li>【MKR→】 → 【Ref Level = Marker Level】: reserved</li>
+</ul>
+<h3>MEAS</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【MEAS】 → 【All Functions Off】</td><td>Action</td><td>Turns Channel Power off</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【MEAS】 → 【CP / ACP / MC-ACP】</td><td>Page</td><td>Turns Channel Power on and opens its page</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】</td><td>Page</td><td>Channel configuration page</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>… → 【CP / ACP Config】 → 【Channel Settings】</td><td>Page</td><td>Channel settings page</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>… → 【Channel Settings】 → 【Channel Bandwidth】</td><td>Parameter</td><td>Channel width, minimum 10 kHz; GHz / MHz / kHz; steps in the 1-2-5 sequence</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【MEAS】 → 【TOI】: reserved</li>
+<li>【MEAS】 → 【AM Mod Depth】: reserved</li>
+<li>【MEAS】 → 【Time Domain Power】: reserved</li>
+<li>【MEAS】 → 【C/N / C/N0】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【# TX Channels】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【# Adjacent Channels】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【Channel Settings】 → 【Channel Spacing】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【Channel Settings】 → 【Chan Pwr/Hz】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【Channel Settings】 → 【ACP Ref Setting】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【Channel Settings】 → 【Adjust Ref Level】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【Channel Settings】 → 【Adjust Settings】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【Limit Checking】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【Power Mode】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【Select Trace】: reserved</li>
+<li>【MEAS】 → 【CP / ACP / MC-ACP】 → 【CP / ACP Config】 → 【Adjust Settings】: reserved</li>
+</ul>
+<h3>TRACE</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【TRACE】 → 【Trace Mode】</td><td>Page</td><td>Trace display modes</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【TRACE】 → 【Trace Mode】 → 【Clear/Write】</td><td>Toggle</td><td>Shows the live trace</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【TRACE】 → 【Trace Mode】 → 【Max Hold】</td><td>Toggle</td><td>Shows or hides the Max Hold trace</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【TRACE】 → 【Trace Mode】 → 【Blank】</td><td>Toggle</td><td>Hides the live trace</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【TRACE】 → 【Reference Trace】</td><td>Toggle</td><td>Shows or hides the frozen reference</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【TRACE】 → 【Freeze as Ref】</td><td>Action</td><td>Freezes the current trace as reference</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【TRACE】 → 【Clear Reference】</td><td>Action</td><td>Discards the frozen reference</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【TRACE】 → 【Clear Hold】</td><td>Action</td><td>Restarts Max Hold</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【TRACE】 → 【Trace Mode】 → 【Min Hold】: reserved</li>
+<li>【TRACE】 → 【Trace Mode】 → 【Average】: not implemented (use 【Sweep Average】 under 【SWEEP】)</li>
+<li>【TRACE】 → 【Trace Mode】 → 【View】: not implemented</li>
+<li>【TRACE】 → 【Trace Select】: reserved</li>
+</ul>
+<h3>LINES</h3>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【LINES】 → 【Select Line】: reserved</li>
+<li>【LINES】 → 【New】: reserved</li>
+<li>【LINES】 → 【Edit】: reserved</li>
+<li>【LINES】 → 【Copy】: reserved</li>
+<li>【LINES】 → 【Delete】: reserved</li>
+<li>【LINES】 → 【Display Lines】: reserved</li>
+<li>【LINES】 → 【Enable/Disable Check】: reserved</li>
+<li>【LINES】 → 【Offset】: reserved</li>
+</ul>
+<h3>Mode</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【Mode】 → 【Spectrum Analyzer】</td><td>Page</td><td>Fixed mode or Sweep mode</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Mode】 → 【Spectrum Analyzer】 → 【Fixed】</td><td>Toggle</td><td>One tuning frequency, whole span at once</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【Mode】 → 【Spectrum Analyzer】 → 【Sweep】</td><td>Toggle</td><td>Sequential segments for wide spans</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【Mode】 → 【Zero Span】: reserved</li>
+<li>【Mode】 → 【IQ Analyzer】: reserved</li>
+<li>【Mode】 → 【Demodulation】: reserved</li>
+<li>【Mode】 → 【Measurement App】: reserved</li>
+</ul>
+<h3>Cal</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【Cal】 → 【Calibration Status】</td><td>Status</td><td>State of the trace amplitude</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Cal】 → 【Active Profile / Entry】</td><td>Status</td><td>Profile entry that applies</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Cal】 → 【Calibrate】</td><td>Action</td><td>Creates a channel-power calibration</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Cal】 → 【Disable Calibration】</td><td>Toggle</td><td>Turns calibrations off for this session (when one exists)</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Cal】 → 【Reference Info】</td><td>Status</td><td>Reference details</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Cal】 → 【Clear Calibration Data...】</td><td>Action</td><td>Deletes the calibration of the current settings (when one exists)</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【Cal】 → 【Ref Power】</td><td>Parameter</td><td>Reference reading, -160 to +30 dBm; dBm / Unset; step 1 dB</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【Cal】 → 【Manage Calibration】: reserved</li>
+</ul>
+<h3>Device</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【Device】 → 【Select Device】</td><td>Parameter</td><td>Receiver from the last refresh, list</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【Device】 → 【Connect / Disconnect】</td><td>Action</td><td>Opens or releases the receiver (stops acquisition first)</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Device】 → 【Refresh】</td><td>Action</td><td>Searches for receivers (only while no device is connected)</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Only while disconnected</td></tr>
+<tr><td>【Device】 → 【Device Status】</td><td>Status</td><td>No Device ... Connected ... Connection Error</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Device】 → 【Freq. Corr.】</td><td>Page</td><td>Frequency correction</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Device】 → 【Freq. Corr.】 → 【PPM】</td><td>Parameter</td><td>-200 to +200; Enter; step 1</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【Device】 → 【RF Front End】</td><td>Page</td><td>Same keys as 【AMPT】 → 【Front End...】</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+</tbody>
+</table>
+<h3>Setup</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【Setup】 → 【Language】</td><td>Page</td><td>Control Panel language</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Setup】 → 【Language】 → 【System Default】</td><td>Toggle</td><td>Language of Windows</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Setup】 → 【Language】 → 【English】</td><td>Toggle</td><td>English Control Panel</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Setup】 → 【Language】 → 【简体中文】</td><td>Toggle</td><td>Simplified Chinese Control Panel</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+</tbody>
+</table>
+<h3>File</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【File】 → 【Export Screenshot...】</td><td>Action</td><td>PNG of the spectrum view</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【File】 → 【Export CSV...】</td><td>Action</td><td>CSV of the live trace</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【File】 → 【Save Config...】</td><td>Action</td><td>Writes a <code>.cfg</code> file</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+<tr><td>【File】 → 【Load Config...】</td><td>Action</td><td>Reads a <code>.cfg</code> file</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Stop acquisition first</td></tr>
+</tbody>
+</table>
+<p><strong>Not available in v1.2</strong> (shown on the panel, always greyed):</p>
+<ul>
+<li>【File】 → 【Export Trace...】: reserved</li>
+<li>【File】 → 【Save Measurement...】: reserved</li>
+<li>【File】 → 【Open Measurement...】: reserved</li>
+<li>【File】 → 【Recent Files...】: reserved</li>
+</ul>
+<h3>Action keys</h3>
+<table>
+<thead>
+<tr><th>Key</th><th>Type</th><th>What it does / how to set</th><th>Edition</th><th>Receiver</th><th>During acquisition</th></tr>
+</thead>
+<tbody>
+<tr><td>【RUN】</td><td>Action</td><td>Continuous acquisition</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Only when stopped</td></tr>
+<tr><td>【SINGLE】</td><td>Action</td><td>One acquisition, then stop</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Only when stopped</td></tr>
+<tr><td>【STOP】</td><td>Action</td><td>Ends the acquisition</td><td>Free and Full</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+<tr><td>【Auto Scale】</td><td>Action</td><td>Practical scale from the current trace</td><td>Full only</td><td>RTL-SDR and RSP1B</td><td>Usable</td></tr>
+</tbody>
+</table>
+<h2 id="section-17">17. Device connection and RF front end</h2>
+<p>Press the 【Device】 key on the Control Panel. Its softkeys are:</p>
+<ul>
+<li>【Select Device】: chooses one of the receivers found by the last refresh. It can be changed only while acquisition is stopped.</li>
+<li>【Connect / Disconnect】: connects or disconnects the selected receiver. Disconnecting during an acquisition stops the acquisition first.</li>
+<li>【Refresh】: searches for supported receivers again and reports whether each one is ready. It is available only while no receiver is connected.</li>
+<li>【Device Status】: shows <strong>No Device</strong>, <strong>Disconnected</strong>, <strong>Connecting</strong>, <strong>Connected</strong>, <strong>Disconnecting</strong>, <strong>Device Lost</strong> or <strong>Connection Error</strong>.</li>
+<li>【Freq. Corr.】, then 【PPM】: frequency correction from -200 to +200 PPM; 0 means no correction. It compensates a systematic oscillator frequency error and does not change gain or power.</li>
+<li>【RF Front End】: the gain controls of the connected receiver (also reached by pressing 【AMPT】, then 【Front End...】).</li>
+</ul>
+<p><strong>If the device list looks empty after 【Refresh】.</strong> After 【Refresh】, the readout box of 【Select Device】 can show only a dash (—), and 【Connect / Disconnect】 stays unavailable, although the search has found the receivers. Click the readout box with the mouse: the list opens (for example <code>0: RTL2838UHIDIR [serial number]</code> and <code>1: SDRplay-RSP1B [serial number]</code>). Click the receiver you want; 【Connect / Disconnect】 then becomes available.</p>
+<p>The <strong>Device</strong> menu in the menu bar offers the same operations: <strong>Refresh Devices</strong>, <strong>Connect Selected Device</strong>, <strong>Disconnect Device</strong>, and the diagnostic <strong>Check Connection</strong>.</p>
+<p><strong>RTL-SDR front end (while stopped).</strong> 【Tuner Gain】 requests a tuner gain from 0 to 50 dB in 1 dB steps; the tuner uses the closest step it supports. The requested gain is not a power calibration.</p>
+<p><strong>RSP1B front end.</strong> The gain settings can be changed only while acquisition is stopped.</p>
+<ul>
+<li>【LNA State】: the RSP1B LNA attenuation state; a higher state means less gain. The highest allowed state depends on the RF frequency: 6 below 50 MHz, 9 from 50 MHz to below 1 GHz, and 8 from 1 GHz upward. A state that is not allowed at the current frequency is refused, not changed.</li>
+<li>【Gain Reduction】: 20 to 59 dB in normal operation; a higher value means less gain.</li>
+<li>【Minimum GR】: 20 dB (normal) or 0 dB (extended). With 0 dB, Gain Reduction can go down to 0 dB. A Gain Reduction below the current minimum is refused.</li>
+<li>【IF Bandwidth】: 0.2, 0.3, 0.6, 1.536, 5, 6, 7 or 8 MHz (also under 【BW】). Your selection is kept until you change it.</li>
+</ul>
+<p>Without a stored configuration, the RSP1B starts at 2 MS/s, IF bandwidth 1.536 MHz, Gain Reduction 40 dB, LNA state 0 and Minimum GR 20 dB.</p>
+<p>Availability: PPM and the gain controls need the Full Version; the IF bandwidth can be chosen in both editions.</p>
+<p>For an RTL-SDR, the readiness messages tell you whether the device was not found, whether Interface 0 is present but not bound to WinUSB, whether it is ready, and whether Windows could not query the device.</p>
+<h2 id="section-18">18. Frequency, span and bandwidth</h2>
+<p>【FREQ】 holds 【Center Freq】, 【Start Freq】 and 【Stop Freq】. Changing the start or stop frequency changes the span as well. The whole displayed window must stay inside the tuning range of the device (RTL-SDR 24-1766 MHz, RSP1B 1 kHz-2 GHz). While continuous acquisition is running you can still change the centre frequency: the display moves to the new range when the first result at the new frequency arrives.</p>
+<p>【SPAN】 holds 【Span】 (minimum 1 kHz), 【Full Span】, 【Zoom In】 and 【Zoom Out】. In Sweep mode, 【Full Span】 shows the whole tuning range; in Fixed mode it selects the widest span that the current settings allow. The span cannot be changed while an acquisition is running.</p>
+<p>【BW】 holds the acquisition bandwidth settings, which can be changed only while acquisition is stopped:</p>
+<ul>
+<li>【IF Bandwidth】 (RSP1B): see <a href="#section-17">Device connection and RF front end</a>.</li>
+<li>【Sample Rate】: RTL-SDR 1.024, 2.048 or 2.4 MS/s; RSP1B 2 or 8 MS/s.</li>
+<li>【FFT Points】: 1024, 2048, 4096, 8192 or 16384. More points give finer frequency resolution at the same sample rate.</li>
+<li>【Window Function】: <strong>Hann</strong> (about 1.5-bin equivalent noise bandwidth, about -31 dB sidelobes; the default for general viewing and channel power) or <strong>Blackman-Harris</strong> (about 2-bin equivalent noise bandwidth and wider peaks, about -92 dB sidelobes; for weak signals or spurs near strong carriers). Channel Power corrects for the equivalent noise bandwidth; after changing the window, acquire again and recalibrate before relying on a calibrated result.</li>
+</ul>
+<p>On the plot, dragging an empty area moves the frequency window (it changes the centre frequency).</p>
+<p>Availability: in the Free Version only the centre frequency and, on the RSP1B, the IF bandwidth can be changed; the span and the other 【BW】 settings are fixed.</p>
+<h2 id="section-19">19. Acquisition modes: Fixed and Sweep</h2>
+<p>To choose the mode, press 【Mode】, then 【Spectrum Analyzer】, and then 【Fixed】 or 【Sweep】. The mode can be changed only while acquisition is stopped. The Free Version always uses Fixed mode.</p>
+<p><strong>Fixed mode.</strong> The receiver stays on one centre frequency and the whole span is acquired at once. The span cannot exceed the usable Fixed-mode span of the current sample rate, FFT size and, on the RSP1B, IF bandwidth. A wider span is refused with a message that states the limit; the application does not change to Sweep mode by itself. The limit for each combination of sample rate and IF bandwidth is listed in <a href="#section-12">Receiver Configuration and Measurement Limits</a>.</p>
+<p><strong>Sweep mode.</strong> For a wider span, the receiver retunes through sequential segments and joins their usable FFT bins into the displayed range. It does <strong>not</strong> acquire the whole span simultaneously. Each segment averages four FFT frames internally. 【Sweep Average】 (under 【SWEEP】) then averages the results of the latest 1, 4, 8, 16 or 32 complete sweeps for each frequency bin. More sweeps give a steadier trace and channel power but respond more slowly.</p>
+<p>On the RSP1B, Sweep mode is limited to the characterised settings: FFT points 4096 with the Hann window, and the sample-rate / IF-bandwidth pairs 2 MS/s with 1.536 or 5 MHz and 8 MS/s with 1.536 or 8 MHz. A sweep also needs at most 256 segments and an estimated time of at most 120 s for one sweep. A request outside these limits is refused with a message that names the reason, and no acquisition is started.</p>
+<h2 id="section-20">20. Running measurements</h2>
+<ul>
+<li>【RUN】 (also 【Continuous Sweep】 under 【SWEEP】, and <strong>Acquisition</strong> → <strong>Continuous Run</strong> in the menu bar) starts continuous acquisition until you press 【STOP】: in Fixed mode the spectrum is updated repeatedly, and in Sweep mode the range is swept repeatedly. With Demo Data, the demonstration data is updated repeatedly.</li>
+<li>【SINGLE】 (also 【Single Sweep】 under 【SWEEP】, and <strong>Acquisition</strong> → <strong>Single Sweep</strong> in the menu bar) performs one acquisition, which is one spectrum in Fixed mode or one complete sweep in Sweep mode, and then stops by itself. The key and menu labels say <em>Sweep</em>, but they work in both Fixed mode and Sweep mode.</li>
+<li>【STOP】 ends the current acquisition. The last result stays on the screen.</li>
+</ul>
+<p>【RUN】 and 【SINGLE】 are available only when acquisition is fully stopped and the selected data source is ready:</p>
+<table>
+<thead>
+<tr><th>Data source</th><th>Receiver</th><th>【RUN】 / 【SINGLE】</th></tr>
+</thead>
+<tbody>
+<tr><td>Device Data</td><td>Disconnected</td><td>Unavailable</td></tr>
+<tr><td>Device Data</td><td>Connected and idle</td><td>Available</td></tr>
+<tr><td>Demo Data</td><td>Not required</td><td>Available</td></tr>
+</tbody>
+</table>
+<p>Before an acquisition starts, the settings are checked. If something is not allowed (for example a span that is too wide for Fixed mode, Sweep mode on the RSP1B with uncharacterised settings, or an incompatible IF bandwidth in the Free Version), the acquisition is refused with a message and nothing is changed.</p>
+<p>While acquisition is running you can change the centre frequency, the display scale, the markers, the trace display and the frozen reference, and export a screenshot or a CSV file. Settings that affect acquisition, the data source, the device selection and configuration files require 【STOP】 first; otherwise the feedback area shows <em>Stop acquisition first</em>.</p>
+<h2 id="section-21">21. Amplitude and display</h2>
+<p>Press the 【AMPT】 key. Its softkeys are:</p>
+<ul>
+<li>【Ref Level】: the level at the top of the plot. Its label shows the unit in force, for example <strong>Ref Level (Rel.dB)</strong>. It does not change gain or samples.</li>
+<li>【Scale / dB per Div】: 1, 2, 5, 10 or 20 dB per division.</li>
+<li>【Auto Scale】 (also <strong>View</strong> → <strong>Auto Scale</strong> in the menu bar, and the 【Auto Scale】 hard key next to 【RUN】, 【SINGLE】 and 【STOP】): sets a practical scale from the current trace.</li>
+<li>【Unit / Reference Status】: shows the unit in force and why, for example that an RSP1B trace is in Rel.dB, in Raw Rel.dB, or in dBm from a calibration profile.</li>
+<li>【Front End...】: the receiver gain controls (see <a href="#section-17">Device connection and RF front end</a>).</li>
+<li>【Path Offset】 (on page 2 of 【AMPT】, reached with 【MORE】): a known loss or attenuation ahead of the receiver, from 0 to 100 dB. Traces, markers and Channel Power are then referenced ahead of the attenuator. Overload detection still uses the uncompensated samples.</li>
+</ul>
+<p>Availability: 【Ref Level】, 【Scale / dB per Div】, 【Auto Scale】 and 【Path Offset】 need the Full Version; the Free Version uses reference level 0, 10 dB per division and no path offset.</p>
+<p>The plot also shows a <strong>red peak readout</strong>: an inverted triangle and the level at the highest displayed point of the live trace, whenever device data is on screen. On the RSP1B, the internal-spur marks and the Suspected IQ Image marks described in <a href="#section-2">Measurement scope and important limitations</a> may appear.</p>
+<p><strong>Overload.</strong> If the receiver is overloaded, the status bar and Output &amp; Diagnostics say so. On an RTL-SDR, lower 【Tuner Gain】; on an RSP1B, raise 【Gain Reduction】 or select a higher 【LNA State】. If the overload remains, reduce the input level or add an attenuator. These are advisories only; the application does not change the gain by itself.</p>
+<h2 id="section-22">22. Traces</h2>
+<p>Press the 【TRACE】 key. Its softkeys are:</p>
+<ul>
+<li>【Trace Mode】, then 【Clear/Write】: shows the live trace (the current result or, when 【Sweep Average】 is above 1, the averaged result).</li>
+<li>【Trace Mode】, then 【Blank】: hides the live trace.</li>
+<li>【Trace Mode】, then 【Max Hold】: shows or hides the Max Hold trace, which keeps the highest value measured at each frequency bin. 【Clear Hold】 (also <strong>Acquisition</strong> → <strong>Clear Max Hold</strong> in the menu bar) clears it.</li>
+<li>【Freeze as Ref】: captures the current trace, with its frequency range, as the reference trace.</li>
+<li>【Reference Trace】: shows or hides the frozen reference.</li>
+<li>【Clear Reference】: discards the frozen reference.</li>
+</ul>
+<p>Availability: Max Hold and the frozen reference need the Full Version. The live trace is yellow, Max Hold is green, and the frozen reference is blue. Changing the centre frequency, span or acquisition settings starts a new measurement grid: averaging and Max Hold start again, so data from different settings is not mixed.</p>
+<h2 id="section-23">23. Markers</h2>
+<p>Markers require the Full Version. There are two markers, <strong>M1</strong> and <strong>M2</strong>, drawn as dashed lines.</p>
+<p>Press the 【MKR】 key. Its softkeys are:</p>
+<ul>
+<li>【Marker Select】, then 【M1】 or 【M2】: chooses which marker 【Marker Frequency】 and the 【MKR→】 softkeys act on.</li>
+<li>【Marker Mode】, then 【Normal】 or 【Delta】: 【Normal】 selects M1 and 【Delta】 selects M2. The readout always shows both markers and the M2 - M1 difference in frequency and level.</li>
+<li>【Marker Frequency】: type a frequency, or turn the Virtual Knob or the mouse wheel (1/64 of the span per step). The marker snaps to the nearest FFT bin.</li>
+</ul>
+<p>Press the 【MKR→】 key. Its softkeys are:</p>
+<ul>
+<li>【Peak】: moves M1 to the highest point of the current trace.</li>
+<li>【MKR -&gt; CF】: moves the selected marker to the centre frequency.</li>
+<li>【CF -&gt; MKR】: moves the centre frequency to the selected marker, keeping the span.</li>
+</ul>
+<p>On the plot, click to place M1, hold <strong>Shift</strong> and click to place M2, and drag a marker line to move it.</p>
+<h2 id="section-24">24. Channel Power</h2>
+<p>Channel Power requires the Full Version.</p>
+<ol>
+<li>Press 【MEAS】, then 【CP / ACP / MC-ACP】, to turn Channel Power on.</li>
+<li>While acquisition is stopped, set the channel width: press 【CP / ACP Config】, then 【Channel Settings】, and then 【Channel Bandwidth】 (minimum 10 kHz). The channel is centred on the current centre frequency, and the plot draws its boundaries.</li>
+<li>Start an acquisition. The readout below the spectrum shows <em>Channel BW ... MHz &#183; Channel Power ...</em> in the unit in force.</li>
+</ol>
+<p>A Channel Power result appears only after a complete, valid acquisition that covers the whole channel with the selected average count; until then the readout says that it is waiting or invalid. The calculation corrects for the window&#39;s equivalent noise bandwidth. To hide Channel Power again, press 【MEAS】, then 【All Functions Off】; acquisition, traces and markers are not affected.</p>
+<p>The unit follows the device: dBFS on an RTL-SDR and Rel.dB on an RSP1B, or dBm when a matching channel-power calibration applies (see <a href="#section-25">Calibration</a>). Demo Data cannot be measured or calibrated.</p>
+<h2 id="section-25">25. Calibration</h2>
+<p>Press the 【Cal】 key. The application has three separate calibration mechanisms; make sure you know which one you are using.</p>
+<table>
+<thead>
+<tr><th>Mechanism</th><th>Device</th><th>What it changes</th><th>How it is made</th></tr>
+</thead>
+<tbody>
+<tr><td>Channel-power calibration (RTL-SDR)</td><td>RTL-SDR</td><td>Channel Power and the trace read in dBm while the stored conditions match</td><td>With the 【Calibrate】 softkey under 【Cal】 in this application</td></tr>
+<tr><td>Channel-power calibration (RSP1B)</td><td>RSP1B</td><td>Only the Channel Power readout reads in dBm, and only when all the settings match exactly</td><td>With the 【Calibrate】 softkey under 【Cal】 in this application</td></tr>
+<tr><td>Calibration profile set (<code>.sdrcalset</code>)</td><td>The device it was made for</td><td>The trace and readouts read in dBm where an entry applies</td><td>A separate calibration process; v1.2 only reads such files (【Manage Calibration】 is reserved for a later version)</td></tr>
+</tbody>
+</table>
+<p>The softkeys under 【Cal】 are:</p>
+<ul>
+<li>【Calibration Status】: the state of the <strong>trace</strong> amplitude: <strong>Not Calibrated</strong>, <strong>Channel Cal.</strong> (RTL-SDR channel-power calibration applied), <strong>Calibrated</strong> (a profile entry applies), <strong>Not Applicable</strong>, <strong>Ambiguous Entries</strong>, <strong>Profile Invalid</strong>, <strong>Ref Unavailable</strong>, <strong>Ref Unsupported</strong> or <strong>Disabled</strong>. An RSP1B channel-power calibration affects only the Channel Power readout, so the status can read <strong>Not Calibrated</strong> while Channel Power reads in dBm.</li>
+<li>【Active Profile / Entry】 and 【Reference Info】: which profile entry applies, and the reference details.</li>
+<li>【Ref Power】: the reference instrument&#39;s channel-power reading, from -160 to +30 dBm.</li>
+<li>【Calibrate】: creates a channel-power calibration from the current result.</li>
+<li>【Disable Calibration】: turns all calibrations off for this session, so values are shown in the native unit; press it again to turn them back on. Nothing is deleted.</li>
+<li>【Clear Calibration Data...】 (while stopped): after confirmation, deletes the RTL-SDR channel-power calibration, or the RSP1B calibration entry for exactly the current settings. Profile files are not changed.</li>
+</ul>
+<p>Availability: 【Calibrate】, 【Ref Power】, 【Active Profile / Entry】 and 【Clear Calibration Data...】 need the Full Version.</p>
+<p><strong>RTL-SDR channel-power calibration:</strong></p>
+<ol>
+<li>Select Device Data, connect the RTL-SDR, and set the centre frequency and channel bandwidth.</li>
+<li>If an attenuator is used, enter it with 【Path Offset】 (press 【AMPT】, then 【MORE】, and then 【Path Offset】).</li>
+<li>Press 【RUN】 with a stable signal, wait for the selected average count, and confirm that there is no overload warning.</li>
+<li>Measure the same channel with the reference instrument at the same reference plane (same centre frequency and bandwidth, RMS detector).</li>
+<li>Press 【Cal】, then 【Ref Power】, and enter the reading. Then press 【Calibrate】.</li>
+</ol>
+<p>Recalibrate after changing the device, gain, window or measurement settings. When only the attenuator changes, update 【Path Offset】 instead.</p>
+<p><strong>RSP1B channel-power calibration.</strong> One press of 【Calibrate】 starts a calibration that runs by itself while acquisition continues (see <a href="#section-14">Understanding Calibration and Channel-Power Calibration</a>). It collects 10 results over non-overlapping averaging windows and saves nothing until every check has passed and you answer Yes in the confirmation dialog. The checks are: device data from a connected RSP1B with a stable serial number; a valid Channel Power with the channel centred on the centre frequency; Sweep Average at least 16 and fully reached; averaging windows without overload or setting changes; 10 results whose spread is at most 0.10 dB and that show no trend; a complete channel spectrum whose strongest point is not too close to the tuning centre or the channel edge; and a tuning frequency away from the receiver&#39;s gain-band boundaries (50, 60, 300, 420 and 1000 MHz). A short interruption of the data stream skips the affected window and the results collected so far are kept; an overload or a setting change starts the collection again. The calibration ends without saving if acquisition stops or restarts, the receiver is disconnected, the settings change, or 10 minutes pass. If an entry for exactly these settings already exists, 【Calibrate】 says so at once. The reference can be a CW signal or a continuous broadband signal such as OFDM. The signal-to-noise ratio is not checked, so use a reference signal well above the receiver noise in the channel.</p>
+<p>An RSP1B calibration is stored per device for exactly these 9 settings: mode, centre frequency, channel bandwidth, sample rate, IF bandwidth, Gain Reduction, LNA state, FFT points and window. It applies only when all 9 match exactly. To recalibrate the same settings, clear the existing entry first.</p>
+<p><strong>Limitation: RSP1B Channel Power in Sweep mode.</strong> In the tested configuration (Sweep mode, centre frequency 496 MHz, span 30 MHz, channel bandwidth 20 MHz, sample rate 8 MS/s, IF bandwidth 8 MHz), the Channel Power reading of a CW signal was observed to depend on where the signal lies in the channel, by approximately 1 dB compared with a broadband OFDM reference. This is an observation from that configuration only: it is not a guaranteed maximum error and does not cover all frequencies or settings. A calibration made with a CW signal corrects the reading at the position of that signal; a broadband signal such as OFDM averages the receiver response over the whole channel and can read differently, and a narrowband signal at another position in the channel can also read differently. Where accuracy matters, check the result against a reference instrument with a signal of the kind you measure.</p>
+<h2 id="section-26">26. Data source</h2>
+<p>The <strong>Acquisition</strong> → <strong>Data Source</strong> menu offers:</p>
+<ul>
+<li><strong>Device Data</strong>: spectrum data acquired from the connected receiver.</li>
+<li><strong>Demo Data (not measured)</strong>: generated demonstration data.</li>
+</ul>
+<p>Demo Data does not access USB and cannot be used for measurement or calibration. It is intended for learning the user interface and the display behaviour: select it, then press 【RUN】 or 【SINGLE】. It is an alternative data source only; it is not a Full Version trial and does not unlock Full Version features (see <a href="#section-3">Free and Full Versions</a>). The data source can be changed only while acquisition is stopped.</p>
+<h2 id="section-27">27. Configuration files</h2>
+<p>To write or read a <code>.cfg</code> text file, press 【File】, then 【Save Config...】 or 【Load Config...】 on the Control Panel, or select <strong>File</strong> → <strong>Save Configuration...</strong> or <strong>File</strong> → <strong>Load Configuration...</strong> in the menu bar. Both editions can use these commands while acquisition is stopped.</p>
+<p>A configuration file holds instrument settings only: centre frequency and span, Fixed mode or Sweep mode, sample rate, FFT size, window, averaging, gain, the RSP1B IF bandwidth and gain settings, the amplitude scale, path offset, trace visibility, the data source, the frequency-entry mode and unit, the channel width, the reference channel power and the device type. It does not contain a trace, a marker reading or a measurement result; use 【Export CSV...】 for measurement data.</p>
+<p>The format is versioned as <code>SDR_SA_CONFIG=1</code>. It is an application configuration file; do not assume it is a general interchange format, and do not edit it manually unless you can validate the result in the application.</p>
+<ul>
+<li>A file that the selected device cannot use (for example a sample rate the device does not offer) is refused, and the current settings stay unchanged.</li>
+<li>A file that cannot be opened or read is reported as a read failure.</li>
+<li>When an older file does not contain the RSP1B IF bandwidth or gain settings, those settings keep their current values and the status bar says so.</li>
+<li>In the Free Version, the settings that the Free Version does not let you change are set to the values of its fixed parameter combination; on the RSP1B, a file whose IF bandwidth does not fit the fixed span is refused (see <a href="#section-12">Receiver Configuration and Measurement Limits</a>).</li>
+</ul>
+<h2 id="section-28">28. Exporting data and screenshots</h2>
+<p><strong>Export Screenshot.</strong> Press 【File】, then 【Export Screenshot...】, on the Control Panel to save the spectrum view exactly as it is shown (grid, traces, markers and readouts) as a <code>.png</code> image at a location you choose. It is available in both editions, also while acquisition is running. The Control Panel, the other panes and the window frame are not included. A screenshot is a picture, not measurement data.</p>
+<p><strong>Export CSV</strong> (Full Version). Press 【File】, then 【Export CSV...】, on the Control Panel, or select <strong>Acquisition</strong> → <strong>Export CSV</strong> in the menu bar, to save the live trace (not Max Hold) as a <code>.csv</code> file once a trace exists, also while acquisition is running. The file starts with comment lines (<code># name=value</code>) that describe the data source, device, units, calibration state, acquisition settings, channel result and path offset. Demo Data is marked <code>source=simulation_not_measurement</code>. The table columns are:</p>
+<p><code>frequency_hz,native_value_db,referenced_value_dbm,valid</code></p>
+<ul>
+<li><code>native_value_db</code>: the level in the native unit (dBFS for an RTL-SDR, Rel.dB or Raw Rel.dB for an RSP1B; the comment line <code>native_unit</code> names it).</li>
+<li><code>referenced_value_dbm</code>: filled only when a trace calibration applies (a profile entry, or the RTL-SDR channel-power calibration); otherwise empty.</li>
+<li><code>valid</code>: 1 for a measured bin, 0 for a bin without usable data (its value is <code>NaN</code>).</li>
+</ul>
+<p>The values do not include Path Offset; the offset is recorded in the header (<code>path_offset_db</code>). The header states its format version in the line <code>sdr_sa_csv_schema=2</code>; a script that reads CSV files should check this line, because files written by earlier versions have a different header. For an RSP1B sweep, the line <code>dc_exclusion_half_width_bins=...</code> records how the regions next to the tuning centres were handled (see <a href="#section-10">Wide-Span Spectrum Scanning</a>). An RSP1B channel-power calibration that applies is reported in the channel lines of the header.</p>
+<h2 id="section-29">29. Output, diagnostics and status bar</h2>
+<p>The <strong>Output &amp; Diagnostics</strong> pane records timestamped messages for device refresh, driver readiness, connection, acquisition start and stop, configuration actions, export, calibration and user-visible errors. It is hidden when the application starts. Select <strong>View</strong> → <strong>Output &amp; Diagnostics</strong> to show it; selecting it again hides it. Messages are recorded whether or not the pane is visible; the pane keeps the most recent 1000 lines.</p>
+<p><strong>File</strong> → <strong>Save Diagnostic Log...</strong> in the menu bar writes the accumulated messages to a file you choose. The pane does not have to be visible. Use this file when reporting a problem.</p>
+<p>The <strong>status bar</strong> shows, on the left, the latest message or the acquisition progress, and on the right the spectrum context: data source, acquisition state, channel range, mode, bin spacing, equivalent noise bandwidth, gain, path offset and the unit or calibration state. During an RSP1B sweep, the left side shows the sweep number (generation) and the segment being acquired. If the receiver&#39;s data stream is briefly interrupted during a sweep, <em>[stream recoveries: N]</em> is appended, where N is the number of recoveries during this run; the incomplete sweep that was affected is discarded and acquisition continues (see <a href="#section-10">Wide-Span Spectrum Scanning</a>).</p>
+<h2 id="section-30">30. Menu reference</h2>
+<p>The Control Panel holds most commands. The menu bar offers:</p>
+<ul>
+<li><strong>File</strong>: <strong>Load Configuration...</strong> and <strong>Save Configuration...</strong> (see <a href="#section-27">Configuration files</a>); <strong>Save Diagnostic Log...</strong> (see <a href="#section-29">Output, diagnostics and status bar</a>); <strong>Exit</strong>.</li>
+<li><strong>Device</strong>: <strong>Refresh Devices</strong>, <strong>Connect Selected Device</strong>, <strong>Disconnect Device</strong> and <strong>Check Connection</strong> (see <a href="#section-17">Device connection and RF front end</a>).</li>
+<li><strong>Acquisition</strong>: <strong>Continuous Run</strong>, <strong>Single Sweep</strong>, <strong>Stop</strong>, <strong>Clear Max Hold</strong>, <strong>Data Source</strong>, and <strong>Export CSV</strong>. Clear Max Hold and Export CSV require the Full Version.</li>
+<li><strong>View</strong>: <strong>Auto Scale</strong> (Full Version), <strong>Output &amp; Diagnostics</strong>, <strong>Properties</strong>, and <strong>Restore Default Layout</strong>.</li>
+<li><strong>Help</strong> → <strong>User Guide</strong> opens this offline guide in your browser, in the Windows display language (Simplified Chinese or English). A link at the top of the guide opens the same guide as a PDF.</li>
+<li><strong>Help</strong> → <strong>Purchase or Restore Full Version...</strong> opens the Microsoft Store so that you can buy the Full Version, or restore it on a computer that is signed in to the Store with an account that already owns it. While the Store is being queried or a purchase is in progress, the menu item shows that state instead. For all states of the command, see <a href="#section-3">Free and Full Versions</a>.</li>
+<li><strong>Help</strong> → <strong>Support</strong> opens the public product support site in your browser.</li>
+<li><strong>Help</strong> → <strong>Privacy Policy</strong> opens the published privacy policy in your browser.</li>
+<li><strong>Help</strong> → <strong>Check for Updates...</strong> asks the Microsoft Store once whether an update of the installed application is available; the application never checks by itself or in the background. If the Store reports an update, the application tells you how many and, if you confirm, opens the <strong>Downloads and updates</strong> page of the Microsoft Store, where the Store installs it; the application itself downloads and installs nothing. <em>This is the latest version</em> is shown only when the Store has answered that no update is available. If the application is not running as an installed Microsoft Store package, or the Store cannot be reached, it says that updates cannot be checked right now; this does not mean that the version is up to date. While the check runs, the menu item reads <strong>Checking for Updates…</strong>. The command is available in both editions.</li>
+<li><strong>Help</strong> → <strong>About</strong> displays product identity, version, publisher, the third-party-notices reminder, and the local privacy statement.</li>
+</ul>
+<h2 id="section-31">31. Troubleshooting reference</h2>
+<p><strong>Control Panel feedback.</strong> These short texts appear in the feedback area when an input is refused; the previous value stays in force.</p>
+<table>
+<thead>
+<tr><th>Feedback</th><th>Meaning</th><th>What to do</th></tr>
+</thead>
+<tbody>
+<tr><td>Not a number</td><td>The entry is not a valid number</td><td>Type digits, a decimal point and, where allowed, a minus sign</td></tr>
+<tr><td>Negative not allowed</td><td>The parameter cannot be negative</td><td>Enter a positive value</td></tr>
+<tr><td>Out of range</td><td>The value is outside the allowed range, or the window would leave the tuning range</td><td>Enter a value inside the range</td></tr>
+<tr><td>Fixed span too wide</td><td>The span exceeds the usable Fixed-mode span</td><td>Reduce the span, change the sample rate / IF bandwidth, or use Sweep mode</td></tr>
+<tr><td>At limit</td><td>A step of the Virtual Knob or the mouse wheel would leave the range</td><td>Step in the other direction, or type a value</td></tr>
+<tr><td>Not editable yet</td><td>The value cannot be edited at the moment</td><td>Wait until the current operation has finished</td></tr>
+<tr><td>Start must be below Stop</td><td>Start Freq is not below Stop Freq</td><td>Correct the start or stop frequency</td></tr>
+<tr><td>Stop acquisition first</td><td>The setting can be changed only while acquisition is stopped</td><td>Press 【STOP】, change the setting, then start the acquisition again</td></tr>
+<tr><td>Refused</td><td>The device rules refused the value; the details follow in the feedback area</td><td>Read the details and choose an allowed value</td></tr>
+<tr><td>Not available</td><td>The key cannot be used now (edition, device or state)</td><td>See <a href="#section-16">Complete operation tree</a></td></tr>
+</tbody>
+</table>
+<p><strong>Messages.</strong></p>
+<table>
+<thead>
+<tr><th>Message (beginning)</th><th>Cause</th><th>What to do</th></tr>
+</thead>
+<tbody>
+<tr><td>&quot;Free edition: the SPAN is fixed at 1.400 MHz, but IF bandwidth ...&quot;</td><td>Free Version, RSP1B, IF bandwidth 0.2 / 0.3 / 0.6 MHz</td><td>Choose 1.536, 5, 6, 7 or 8 MHz</td></tr>
+<tr><td>&quot;The current device is not supported in the Free edition.&quot;</td><td>The Free Version has no fixed settings for this device</td><td>Use an RTL-SDR or RSP1B, or the Full Version</td></tr>
+<tr><td>&quot;The fixed-frequency SPAN ... exceeds the usable instantaneous bandwidth ...&quot;</td><td>The span is too wide for Fixed mode with this sample rate / FFT size</td><td>Reduce the span or change the settings named</td></tr>
+<tr><td>&quot;RSP1B sweep: only FFT size 4096 with the Hann window has been characterized.&quot;</td><td>Sweep mode with another FFT size or window</td><td>Set FFT Points 4096 and the Hann window</td></tr>
+<tr><td>&quot;RSP1B sweep: sample rate ... with IF bandwidth ... has not been characterized.&quot;</td><td>Sweep mode with an uncharacterised pair</td><td>Use 2 MS/s with 1.536 / 5 MHz or 8 MS/s with 1.536 / 8 MHz</td></tr>
+<tr><td>&quot;RSP1B sweep: the requested range ... is outside the RSP1B tuning range ...&quot;</td><td>The range extends beyond 1 kHz-2 GHz</td><td>Correct the start or stop frequency</td></tr>
+<tr><td>&quot;RSP1B sweep: the requested range needs ... segments; the limit is 256.&quot;</td><td>The sweep would need too many segments</td><td>Reduce the span or use 8 MS/s</td></tr>
+<tr><td>&quot;RSP1B sweep: the estimated time of one sweep is ...; the limit is 120 s.&quot;</td><td>One sweep would take too long</td><td>Reduce the span</td></tr>
+<tr><td>&quot;RSP1B sweep: not enough retained-stream budget ...&quot;</td><td>The receiver data stream cannot be restarted again in this session</td><td>Restart the application</td></tr>
+<tr><td>&quot;Sample rate ... is not a production sample rate of this device.&quot;</td><td>The device does not offer this sample rate</td><td>Choose a rate from the list</td></tr>
+<tr><td>&quot;Gain reduction ... is below the ... dB allowed ...&quot;</td><td>Gain Reduction is below Minimum GR</td><td>Raise Gain Reduction or set Minimum GR to 0 dB</td></tr>
+<tr><td>&quot;LNA state ... is not allowed at ... MHz ...&quot;</td><td>The LNA state is above the band maximum</td><td>Choose a lower LNA state</td></tr>
+<tr><td>&quot;Minimum GR not changed: ...&quot;</td><td>The current Gain Reduction is below the new minimum</td><td>Raise Gain Reduction first</td></tr>
+<tr><td>&quot;Stop acquisition before changing settings, data source, or configuration file.&quot;</td><td>The command needs a stopped acquisition</td><td>Press 【STOP】 first</td></tr>
+<tr><td>&quot;Unable to read the configuration file. ...&quot;</td><td>The file cannot be opened or read</td><td>Check the path and permissions</td></tr>
+<tr><td>&quot;The sample rate in the configuration file is not supported by the current device. ...&quot;</td><td>The file was made for another device</td><td>Use a file made for this device</td></tr>
+<tr><td>&quot;Configuration loaded successfully. The file does not contain ...&quot;</td><td>An older file without RSP1B IF / gain values</td><td>No action needed; the current values were kept</td></tr>
+<tr><td>&quot;The spectrum view has not been drawn yet; there is nothing to capture.&quot;</td><td>Screenshot before the first drawing</td><td>Wait for the display, then export</td></tr>
+<tr><td>&quot;Unable to write the screenshot. ...&quot;</td><td>The PNG file cannot be written</td><td>Choose another location</td></tr>
+<tr><td>&quot;Acquire a spectrum or generate demo data first.&quot;</td><td>The command needs a trace</td><td>Start an acquisition first</td></tr>
+<tr><td>&quot;Unable to open the User Guide. ...&quot;</td><td>The guide files are missing</td><td>Repair or reinstall the application</td></tr>
+</tbody>
+</table>
+<p><strong>Other situations.</strong></p>
+<ul>
+<li><strong>No device listed:</strong> connect the receiver, disconnect any open device, and press 【Device】, then 【Refresh】. For an RSP1B, check that the SDRplay API is installed; install or repair it from SDRplay, then refresh.</li>
+<li><strong>WinUSB driver unavailable (RTL-SDR):</strong> the device is present, but Interface 0 is not ready for WinUSB. The application does not change a driver. Use only an approved production support path when one is published.</li>
+<li><strong>Unable to connect:</strong> refresh, confirm readiness, and make sure no other application is using the receiver.</li>
+<li><strong>A connection that looks wrong:</strong> select <strong>Device</strong> → <strong>Check Connection</strong> in the menu bar. It tests the open device again and reports the result without changing the connection.</li>
+<li><strong>The RSP1B trace shows Raw Rel.dB:</strong> at 8 MS/s with a system gain below 15 dB, or when no trustworthy system gain is available, the level cannot be referred to the input. Increase the gain (lower 【Gain Reduction】 or 【LNA State】) if the signal allows, or use 2 MS/s.</li>
+<li><strong>【Calibrate】 is refused:</strong> the feedback area names the condition that is not met (see <a href="#section-25">Calibration</a>).</li>
+<li><strong>Channel Power reads in Rel.dB or dBFS although you calibrated:</strong> a calibration applies only to the exact settings it was made with. Restore those settings (for the RSP1B, all 9 settings), or recalibrate. Check that 【Disable Calibration】 is off.</li>
+<li><strong>Unexpected trace or channel result:</strong> check overload, data source, gain, path offset, window, averaging, the channel range, and whether a calibration actually matches the current device and setup.</li>
+<li><strong>The device stops responding:</strong> press 【Connect / Disconnect】 to release it, connect again, and refresh. Do not use engineering certificate or driver procedures as an end-user workaround.</li>
+</ul>
+<h2 id="section-32">32. Getting support</h2>
+<p>Technical support for SDR Spectrum Analyzer is available through the public product support site:</p>
+<p><a href="https://wangyaoyang.github.io/mattino507-support/">https://wangyaoyang.github.io/mattino507-support/</a></p>
+<p>The support site provides support information and access to the public GitHub support-request system.</p>
+<p>Before you request support, you can select <strong>Help</strong> → <strong>Check for Updates...</strong> to see whether the Microsoft Store offers a newer version.</p>
+<p>When requesting support, include the application version (<strong>Help</strong> → <strong>About</strong>), the Windows version, the receiver model (RTL-SDR or RSP1B), the edition (Free Version or Full Version), the relevant diagnostic messages, and a screenshot when useful. <strong>File</strong> → <strong>Save Diagnostic Log...</strong> in the menu bar collects the diagnostic messages into a file you can attach, and 【Export Screenshot...】 under 【File】 on the Control Panel saves the spectrum view.</p>
+<p>Do not post passwords, credentials, product keys, private certificates, personal addresses, or other sensitive personal information in a public request.</p>
+<h2 id="section-33">33. Privacy, license and third-party components</h2>
+<p>Refer to the separately published Privacy Policy and End User License Agreement for the current release. The current versions are available through the SDR Spectrum Analyzer product support site. The privacy policy is published at:</p>
+<p><a href="https://wangyaoyang.github.io/mattino507-support/sdr-spectrum-analyzer/privacy.html">https://wangyaoyang.github.io/mattino507-support/sdr-spectrum-analyzer/privacy.html</a></p>
+<p><strong>Help</strong> → <strong>Privacy Policy</strong> opens the same page. This User Guide does not duplicate Privacy Policy or EULA terms.</p>
+<p>The commercial distribution may include third-party open-source and runtime components. Applicable notices and licence texts are supplied with the product in <code>THIRD_PARTY_NOTICES.txt</code> and its accompanying licence files. The package dynamically links libusb and includes Apache-2.0 attribution for Google Radio Receiver-derived material; it does not include or depend on the Legacy Osmocom rtl-sdr runtime. The SDRplay API used for the RSP1B is not part of the package; it is installed separately from SDRplay under SDRplay&#39;s own terms.</p>
+</main>
+</body>
+</html>

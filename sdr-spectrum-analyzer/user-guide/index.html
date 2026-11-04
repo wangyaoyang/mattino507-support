@@ -155,6 +155,21 @@
       background: rgba(51, 214, 209, 0.08);
     }
 
+    .version-heading {
+      margin: 56px 0 0;
+      font-size: 1.5rem;
+    }
+
+    .version-heading + .version-intro {
+      margin: 8px 0 0;
+      max-width: 760px;
+      color: var(--muted);
+    }
+
+    .version-heading + .version-intro + .guide-grid {
+      margin-top: 24px;
+    }
+
     .note {
       margin-top: 40px;
       padding: 18px 20px;
@@ -210,7 +225,18 @@
 
   <p class="subtitle">
     Read the SDR Spectrum Analyzer User Guide online or download
-    the PDF edition for offline reference.
+    the PDF edition for offline reference. To see which version is
+    installed, select Help &gt; About in the application, and use the
+    guide for that version.
+  </p>
+
+  <h2 class="version-heading">Version 1.2</h2>
+
+  <p class="version-intro">
+    For SDR Spectrum Analyzer 1.2 with tested RTL-SDR receivers and the
+    SDRplay RSP1B. The application includes the guide for this version
+    under Help &gt; User Guide; this online edition may also contain later
+    corrections and additions.
   </p>
 
   <div class="guide-grid">
@@ -218,7 +244,63 @@
     <section class="guide-card">
       <div class="language">English</div>
 
-      <h2>User Guide</h2>
+      <h2>User Guide 1.2</h2>
+
+      <p>
+        Free and Full Versions, supported receivers, step-by-step
+        measurements (CW signal, OFDM Channel Power, wide-span scanning),
+        receiver limits, calibration and channel-power calibration,
+        configuration, export, and troubleshooting.
+      </p>
+
+      <div class="actions">
+        <a class="button" href="v1.2/en-US/index.html">
+          Read Online
+        </a>
+
+        <a class="button secondary"
+           href="v1.2/en-US/user-guide.pdf">
+          Download PDF
+        </a>
+      </div>
+    </section>
+
+
+    <section class="guide-card" lang="zh-CN">
+      <div class="language">简体中文</div>
+
+      <h2>用户指南 1.2</h2>
+
+      <p>
+        免费版与完整版、支持的接收机、分步测量（连续波信号、OFDM 信道功率、宽频段扫描）、接收机限制、校准与信道功率校准、配置、导出以及故障排查。
+      </p>
+
+      <div class="actions">
+        <a class="button" href="v1.2/zh-CN/index.html">
+          在线阅读
+        </a>
+
+        <a class="button secondary"
+           href="v1.2/zh-CN/user-guide.pdf">
+          下载 PDF
+        </a>
+      </div>
+    </section>
+
+  </div>
+
+  <h2 class="version-heading">Version 1.0</h2>
+
+  <p class="version-intro">
+    For SDR Spectrum Analyzer 1.0 with tested RTL-SDR receivers.
+  </p>
+
+  <div class="guide-grid">
+
+    <section class="guide-card">
+      <div class="language">English</div>
+
+      <h2>User Guide 1.0</h2>
 
       <p>
         Complete operating instructions for Free and Full Version features,
@@ -243,7 +325,7 @@
     <section class="guide-card" lang="zh-CN">
       <div class="language">简体中文</div>
 
-      <h2>用户指南</h2>
+      <h2>用户指南 1.0</h2>
 
       <p>
         包含 Free 和 Full Version 功能、软件操作、测量功能、
